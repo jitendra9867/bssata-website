@@ -31,7 +31,6 @@ const recentHighlights = [
 ];
 
 const sliderSlides = [
-  { image: '/images/om-background.png', title: 'Brahmana Seva Samiti', subtitle: 'Serving the Brahmin Community Since 1994 — Guntur, Andhra Pradesh', cta: { label: 'About Us', href: '/about' } },
   { image: '/images/slider/jandhyala-2025.jpg', title: 'Jandhyala Pournami 2025', subtitle: '2000 Yagnopaveethams Distributed Across 34 Places', cta: { label: 'Learn More', href: '/about' } },
   { image: '/images/slider/ugadi-2026-2.jpg', title: 'Community Service Since 1994', subtitle: '760+ Life Members — 12+ Welfare Schemes', cta: { label: 'Life Members', href: '/members' } },
   { image: '/images/slider/jandhyala-2025-2.jpg', title: 'Preserving Our Heritage', subtitle: 'Brahmana Dharma — Cultural Preservation & Welfare', cta: { label: 'About Us', href: '/about' } },
@@ -62,7 +61,7 @@ function HeroSlider() {
   }, [isAutoPlaying, nextSlide]);
 
   return (
-    <section className="relative w-full h-[400px] md:h-[500px] lg:h-[550px] max-h-[550px] overflow-hidden" onMouseEnter={() => setIsAutoPlaying(false)} onMouseLeave={() => setIsAutoPlaying(true)}>
+    <section className="relative w-full h-[350px] md:h-[400px] max-h-[400px] overflow-hidden" onMouseEnter={() => setIsAutoPlaying(false)} onMouseLeave={() => setIsAutoPlaying(true)}>
       {/* Slides */}
       {sliderSlides.map((slide, i) => (
         <div key={i} className={`absolute inset-0 transition-all duration-[1200ms] ease-in-out ${i === current ? 'opacity-100 scale-100' : 'opacity-0 scale-[1.03]'}`}>
@@ -190,7 +189,7 @@ export default function Home() {
         <title>Brahmana Seva Samiti (Regd No: 48/97) — Guntur</title>
         <meta name="description" content="Brahmana Seva Samiti — Serving the Brahmin community with cultural preservation, welfare schemes, and community service since 1994. Guntur, Andhra Pradesh." />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
-        <link rel="icon" href="/images/logo.jpeg" />
+        <link rel="icon" href="/images/newlogo.png" />
       </Head>
 
       <HeroSlider />

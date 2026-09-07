@@ -12,7 +12,6 @@
   }
 
   body {
-    @apply bg-cream-50 text-gray-800;
     font-family: 'Inter', system-ui, -apple-system, sans-serif;
     font-feature-settings: 'cv02', 'cv03', 'cv04', 'cv11';
     line-height: 1.7;
@@ -55,10 +54,6 @@
     @apply w-20 h-0.5 bg-gradient-to-r from-transparent via-saffron-400 to-transparent mx-auto;
   }
 
-  .page-container {
-    @apply max-w-7xl mx-auto px-4 sm:px-6 lg:px-8;
-  }
-
   /* Premium section divider */
   .section-divider {
     @apply relative py-16 md:py-20;
@@ -97,6 +92,85 @@
   .scrollbar-hide::-webkit-scrollbar {
     display: none;
   }
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   BOXED LAYOUT STYLES
+   ═══════════════════════════════════════════════════════════════ */
+
+/* Full page background — golden gradient with image overlay */
+body {
+  background-color: #d4a84a;
+  background-image: 
+    radial-gradient(ellipse at 50% 30%, rgba(232, 197, 71, 0.4) 0%, transparent 60%),
+    radial-gradient(ellipse at 80% 20%, rgba(212, 160, 74, 0.35) 0%, transparent 50%),
+    radial-gradient(ellipse at 20% 80%, rgba(196, 149, 26, 0.3) 0%, transparent 50%),
+    linear-gradient(180deg, rgba(160,120,22,0.6) 0%, rgba(212,168,74,0.3) 30%, rgba(232,197,71,0.15) 50%, rgba(212,168,74,0.3) 70%, rgba(160,120,22,0.6) 100%),
+    url('/images/websitebackgroundimage.webp');
+  background-size: cover;
+  background-position: center;
+  background-attachment: fixed;
+  background-repeat: no-repeat;
+  min-height: 100vh;
+}
+
+/* Boxed layout container */
+.boxed-layout {
+  min-height: 100vh;
+  padding: 0;
+  background-color: #d4a84a;
+  background-image: 
+    radial-gradient(ellipse at 50% 30%, rgba(232, 197, 71, 0.4) 0%, transparent 60%),
+    radial-gradient(ellipse at 80% 20%, rgba(212, 160, 74, 0.35) 0%, transparent 50%),
+    radial-gradient(ellipse at 20% 80%, rgba(196, 149, 26, 0.3) 0%, transparent 50%),
+    linear-gradient(180deg, rgba(160,120,22,0.6) 0%, rgba(212,168,74,0.3) 30%, rgba(232,197,71,0.15) 50%, rgba(212,168,74,0.3) 70%, rgba(160,120,22,0.6) 100%),
+    url('/images/websitebackgroundimage.webp');
+  background-size: cover;
+  background-position: center;
+  background-attachment: fixed;
+}
+
+/* Inner container - the white "box" */
+.boxed-container {
+  max-width: 1200px;
+  width: 1200px;
+  margin: 0 auto;
+  background: white;
+  box-shadow: 0 25px 80px rgba(0, 0, 0, 0.3), 0 0 0 1px rgba(255, 255, 255, 0.1);
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+}
+
+/* Header styling for boxed layout */
+.boxed-header {
+  position: sticky;
+  top: 0;
+  z-index: 50;
+}
+
+/* Navigation container within boxed layout */
+.boxed-nav-container {
+  width: 1200px;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 1.5rem;
+}
+
+/* Page content container */
+.page-container {
+  width: 1200px;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 1.5rem;
+}
+
+/* Footer container within boxed layout */
+.boxed-footer-container {
+  width: 1200px;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 1.5rem;
 }
 
 /* Marquee animation — smoother */
