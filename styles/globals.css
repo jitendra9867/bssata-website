@@ -95,82 +95,82 @@
 }
 
 /* ═══════════════════════════════════════════════════════════════
-   BOXED LAYOUT STYLES
+   FULL WIDTH LAYOUT STYLES
    ═══════════════════════════════════════════════════════════════ */
 
-/* Full page background — golden gradient with image overlay */
+/* Plain white page background (background removed) */
 body {
-  background-color: #d4a84a;
-  background-image: 
-    radial-gradient(ellipse at 50% 30%, rgba(232, 197, 71, 0.4) 0%, transparent 60%),
-    radial-gradient(ellipse at 80% 20%, rgba(212, 160, 74, 0.35) 0%, transparent 50%),
-    radial-gradient(ellipse at 20% 80%, rgba(196, 149, 26, 0.3) 0%, transparent 50%),
-    linear-gradient(180deg, rgba(160,120,22,0.6) 0%, rgba(212,168,74,0.3) 30%, rgba(232,197,71,0.15) 50%, rgba(212,168,74,0.3) 70%, rgba(160,120,22,0.6) 100%),
-    url('/images/websitebackgroundimage.webp');
-  background-size: cover;
-  background-position: center;
-  background-attachment: fixed;
-  background-repeat: no-repeat;
+  background-color: #ffffff;
   min-height: 100vh;
 }
 
-/* Boxed layout container */
+/* Full-width layout container */
 .boxed-layout {
   min-height: 100vh;
   padding: 0;
-  background-color: #d4a84a;
-  background-image: 
-    radial-gradient(ellipse at 50% 30%, rgba(232, 197, 71, 0.4) 0%, transparent 60%),
-    radial-gradient(ellipse at 80% 20%, rgba(212, 160, 74, 0.35) 0%, transparent 50%),
-    radial-gradient(ellipse at 20% 80%, rgba(196, 149, 26, 0.3) 0%, transparent 50%),
-    linear-gradient(180deg, rgba(160,120,22,0.6) 0%, rgba(212,168,74,0.3) 30%, rgba(232,197,71,0.15) 50%, rgba(212,168,74,0.3) 70%, rgba(160,120,22,0.6) 100%),
-    url('/images/websitebackgroundimage.webp');
-  background-size: cover;
-  background-position: center;
-  background-attachment: fixed;
+  background: #ffffff;
 }
 
-/* Inner container - the white "box" */
+/* Full-width wrapper - no max width */
 .boxed-container {
-  max-width: 1200px;
-  width: 1200px;
-  margin: 0 auto;
+  width: 100%;
+  max-width: none;
+  margin: 0;
   background: white;
-  box-shadow: 0 25px 80px rgba(0, 0, 0, 0.3), 0 0 0 1px rgba(255, 255, 255, 0.1);
-  overflow: hidden;
+  /* overflow visible (not hidden) so the sticky header can stick to the viewport */
+  overflow: visible;
   display: flex;
   flex-direction: column;
 }
 
-/* Header styling for boxed layout */
+/* Header styling for full width layout - sticky on scroll */
 .boxed-header {
   position: sticky;
   top: 0;
   z-index: 50;
+  width: 100%;
 }
 
-/* Navigation container within boxed layout */
+/* Responsive navigation container */
 .boxed-nav-container {
-  width: 1200px;
-  max-width: 1200px;
+  width: 100%;
+  max-width: none;
   margin: 0 auto;
-  padding: 0 1.5rem;
+  padding: 0 1rem;
 }
 
-/* Page content container */
+@media (min-width: 640px) {
+  .boxed-nav-container {
+    padding: 0 1.5rem;
+  }
+}
+
+/* Responsive page content container */
 .page-container {
-  width: 1200px;
-  max-width: 1200px;
+  width: 100%;
+  max-width: none;
   margin: 0 auto;
-  padding: 0 1.5rem;
+  padding: 0 1rem;
 }
 
-/* Footer container within boxed layout */
+@media (min-width: 640px) {
+  .page-container {
+    padding: 0 1.5rem;
+  }
+}
+
+/* Responsive footer container */
 .boxed-footer-container {
-  width: 1200px;
-  max-width: 1200px;
+  width: 100%;
+  max-width: none;
   margin: 0 auto;
-  padding: 0 1.5rem;
+  padding: 0 1rem;
+}
+
+@media (min-width: 640px) {
+  .boxed-footer-container {
+    padding: 0 1.5rem;
+  }
 }
 
 /* Marquee animation — smoother */

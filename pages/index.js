@@ -61,13 +61,13 @@ function HeroSlider() {
   }, [isAutoPlaying, nextSlide]);
 
   return (
-    <section className="relative w-full h-[350px] md:h-[400px] max-h-[400px] overflow-hidden" onMouseEnter={() => setIsAutoPlaying(false)} onMouseLeave={() => setIsAutoPlaying(true)}>
+    <section className="relative w-full h-[320px] sm:h-[420px] md:h-[500px] lg:h-[500px] overflow-hidden" onMouseEnter={() => setIsAutoPlaying(false)} onMouseLeave={() => setIsAutoPlaying(true)}>
       {/* Slides */}
       {sliderSlides.map((slide, i) => (
         <div key={i} className={`absolute inset-0 transition-all duration-[1200ms] ease-in-out ${i === current ? 'opacity-100 scale-100' : 'opacity-0 scale-[1.03]'}`}>
-          <Image src={slide.image} alt={slide.title} fill className="object-cover" priority={i === 0} sizes="100vw" style={{ backgroundColor: '#1a0a00' }} />
-          <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/40 to-transparent" />
-          <div className="absolute inset-0 bg-gradient-to-r from-black/30 to-transparent" />
+          <Image src={slide.image} alt={slide.title} fill className="object-contain" priority={i === 0} sizes="100vw" style={{ backgroundColor: '#1a0a00' }} />
+          <div className="absolute inset-0 bg-black/25" />
+          <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/55 to-black/25" />
         </div>
       ))}
 
