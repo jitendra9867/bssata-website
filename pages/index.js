@@ -4,12 +4,12 @@ import Link from 'next/link';
 import Image from 'next/image';
 
 const executiveMembers = [
-  { designation: 'Distinguished Advisor', name: 'Sri Peesapati Lakshmi Kantharao', phone: '9347259787', initials: 'PL', gradient: 'from-saffron-500 to-saffron-700' },
-  { designation: 'President', name: 'Sri Ambadipudi Shyam Sundar', phone: '9440235340', initials: 'AS', gradient: 'from-gold-500 to-gold-600' },
-  { designation: 'Executive President', name: 'Sri Vankamamidi Venkataramayya', phone: '9866337559', initials: 'VV', gradient: 'from-saffron-600 to-maroon-600' },
-  { designation: 'Honorable President', name: 'Sri Dendukuri Narayana Murthy', phone: '9849311140', initials: 'DN', gradient: 'from-gold-500 to-saffron-500' },
-  { designation: 'Secretary', name: 'Sri Pamidighantam V. Satyanarayana', phone: '7893961234', initials: 'PV', gradient: 'from-maroon-500 to-saffron-600' },
-  { designation: 'Treasurer', name: 'Sri Susarla Venkata Ramana', phone: '9290515564', initials: 'SR', gradient: 'from-saffron-600 to-gold-500' },
+  { designation: 'Distinguished Advisor', name: 'Sri Peesapati Lakshmi Kantharao', phone: '9347259787', initials: 'PL', gradient: 'from-amber-400 to-orange-600' },
+  { designation: 'President', name: 'Sri Ambadipudi Shyam Sundar', phone: '9440235340', initials: 'AS', gradient: 'from-yellow-400 to-amber-600' },
+  { designation: 'Executive President', name: 'Sri Vankamamidi Venkataramayya', phone: '9866337559', initials: 'VV', gradient: 'from-orange-400 to-red-600' },
+  { designation: 'Honorable President', name: 'Sri Dendukuri Narayana Murthy', phone: '9849311140', initials: 'DN', gradient: 'from-amber-500 to-orange-700' },
+  { designation: 'Secretary', name: 'Sri Pamidighantam V. Satyanarayana', phone: '7893961234', initials: 'PV', gradient: 'from-orange-500 to-rose-600' },
+  { designation: 'Treasurer', name: 'Sri Susarla Venkata Ramana', phone: '9290515564', initials: 'SR', gradient: 'from-yellow-500 to-orange-600' },
 ];
 
 const quickStats = [
@@ -20,14 +20,14 @@ const quickStats = [
 ];
 
 const recentHighlights = [
-  { year: '2026', event: 'Scholarships of ₹1,97,000 disbursed to 4 B.Tech students', category: 'Scholarships', accent: 'bg-gold-500' },
-  { year: '2026', event: 'Ugadi celebrated — clothes to 45 Vedic students, sarees to 50 poor ladies', category: 'Celebrations', accent: 'bg-saffron-500' },
-  { year: '2026', event: 'Free Upanayanams for 8 Vatuvus at Santoshimata Temple', category: 'Upanayanams', accent: 'bg-maroon-500' },
-  { year: '2026', event: 'New 100 sq. yards site purchased behind Arama Kshetram for ₹8.5 Lakhs', category: 'Infrastructure', accent: 'bg-gold-600' },
-  { year: '2025', event: 'Karthika Samaradhana attended by 800+ people with music programme', category: 'Events', accent: 'bg-saffron-600' },
-  { year: '2025', event: 'Scholarships of ₹1,70,000 disbursed to 4 B.Tech students', category: 'Scholarships', accent: 'bg-gold-500' },
-  { year: '2024', event: 'First Floor of Arama Kshetram inaugurated formally', category: 'Infrastructure', accent: 'bg-gold-600' },
-  { year: '2024', event: '2000 Yagnopaveethams distributed on Jandhyala Pournami', category: 'Traditions', accent: 'bg-saffron-500' },
+  { year: '2026', event: 'Scholarships of ₹1,97,000 disbursed to 4 B.Tech students', category: 'Scholarships', icon: '🎓' },
+  { year: '2026', event: 'Ugadi celebrated — clothes to 45 Vedic students, sarees to 50 poor ladies', category: 'Celebrations', icon: '🎉' },
+  { year: '2026', event: 'Free Upanayanams for 8 Vatuvus at Santoshimata Temple', category: 'Upanayanams', icon: '🙏' },
+  { year: '2026', event: 'New 100 sq. yards site purchased behind Arama Kshetram for ₹8.5 Lakhs', category: 'Infrastructure', icon: '🏗️' },
+  { year: '2025', event: 'Karthika Samaradhana attended by 800+ people with music programme', category: 'Events', icon: '🪔' },
+  { year: '2025', event: 'Scholarships of ₹1,70,000 disbursed to 4 B.Tech students', category: 'Scholarships', icon: '🎓' },
+  { year: '2024', event: 'First Floor of Arama Kshetram inaugurated formally', category: 'Infrastructure', icon: '🏗️' },
+  { year: '2024', event: '2000 Yagnopaveethams distributed on Jandhyala Pournami', category: 'Traditions', icon: '🧵' },
 ];
 
 const sliderSlides = [
@@ -136,7 +136,7 @@ function TestimonialsCarousel() {
   const visible = testimonials.slice(page * itemsPerPage, page * itemsPerPage + itemsPerPage);
 
   return (
-    <section className="relative py-16 md:py-20 text-white overflow-hidden">
+    <section className="relative py-[50px] text-white overflow-hidden">
       <Image src="/images/om-background.png" alt="" fill className="object-cover" sizes="100vw" style={{ backgroundColor: '#1a0a00', opacity: 0.35 }} />
       <div className="absolute inset-0 bg-gradient-to-b from-gray-900/90 via-gray-900/85 to-gray-900/90" />
 
@@ -195,7 +195,7 @@ export default function Home() {
       <HeroSlider />
 
       {/* ─── About Us ─── */}
-      <section className="relative py-[60px] overflow-hidden">
+      <section className="relative py-[50px] overflow-hidden">
         <div className="absolute inset-0 bg-gradient-to-b from-cream-50 via-white to-cream-50/50" />
         <div className="absolute top-0 left-0 w-[500px] h-[500px] bg-saffron-100/30 rounded-full blur-3xl" />
         <div className="absolute bottom-0 right-0 w-[400px] h-[400px] bg-gold-100/30 rounded-full blur-3xl" />
@@ -336,54 +336,65 @@ export default function Home() {
       </section>
 
       {/* ─── Executive Committee ─── */}
-      <section className="relative py-16 md:py-20 overflow-hidden">
-        <div className="absolute inset-0 bg-gradient-to-br from-gray-900 via-gray-800 to-gray-900" />
-        <div className="absolute inset-0 opacity-[0.03]" style={{ backgroundImage: 'radial-gradient(circle at 1px 1px, white 1px, transparent 0)', backgroundSize: '40px 40px' }} />
-        <div className="absolute top-0 right-0 w-96 h-96 bg-gold-500/5 rounded-full blur-3xl" />
-        <div className="absolute bottom-0 left-0 w-80 h-80 bg-saffron-500/5 rounded-full blur-3xl" />
+      <section className="relative py-[50px] overflow-hidden">
+        <Image src="/images/om-background.png" alt="" fill className="object-cover" sizes="100vw" style={{ backgroundColor: '#1a0a00', opacity: 0.4 }} />
+        <div className="absolute inset-0 bg-gradient-to-br from-[#3a0f04] via-[#6E1D00] to-[#24100b]" />
+        <div className="absolute top-0 right-0 w-96 h-96 bg-gold-400/15 rounded-full blur-3xl" />
+        <div className="absolute bottom-0 left-0 w-80 h-80 bg-orange-500/10 rounded-full blur-3xl" />
 
         <div className="relative page-container">
           <div className="text-center mb-12">
-            <p className="text-gold-400 text-[11px] uppercase tracking-[0.2em] font-semibold mb-3">Our Leaders</p>
             <h2 className="text-2xl md:text-3xl lg:text-4xl font-serif font-black text-white mb-3">Executive Committee</h2>
-            <p className="text-gray-500 text-sm mb-4">2025 – 2027</p>
             <div className="ornament-line" />
           </div>
 
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 lg:gap-5 max-w-5xl mx-auto">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5 lg:gap-6 max-w-5xl mx-auto">
             {executiveMembers.map((m) => (
-              <div key={m.designation} className="group relative bg-white/[0.04] backdrop-blur-sm rounded-2xl p-5 border border-white/[0.06] hover:bg-white/[0.08] transition-all duration-400 hover:-translate-y-1">
-                <div className="flex items-start gap-4">
-                  <div className={`w-14 h-14 rounded-xl bg-gradient-to-br ${m.gradient} flex items-center justify-center shadow-lg flex-shrink-0 group-hover:scale-105 transition-transform duration-300`}>
-                    <span className="text-lg font-serif font-black text-white">{m.initials}</span>
-                  </div>
-                  <div className="flex-1 min-w-0">
-                    <div className="inline-block px-2 py-0.5 mb-2 text-[9px] font-bold uppercase tracking-wider text-gold-300/80 bg-gold-400/10 rounded border border-gold-400/10">
-                      {m.designation}
+              <div key={m.designation} className="group relative bg-white/[0.07] backdrop-blur-md rounded-2xl px-6 py-7 border border-gold-400/15 text-center transition-all duration-400 hover:-translate-y-1.5 hover:bg-white/[0.11] hover:border-gold-400/40 hover:shadow-[0_20px_50px_rgba(0,0,0,0.35)]">
+                <div className="absolute top-0 left-1/2 -translate-x-1/2 w-20 h-0.5 bg-gradient-to-r from-transparent via-gold-400 to-transparent" />
+
+                {/* Avatar with golden ring */}
+                <div className="relative w-20 h-20 mx-auto mb-4">
+                  <div className="absolute inset-0 rounded-full bg-gradient-to-br from-yellow-300 via-gold-400 to-amber-600 p-[2.5px] shadow-[0_6px_20px_rgba(218,165,32,0.35)] group-hover:scale-105 transition-transform duration-300">
+                    <div className={`w-full h-full rounded-full bg-gradient-to-br ${m.gradient} flex items-center justify-center`}>
+                      <span className="text-xl font-serif font-black text-white drop-shadow">{m.initials}</span>
                     </div>
-                    <h3 className="text-[15px] font-serif font-bold text-white mb-1.5 leading-snug">{m.name}</h3>
-                    <a href={`tel:${m.phone}`} className="inline-flex items-center gap-1.5 text-xs text-gray-400 hover:text-gold-300 transition-colors">
-                      <svg className="w-3 h-3" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z" /></svg>
-                      {m.phone}
-                    </a>
                   </div>
                 </div>
+
+                {/* Designation */}
+                <div className="inline-block px-3.5 py-1 mb-3 text-[10px] font-bold uppercase tracking-[0.14em] text-gold-300 bg-gold-400/15 rounded-full border border-gold-400/25">
+                  {m.designation}
+                </div>
+
+                {/* Name */}
+                <h3 className="text-[15px] md:text-base font-serif font-bold text-white leading-snug mb-4">{m.name}</h3>
+
+                {/* Phone pill */}
+                <a
+                  href={`tel:${m.phone}`}
+                  className="inline-flex items-center gap-1.5 px-4 py-1.5 rounded-full bg-white/10 text-xs font-semibold text-cream-100 hover:bg-gold-400 hover:text-[#3a0f04] hover:-translate-y-0.5 transition-all duration-300"
+                >
+                  <svg className="w-3 h-3" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z" /></svg>
+                  {m.phone}
+                </a>
               </div>
             ))}
           </div>
 
           <div className="text-center mt-10">
-            <Link href="/committee" className="inline-flex items-center gap-2 px-6 py-2.5 bg-white/10 text-white font-semibold rounded-xl hover:bg-white/15 transition-all duration-300 border border-white/10 text-sm">
+            <Link href="/committee" className="inline-flex items-center gap-2 px-7 py-3 bg-gradient-to-r from-gold-400 to-amber-500 text-[#3a0f04] font-bold rounded-xl hover:from-yellow-300 hover:to-gold-400 transition-all duration-300 text-sm shadow-lg hover:shadow-gold-400/30 hover:-translate-y-0.5">
               View Full Committee
-              <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 8l4 4m0 0l-4 4m4-4H3" /></svg>
+              <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M17 8l4 4m0 0l-4 4m4-4H3" /></svg>
             </Link>
           </div>
         </div>
       </section>
 
       {/* ─── Recent Highlights ─── */}
-      <section className="relative py-16 md:py-20 overflow-hidden bg-white">
+      <section className="relative py-[50px] overflow-hidden bg-white">
         <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[600px] h-[600px] bg-saffron-100/40 rounded-full blur-3xl" />
+        <div className="absolute bottom-0 right-0 w-[400px] h-[400px] bg-gold-100/40 rounded-full blur-3xl" />
 
         <div className="relative page-container">
           <div className="text-center mb-12">
@@ -392,16 +403,23 @@ export default function Home() {
             <div className="ornament-line" />
           </div>
 
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 max-w-6xl mx-auto">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5 max-w-6xl mx-auto">
             {recentHighlights.map((item, idx) => (
-              <div key={idx} className="group relative bg-white rounded-2xl p-5 border border-cream-200/60 hover:border-saffron-200 transition-all duration-400 hover:-translate-y-1 overflow-hidden hover:shadow-[0_12px_40px_rgba(195,74,44,0.08)]">
-                <div className="flex items-center gap-3 mb-3">
-                  <div className={`w-1 h-8 rounded-full ${item.accent}`} />
-                  <span className="text-[10px] font-bold uppercase tracking-wider text-gray-400">{item.category}</span>
+              <div key={idx} className="group relative bg-white rounded-2xl p-6 border border-cream-200/70 overflow-hidden transition-all duration-400 hover:-translate-y-1.5 hover:border-gold-300 hover:shadow-[0_20px_50px_rgba(195,74,44,0.14)]">
+                {/* Gold top accent */}
+                <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-gold-400 via-saffron-400 to-gold-400 opacity-70 group-hover:opacity-100 transition-opacity duration-300" />
+
+                <div className="flex items-start justify-between mb-4">
+                  <div className="w-12 h-12 rounded-xl bg-gradient-to-br from-saffron-50 to-gold-50 border border-saffron-100 flex items-center justify-center text-2xl group-hover:scale-110 group-hover:rotate-3 transition-transform duration-300">
+                    {item.icon}
+                  </div>
+                  <span className="text-[11px] font-bold text-saffron-600 bg-saffron-50 border border-saffron-200/70 px-2.5 py-1 rounded-full whitespace-nowrap">
+                    {item.year}
+                  </span>
                 </div>
-                <p className="text-sm text-gray-700 leading-relaxed font-medium mb-3">{item.event}</p>
-                <div className="text-[10px] font-bold text-saffron-400">{item.year}</div>
-                <div className="absolute -bottom-3 -right-3 w-12 h-12 bg-saffron-50 rounded-full opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+
+                <span className="block text-[10px] font-bold uppercase tracking-[0.14em] text-gray-400 mb-2">{item.category}</span>
+                <p className="text-sm text-gray-700 leading-relaxed font-medium">{item.event}</p>
               </div>
             ))}
           </div>
@@ -417,32 +435,8 @@ export default function Home() {
 
       <TestimonialsCarousel />
 
-      {/* ─── Calendar CTA ─── */}
-      <section className="relative py-12 md:py-14 overflow-hidden bg-cream-50">
-        <div className="relative page-container">
-          <div className="relative bg-white rounded-2xl border border-cream-200/60 overflow-hidden hover:shadow-[0_12px_40px_rgba(195,74,44,0.06)] transition-all duration-500">
-            <div className="absolute top-0 left-0 w-full h-px bg-gradient-to-r from-transparent via-gold-400 to-transparent" />
-            <div className="flex flex-col md:flex-row items-center gap-6 md:gap-10 p-8 md:p-10">
-              <div className="w-16 h-16 md:w-20 md:h-20 rounded-2xl bg-gradient-to-br from-saffron-50 to-gold-50 border border-saffron-100 flex items-center justify-center text-3xl md:text-4xl flex-shrink-0">
-                📅
-              </div>
-              <div className="flex-1 text-center md:text-left">
-                <h2 className="text-xl md:text-2xl font-serif font-bold text-gray-800 mb-2">Sampradaya Calendar 2026</h2>
-                <p className="text-sm text-gray-500 leading-relaxed max-w-lg">
-                  Download our free traditional Hindu calendar with festivals, muhurtham dates, and auspicious days. Published annually and distributed to 3000+ households.
-                </p>
-              </div>
-              <Link href="/calendar" className="btn-primary text-sm flex-shrink-0">
-                Download Calendar
-                <svg className="w-4 h-4 ml-1" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" /></svg>
-              </Link>
-            </div>
-          </div>
-        </div>
-      </section>
-
       {/* ─── Join CTA ─── */}
-      <section className="relative py-16 md:py-20 text-white overflow-hidden">
+      <section className="relative py-[50px] text-white overflow-hidden">
         <Image src="/images/om-background.png" alt="" fill className="object-cover" sizes="100vw" style={{ backgroundColor: '#1a0a00', opacity: 0.25 }} />
         <div className="absolute inset-0 bg-gradient-to-br from-saffron-700/90 via-saffron-800/85 to-gray-900/90" />
 
