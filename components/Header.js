@@ -94,9 +94,9 @@ function SunIcon({ className = 'w-4 h-4' }) {
   );
 }
 
-function DropdownMenu({ children, isOpen }) {
+function DropdownMenu({ children, isOpen, alignRight = false }) {
   return (
-    <div className={`absolute top-full left-0 pt-2 transition-all duration-200 z-50 ${isOpen ? 'opacity-100 visible translate-y-0' : 'opacity-0 invisible -translate-y-2'}`}>
+    <div className={`absolute top-full pt-2 transition-all duration-200 z-50 ${alignRight ? 'right-0' : 'left-0'} ${isOpen ? 'opacity-100 visible translate-y-0' : 'opacity-0 invisible -translate-y-2'}`}>
       <div className="bg-white rounded-xl shadow-xl border border-cream-200/60 py-2 min-w-[230px] max-h-[70vh] overflow-y-auto overflow-x-hidden">
         {children}
       </div>
@@ -179,8 +179,18 @@ export default function Header() {
               </div>
             </Link>
 
-            {/* Calendar button + mobile toggle */}
+            {/* Donate + Calendar buttons + mobile toggle */}
             <div className="flex items-center gap-2">
+              <Link
+                href="/contact"
+                className="hidden sm:inline-flex items-center gap-2 px-4 xl:px-5 py-2.5 rounded-full text-[13px] font-bold text-[#3a0f04] bg-gradient-to-r from-gold-400 to-amber-500 hover:from-yellow-300 hover:to-gold-400 shadow-lg hover:shadow-xl hover:-translate-y-0.5 transition-all duration-300"
+              >
+                <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z" />
+                </svg>
+                Donate Now
+              </Link>
+
               <a
                 href="/images/calendars/cal%202026.pdf"
                 download
@@ -213,9 +223,13 @@ export default function Header() {
       {/* ─── Bottom row: Navigation (desktop) ─── */}
       <div className="hidden lg:block bg-[#6E1D00] border-t border-white/10 shadow-md">
         <div className="boxed-nav-container">
-          <nav className="flex items-center justify-center flex-wrap gap-0.5" ref={dropdownRef}>
-            {navLinks.map((link) => {
+          <div className="flex items-center justify-between gap-4">
+          <nav className="flex items-center flex-wrap gap-1" ref={dropdownRef}>
+            {navLinks.map((link, idx) => {
               const active = isActive(link.href);
+              /* Menus near the right edge open leftwards, so hidden dropdowns can't
+                 stick out past the viewport and create a horizontal scrollbar */
+              const alignRight = idx >= navLinks.length - 3;
               return (
                 <div 
                   key={link.href} 
@@ -225,7 +239,7 @@ export default function Header() {
                 >
                   <Link
                     href={link.href}
-                    className={`relative px-3 xl:px-4 py-2.5 rounded-lg text-sm font-semibold transition-all duration-200 flex items-center gap-1 ${
+                    className={`relative px-2.5 xl:px-3.5 py-2.5 rounded-lg text-base font-normal transition-all duration-200 flex items-center gap-1 ${
                       openDropdown === link.label
                         ? 'text-white bg-white/20'
                         : active
@@ -250,13 +264,13 @@ export default function Header() {
                   </Link>
                   
                   {link.children.length > 0 && (
-                    <DropdownMenu isOpen={openDropdown === link.label}>
+                    <DropdownMenu isOpen={openDropdown === link.label} alignRight={alignRight}>
                       {link.children.map((child) => (
                         <Link
                           key={child.href}
                           href={child.href}
                           onClick={() => setOpenDropdown(null)}
-                          className={`block px-4 py-2.5 text-sm transition-all duration-200 ${
+                          className={`block px-4 py-2.5 text-[15px] font-normal transition-all duration-200 ${
                             child.label === 'All Programs'
                               ? 'font-semibold text-saffron-600 hover:bg-saffron-50'
                               : 'text-gray-600 hover:text-saffron-600 hover:bg-saffron-50/50'
@@ -271,6 +285,9 @@ export default function Header() {
               );
             })}
           </nav>
+
+
+          </div>
         </div>
       </div>
 
@@ -278,8 +295,8 @@ export default function Header() {
       <div className={`lg:hidden overflow-hidden transition-all duration-300 ease-in-out ${mobileOpen ? 'max-h-[80vh] opacity-100' : 'max-h-0 opacity-0'}`}>
         <div className="bg-white border-t border-cream-200/60 shadow-xl max-h-[80vh] overflow-y-auto">
           <div className="boxed-nav-container py-3 space-y-0.5">
-            {/* Calendar button - moved to bottom of mobile menu */}
-            <div className="pt-3 px-4">
+            {/* Calendar + Donate buttons - at top of mobile menu */}
+            <div className="pt-3 px-4 flex flex-col gap-2">
               <a
                 href="/images/calendars/cal%202026.pdf"
                 download
@@ -289,6 +306,17 @@ export default function Header() {
                 <SunIcon className="w-5 h-5" />
                 Sampradaya Calendar
               </a>
+              <Link
+                href="/contact"
+                onClick={() => setMobileOpen(false)}
+                className="flex items-center justify-center gap-2 px-6 py-3 rounded-full text-[14px] font-bold text-[#3a0f04] bg-gradient-to-r from-gold-400 to-amber-500 hover:from-yellow-300 hover:to-gold-400 transition-all duration-300 shadow-lg"
+              >
+                <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z" />
+                </svg>
+                Donate Now
+              </Link>
+
             </div>
 
             {navLinks.map((link) => (
@@ -297,7 +325,7 @@ export default function Header() {
                   <Link
                     href={link.href}
                     onClick={() => setMobileOpen(false)}
-                    className="flex-1 flex items-center gap-3 px-4 py-3 rounded-xl text-gray-600 hover:text-saffron-600 hover:bg-saffron-50/70 font-medium transition-all duration-200"
+                    className="flex-1 flex items-center gap-3 px-4 py-3 rounded-xl text-base font-normal text-gray-600 hover:text-saffron-600 hover:bg-saffron-50/70 transition-all duration-200"
                   >
                     <span className="w-1.5 h-1.5 rounded-full bg-amber-400 flex-shrink-0" />
                     {link.label}
@@ -325,7 +353,7 @@ export default function Header() {
                         key={child.href}
                         href={child.href}
                         onClick={() => setMobileOpen(false)}
-                        className="block px-4 py-2.5 rounded-lg text-sm text-gray-500 hover:text-saffron-600 hover:bg-saffron-50/50 font-medium transition-all duration-200"
+                        className="block px-4 py-2.5 rounded-lg text-[15px] font-normal text-gray-500 hover:text-saffron-600 hover:bg-saffron-50/50 transition-all duration-200"
                       >
                         {child.label}
                       </Link>

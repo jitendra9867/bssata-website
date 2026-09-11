@@ -102,6 +102,8 @@
 body {
   background-color: #ffffff;
   min-height: 100vh;
+  /* Safety net: nothing should force a side-to-side scrollbar */
+  overflow-x: hidden;
 }
 
 /* Full-width layout container */

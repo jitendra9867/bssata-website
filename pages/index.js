@@ -31,10 +31,14 @@ const recentHighlights = [
 ];
 
 const sliderSlides = [
-  { image: '/images/slider/jandhyala-2025.jpg', title: 'Jandhyala Pournami 2025', subtitle: '2000 Yagnopaveethams Distributed Across 34 Places', cta: { label: 'Learn More', href: '/about' } },
-  { image: '/images/slider/ugadi-2026-2.jpg', title: 'Community Service Since 1994', subtitle: '760+ Life Members — 12+ Welfare Schemes', cta: { label: 'Life Members', href: '/members' } },
-  { image: '/images/slider/jandhyala-2025-2.jpg', title: 'Preserving Our Heritage', subtitle: 'Brahmana Dharma — Cultural Preservation & Welfare', cta: { label: 'About Us', href: '/about' } },
-  { image: '/images/slider/ugadi-2026-3.jpg', title: 'Sampradaya Calendar 2026', subtitle: 'Free Traditional Hindu Calendar — Download Now', cta: { label: 'Download', href: '/calendar' } },
+  { image: '/images/slider/banner-1.png', title: 'Brahmana Seva Samiti', subtitle: 'Serving the Community with Devotion and Seva Since 1994', cta: { label: 'About Us', href: '/about' } },
+  { image: '/images/slider/banner-2.png', title: 'Jandhyala Pournami', subtitle: '2000 Yagnopaveethams Distributed Across 34 Places', cta: { label: 'Learn More', href: '/programs/jandhyala-pournami' } },
+  { image: '/images/slider/banner-3.png', title: 'Ugadi Celebrations', subtitle: 'Clothes to Vedic Students and Sarees to the Needy', cta: { label: 'Learn More', href: '/programs/ugadi' } },
+  { image: '/images/slider/banner-4.png', title: 'Karthika Samaradhana', subtitle: '800+ Devotees Gather in Devotion Every Year', cta: { label: 'Learn More', href: '/programs/karthika-samaradhana' } },
+  { image: '/images/slider/banner-5.png', title: 'Scholarships That Change Lives', subtitle: 'Over ₹30 Lakhs Awarded to Meritorious Students', cta: { label: 'Our Schemes', href: '/schemes' } },
+  { image: '/images/slider/banner-6.png', title: 'Free Upanayanams', subtitle: 'Vedic Initiation for Vatuvus at Santoshimata Temple', cta: { label: 'Learn More', href: '/programs/uchita-upanayanamulu' } },
+  { image: '/images/slider/banner-7.png', title: 'Arama Kshetram', subtitle: 'A Home for Our Community’s Cultural and Welfare Activities', cta: { label: 'Learn More', href: '/programs/arama-kshetramu' } },
+  { image: '/images/slider/banner-8.png', title: 'Become a Life Member', subtitle: 'Join Us with a Contribution of ₹10,000 and Above', cta: { label: 'Life Members', href: '/members' } },
 ];
 
 const testimonials = [
@@ -61,58 +65,49 @@ function HeroSlider() {
   }, [isAutoPlaying, nextSlide]);
 
   return (
-    <section className="relative w-full h-[320px] sm:h-[420px] md:h-[500px] lg:h-[500px] overflow-hidden" onMouseEnter={() => setIsAutoPlaying(false)} onMouseLeave={() => setIsAutoPlaying(true)}>
-      {/* Slides */}
+    <section className="relative w-full aspect-[1900/700] bg-white overflow-hidden" onMouseEnter={() => setIsAutoPlaying(false)} onMouseLeave={() => setIsAutoPlaying(true)}>
+      {/* Slides — the box matches the banner's 1900×700 shape, so each banner shows in full with no cropping and no empty space */}
       {sliderSlides.map((slide, i) => (
-        <div key={i} className={`absolute inset-0 transition-all duration-[1200ms] ease-in-out ${i === current ? 'opacity-100 scale-100' : 'opacity-0 scale-[1.03]'}`}>
-          <Image src={slide.image} alt={slide.title} fill className="object-contain" priority={i === 0} sizes="100vw" style={{ backgroundColor: '#1a0a00' }} />
-          <div className="absolute inset-0 bg-black/25" />
-          <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/55 to-black/25" />
+        <div key={i} className={`absolute inset-0 transition-opacity duration-[1200ms] ease-in-out ${i === current ? 'opacity-100' : 'opacity-0'}`}>
+          <Image src={slide.image} alt={slide.title} fill className="object-contain object-center" priority={i === 0} sizes="100vw" />
         </div>
       ))}
 
-      {/* Content */}
+      {/* Dimmed overlay — softens the banner so the centered content stays readable (banner images themselves are untouched) */}
+      <div className="absolute inset-0 bg-black/45 pointer-events-none" />
+      <div className="absolute inset-0 bg-gradient-to-b from-black/30 via-transparent to-black/40 pointer-events-none" />
+
+      {/* Centered content over the banner */}
       <div className="absolute inset-0 flex items-center justify-center">
-        <div className="page-container w-full text-center">
-          <div className="max-w-2xl mx-auto">
-            {sliderSlides.map((slide, i) => (
-              <div key={i} className={`transition-all duration-700 ease-out ${i === current ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-6 absolute inset-0 flex items-center justify-center'}`}>
-                {i === current && (
-                  <>
-                    <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-white/10 backdrop-blur-sm border border-white/10 mb-4">
-                      <span className="w-1.5 h-1.5 rounded-full bg-gold-400 animate-pulse" />
-                      <span className="text-gold-300 text-[11px] uppercase tracking-[0.15em] font-semibold">Brahmana Seva Samiti</span>
-                    </div>
-                    <h2 className="text-3xl md:text-4xl lg:text-[42px] font-serif font-black text-white mb-3 leading-[1.15] text-shadow-hero tracking-tight">
-                      {slide.title}
-                    </h2>
-                    <p className="text-white/75 text-base md:text-lg mb-7 max-w-lg leading-relaxed mx-auto">
-                      {slide.subtitle}
-                    </p>
-                    <Link href={slide.cta.href} className="inline-flex items-center gap-2.5 px-6 py-3 bg-white text-gray-900 font-semibold rounded-xl hover:bg-cream-100 transition-all duration-300 shadow-xl hover:shadow-2xl hover:-translate-y-0.5 text-sm">
-                      {slide.cta.label}
-                      <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 8l4 4m0 0l-4 4m4-4H3" /></svg>
-                    </Link>
-                  </>
-                )}
-              </div>
-            ))}
-          </div>
+        <div key={current} className="text-center px-6 animate-fade-in-up">
+          <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-serif font-black text-white drop-shadow-[0_2px_12px_rgba(0,0,0,0.7)] leading-tight mb-3 md:mb-4">
+            {sliderSlides[current].title}
+          </h1>
+          <p className="text-sm sm:text-base md:text-lg lg:text-xl text-cream-100/95 max-w-2xl mx-auto leading-relaxed drop-shadow-[0_1px_8px_rgba(0,0,0,0.7)] mb-5 md:mb-7">
+            {sliderSlides[current].subtitle}
+          </p>
+          <Link
+            href={sliderSlides[current].cta.href}
+            className="inline-flex items-center gap-2 px-6 md:px-8 py-2.5 md:py-3 rounded-full text-sm md:text-base font-bold text-[#3a0f04] bg-gradient-to-r from-gold-400 to-amber-500 hover:from-yellow-300 hover:to-gold-400 shadow-lg hover:shadow-xl hover:-translate-y-0.5 transition-all duration-300"
+          >
+            {sliderSlides[current].cta.label}
+            <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M17 8l4 4m0 0l-4 4m4-4H3" /></svg>
+          </Link>
         </div>
       </div>
 
       {/* Arrows */}
-      <button onClick={prevSlide} className="absolute left-4 md:left-6 top-1/2 -translate-y-1/2 w-10 h-10 md:w-11 md:h-11 rounded-full bg-white/10 backdrop-blur-md text-white flex items-center justify-center hover:bg-white/20 transition-all duration-300 border border-white/10" aria-label="Previous">
+      <button onClick={prevSlide} className="absolute left-4 md:left-6 top-1/2 -translate-y-1/2 w-10 h-10 md:w-11 md:h-11 rounded-full bg-black/35 backdrop-blur-md text-white flex items-center justify-center hover:bg-black/60 transition-all duration-300 border border-white/25 shadow-lg" aria-label="Previous">
         <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" /></svg>
       </button>
-      <button onClick={nextSlide} className="absolute right-4 md:right-6 top-1/2 -translate-y-1/2 w-10 h-10 md:w-11 md:h-11 rounded-full bg-white/10 backdrop-blur-md text-white flex items-center justify-center hover:bg-white/20 transition-all duration-300 border border-white/10" aria-label="Next">
+      <button onClick={nextSlide} className="absolute right-4 md:right-6 top-1/2 -translate-y-1/2 w-10 h-10 md:w-11 md:h-11 rounded-full bg-black/35 backdrop-blur-md text-white flex items-center justify-center hover:bg-black/60 transition-all duration-300 border border-white/25 shadow-lg" aria-label="Next">
         <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" /></svg>
       </button>
 
       {/* Dots */}
-      <div className="absolute bottom-5 left-1/2 -translate-x-1/2 flex items-center gap-2.5">
+      <div className="absolute bottom-5 left-1/2 -translate-x-1/2 flex items-center gap-2.5 rounded-full bg-black/35 backdrop-blur-md px-3.5 py-2">
         {sliderSlides.map((_, i) => (
-          <button key={i} onClick={() => setCurrent(i)} className={`transition-all duration-400 rounded-full ${i === current ? 'w-7 h-1.5 bg-white' : 'w-1.5 h-1.5 bg-white/40 hover:bg-white/60'}`} aria-label={`Slide ${i + 1}`} />
+          <button key={i} onClick={() => setCurrent(i)} className={`transition-all duration-400 rounded-full ${i === current ? 'w-7 h-1.5 bg-white' : 'w-1.5 h-1.5 bg-white/50 hover:bg-white/80'}`} aria-label={`Slide ${i + 1}`} />
         ))}
       </div>
     </section>
