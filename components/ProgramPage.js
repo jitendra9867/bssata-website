@@ -240,18 +240,15 @@ export default function ProgramPage({ program }) {
 
       {/* Hero */}
       <section className="relative text-white py-12 md:py-16 overflow-hidden">
-        <div className="absolute inset-0 bg-gradient-to-br from-saffron-700/95 via-saffron-800/90 to-gray-900/95" />
+        <div className="absolute inset-0 bg-gradient-to-br from-[#e8a53a]/90 via-[#c47a1a]/80 to-[#8a4a10]/95" />
         <div className="absolute top-0 right-0 w-[400px] h-[400px] bg-gold-400/10 rounded-full blur-3xl" />
         <div className="relative page-container text-center">
           <span className="text-5xl mb-3 block">{program.icon}</span>
-          <p className="text-gold-300 text-[11px] uppercase tracking-[0.2em] font-semibold mb-3">
-            Annual Programs & Events
-          </p>
-          <h1 className="text-3xl md:text-4xl lg:text-5xl font-serif font-black mb-4 tracking-tight">
+          <h1 className="text-3xl md:text-4xl lg:text-5xl font-banner font-black mb-4 tracking-tight">
             {program.title}
           </h1>
           <div className="ornament-line mb-5" />
-          <p className="text-white/70 max-w-2xl mx-auto text-base md:text-lg leading-relaxed">
+          <p className="text-white/85 max-w-2xl mx-auto text-base md:text-lg leading-relaxed">
             {program.tagline}
           </p>
         </div>
@@ -269,7 +266,7 @@ export default function ProgramPage({ program }) {
                 <div className="ornament-line mb-4 !mx-0" />
                 <p className="text-sm text-gray-600 leading-relaxed mb-5">{program.description}</p>
                 <div className="p-3.5 rounded-xl bg-saffron-50 border border-saffron-200/60">
-                  <p className="text-xs text-saffron-700 leading-relaxed">
+                  <p className="text-sm text-saffron-700 leading-relaxed">
                     <strong>How to participate:</strong> Contact the Secretary at{' '}
                     <a href="tel:7893961234" className="underline font-semibold whitespace-nowrap">78939 61234</a>{' '}
                     or{' '}
@@ -287,7 +284,7 @@ export default function ProgramPage({ program }) {
                     <div key={h.title} className="p-4 rounded-xl bg-cream-50 border border-cream-200/70 hover:border-saffron-200 transition-colors duration-300">
                       <span className="text-2xl mb-2 block">{h.icon}</span>
                       <h4 className="text-sm font-bold text-gray-800 mb-1">{h.title}</h4>
-                      <p className="text-xs text-gray-500 leading-relaxed">{h.text}</p>
+                      <p className="text-sm text-gray-500 leading-relaxed">{h.text}</p>
                     </div>
                   ))}
                 </div>
@@ -300,7 +297,7 @@ export default function ProgramPage({ program }) {
               <ol className="space-y-3">
                 {program.how.map((step, i) => (
                   <li key={i} className="flex items-start gap-3">
-                    <span className="w-6 h-6 rounded-full bg-saffron-500 text-white text-xs font-bold flex items-center justify-center flex-shrink-0 mt-0.5">
+                    <span className="w-6 h-6 rounded-full bg-saffron-500 text-white text-sm font-bold flex items-center justify-center flex-shrink-0 mt-0.5">
                       {i + 1}
                     </span>
                     <span className="text-sm text-gray-600 leading-relaxed">{step}</span>
@@ -328,7 +325,7 @@ export default function ProgramPage({ program }) {
                   className="group p-4 rounded-xl bg-white border border-cream-200/70 text-center hover:border-saffron-200 hover:shadow-[0_12px_30px_rgba(195,74,44,0.08)] hover:-translate-y-0.5 transition-all duration-300"
                 >
                   <span className="text-2xl mb-2 block">{p.icon}</span>
-                  <span className="text-xs font-semibold text-gray-700 group-hover:text-saffron-600 leading-snug block">
+                  <span className="text-sm font-semibold text-gray-700 group-hover:text-saffron-600 leading-snug block">
                     {p.title}
                   </span>
                 </Link>
@@ -350,7 +347,6 @@ export default function ProgramPage({ program }) {
       <section className="py-16 md:py-20 bg-gradient-to-br from-saffron-600 via-saffron-700 to-gray-900 text-white overflow-hidden">
         <div className="page-container">
           <div className="max-w-3xl mx-auto text-center">
-            <p className="text-gold-300 text-[11px] uppercase tracking-[0.2em] font-semibold mb-3">Get Involved</p>
             <h2 className="text-2xl md:text-3xl font-serif font-black mb-4">Support {program.title}</h2>
             <div className="ornament-line mb-5" />
             <p className="text-white/70 mb-8 max-w-xl mx-auto leading-relaxed">

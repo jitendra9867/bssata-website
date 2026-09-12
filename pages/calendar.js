@@ -34,20 +34,20 @@ export default function Calendar() {
       {/* Hero */}
       <section className="relative text-white py-16 md:py-24 overflow-hidden">
         <Image src="/images/om-background.png" alt="" fill className="object-cover" sizes="100vw" style={{ backgroundColor: '#1a0a00', opacity: 0.2 }} />
-        <div className="absolute inset-0 bg-gradient-to-br from-saffron-700/90 via-saffron-800/85 to-gray-900/90" />
+        <div className="absolute inset-0 bg-gradient-to-br from-[#e8a53a]/85 via-[#c47a1a]/75 to-[#8a4a10]/90" />
         <div className="absolute top-0 right-0 w-[500px] h-[500px] bg-gold-400/8 rounded-full blur-3xl" />
         <div className="absolute bottom-0 left-0 w-[400px] h-[400px] bg-saffron-400/8 rounded-full blur-3xl" />
 
         <div className="relative page-container text-center">
           <div className="inline-flex items-center gap-2 px-5 py-2 rounded-full bg-white/10 backdrop-blur-sm border border-white/10 mb-6">
             <span className="text-xl">📅</span>
-            <span className="text-gold-300 text-[11px] uppercase tracking-[0.2em] font-semibold">Free Sampradaya Calendar</span>
+            <span className="text-gold-300 text-sm uppercase tracking-[0.2em] font-semibold">Free Sampradaya Calendar</span>
           </div>
-          <h1 className="text-4xl md:text-5xl lg:text-6xl font-serif font-black mb-5 tracking-tight">
+          <h1 className="text-4xl md:text-5xl lg:text-6xl font-banner font-black mb-5 tracking-tight">
             Sampradaya Calendar
           </h1>
           <div className="ornament-line mb-6" />
-          <p className="text-white/70 max-w-2xl mx-auto text-base md:text-lg leading-relaxed mb-10">
+          <p className="text-white/85 max-w-2xl mx-auto text-base md:text-lg leading-relaxed mb-10">
             Free traditional Hindu calendars published annually by Brahmana Seva Samiti, Guntur.
             Distributed to 3000+ households across Andhra Pradesh and abroad.
           </p>
@@ -59,7 +59,7 @@ export default function Calendar() {
                 <span className="text-2xl">{stat.icon}</span>
                 <div className="text-center">
                   <div className="text-white font-bold text-xl leading-none">{stat.value}</div>
-                  <div className="text-white/50 text-[10px] mt-1 uppercase tracking-wider">{stat.label}</div>
+                  <div className="text-white/50 text-sm mt-1 uppercase tracking-wider">{stat.label}</div>
                 </div>
               </div>
             ))}
@@ -71,7 +71,6 @@ export default function Calendar() {
       <section className="py-16 md:py-20 bg-cream-50">
         <div className="page-container">
           <div className="text-center mb-12">
-            <p className="text-saffron-500 text-[11px] uppercase tracking-[0.2em] font-semibold mb-3">Download</p>
             <h2 className="text-2xl md:text-3xl lg:text-4xl font-serif font-black text-gray-800 mb-3">Our Sampradaya Calendars</h2>
             <div className="ornament-line mb-5" />
             <p className="text-gray-500 max-w-2xl mx-auto leading-relaxed">
@@ -92,9 +91,9 @@ export default function Calendar() {
                 {/* Left - Year visual */}
                 <div className="bg-gradient-to-br from-saffron-500 via-saffron-600 to-gold-500 p-8 md:p-10 flex flex-col items-center justify-center md:w-48 flex-shrink-0">
                   <div className="text-5xl md:text-6xl font-serif font-black text-white leading-none mb-2">{cal.year}</div>
-                  <div className="text-white/70 text-xs font-medium uppercase tracking-wider">{cal.samvat} Nama Samvatsara</div>
+                  <div className="text-white/70 text-sm font-medium uppercase tracking-wider">{cal.samvat} Nama Samvatsara</div>
                   <div className="mt-4 px-3 py-1 rounded-full bg-white/20 backdrop-blur-sm">
-                    <span className="text-white text-[10px] font-bold uppercase tracking-wider flex items-center gap-1">
+                    <span className="text-white text-sm font-bold uppercase tracking-wider flex items-center gap-1">
                       <span className="w-1.5 h-1.5 rounded-full bg-white animate-pulse" />
                       Latest
                     </span>
@@ -105,7 +104,7 @@ export default function Calendar() {
                   <h3 className="text-xl md:text-2xl font-serif font-black text-gray-800 mb-2">Sampradaya Calendar {cal.year}</h3>
                   <p className="text-gray-600 text-sm leading-relaxed mb-4">{cal.description}</p>
                   <div className="flex items-center gap-4">
-                    <div className="flex items-center gap-2 text-xs text-gray-400">
+                    <div className="flex items-center gap-2 text-sm text-gray-400">
                       <span className="px-2 py-0.5 bg-cream-100 rounded-full font-medium">{cal.count} copies</span>
                       <span className="px-2 py-0.5 bg-cream-100 rounded-full font-medium">Free Download</span>
                     </div>
@@ -143,7 +142,7 @@ export default function Calendar() {
                     </div>
                     <div>
                       <h3 className="font-serif font-bold text-gray-800 text-sm">Calendar {cal.year}</h3>
-                      <p className="text-[10px] text-gray-400">{cal.samvat} Nama Samvatsara</p>
+                      <p className="text-sm text-gray-400">{cal.samvat} Nama Samvatsara</p>
                     </div>
                   </div>
                   <div className="w-9 h-9 rounded-xl bg-cream-100 text-gray-400 flex items-center justify-center group-hover:bg-saffron-50 group-hover:text-saffron-500 transition-all duration-300">
@@ -153,7 +152,7 @@ export default function Calendar() {
                   </div>
                 </div>
                 <div className="p-5">
-                  <p className="text-xs text-gray-500 leading-relaxed line-clamp-2">{cal.description}</p>
+                  <p className="text-sm text-gray-500 leading-relaxed line-clamp-2">{cal.description}</p>
                 </div>
               </a>
             ))}
@@ -165,7 +164,6 @@ export default function Calendar() {
       <section className="py-16 md:py-20 bg-white">
         <div className="page-container">
           <div className="text-center mb-12">
-            <p className="text-saffron-500 text-[11px] uppercase tracking-[0.2em] font-semibold mb-3">What&apos;s Included</p>
             <h2 className="text-2xl md:text-3xl font-serif font-black text-gray-800 mb-3">Calendar Features</h2>
             <div className="ornament-line" />
           </div>
@@ -189,7 +187,6 @@ export default function Calendar() {
         <div className="page-container">
           <div className="max-w-4xl mx-auto">
             <div className="text-center mb-12">
-              <p className="text-saffron-500 text-[11px] uppercase tracking-[0.2em] font-semibold mb-3">Ways to Get</p>
               <h2 className="text-2xl md:text-3xl font-serif font-black text-gray-800 mb-3">How to Get Your Calendar</h2>
               <div className="ornament-line" />
             </div>
@@ -224,7 +221,6 @@ export default function Calendar() {
             <div className="w-16 h-16 mx-auto rounded-2xl bg-white/10 border border-white/10 backdrop-blur-sm flex items-center justify-center text-3xl mb-6">
               📮
             </div>
-            <p className="text-gold-300 text-[11px] uppercase tracking-[0.2em] font-semibold mb-3">Free Distribution</p>
             <h2 className="text-2xl md:text-3xl font-serif font-black text-white mb-4">Want a Calendar by Post?</h2>
             <div className="ornament-line mb-5" />
             <p className="text-white/70 mb-8 max-w-xl mx-auto leading-relaxed">

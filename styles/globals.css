@@ -2,7 +2,8 @@
 @tailwind components;
 @tailwind utilities;
 
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Raleway:wght@300;400;500;600;700;800;900&display=swap');
+/* Google Fonts are loaded via <link> tags in pages/_app.js
+   (CSS @import here would be ignored by browsers because it comes after @tailwind rules) */
 
 @layer base {
   html {
@@ -12,20 +13,41 @@
   }
 
   body {
-    font-family: 'Inter', system-ui, -apple-system, sans-serif;
-    font-feature-settings: 'cv02', 'cv03', 'cv04', 'cv11';
-    line-height: 1.7;
-    letter-spacing: 0.01em;
+    font-family: 'DM Sans', system-ui, -apple-system, sans-serif;
+    line-height: 1.65;
+    letter-spacing: 0.005em;
   }
 
   h1, h2, h3, h4, h5, h6 {
-    font-family: 'Raleway', 'Inter', system-ui, sans-serif;
-    letter-spacing: -0.01em;
-    line-height: 1.2;
+    font-family: 'Playfair Display', 'DM Sans', serif;
+    letter-spacing: -0.005em;
+    line-height: 1.18;
+  }
+
+  /* Banners, hero titles & logo — classical Roman capitals */
+  .font-banner, header h1 {
+    font-family: 'Cinzel', 'Playfair Display', serif;
+    letter-spacing: 0.04em;
+  }
+
+  /* Site-wide minimum font size: enforced via Tailwind scale remapping
+     (text-xs and smaller arbitrary sizes now resolve to 14px in tailwind.config.js) */
+  html {
+    font-size: 16px;
+  }
+  body {
+    font-size: 1rem;
+  }
+  small {
+    font-size: 0.875rem;
   }
 
   p, li, span, td, th, label, input, textarea, select {
-    font-family: 'Inter', system-ui, -apple-system, sans-serif;
+    font-family: 'DM Sans', system-ui, -apple-system, sans-serif;
+  }
+
+  blockquote, .font-serif, h2, h3, h4, h5, h6 {
+    font-family: 'Playfair Display', 'DM Sans', serif;
   }
 
   ::selection {
@@ -134,44 +156,101 @@ body {
 }
 
 /* Responsive navigation container */
+/* Same Bootstrap-style max-widths as .page-container */
 .boxed-nav-container {
   width: 100%;
-  max-width: none;
+  max-width: 540px;
   margin: 0 auto;
   padding: 0 1rem;
 }
 
-@media (min-width: 640px) {
+@media (min-width: 768px) {
   .boxed-nav-container {
-    padding: 0 1.5rem;
+    max-width: 720px;
+  }
+}
+
+@media (min-width: 992px) {
+  .boxed-nav-container {
+    max-width: 960px;
+  }
+}
+
+@media (min-width: 1200px) {
+  .boxed-nav-container {
+    max-width: 1320px;
+  }
+}
+
+@media (min-width: 1400px) {
+  .boxed-nav-container {
+    max-width: 1600px;
   }
 }
 
 /* Responsive page content container */
+/* Bootstrap-style fixed max-widths per breakpoint so sections stay readable
+   on very wide screens instead of stretching edge to edge. */
 .page-container {
   width: 100%;
-  max-width: none;
+  max-width: 540px;
   margin: 0 auto;
   padding: 0 1rem;
 }
 
-@media (min-width: 640px) {
+@media (min-width: 768px) {
   .page-container {
-    padding: 0 1.5rem;
+    max-width: 720px;
+  }
+}
+
+@media (min-width: 992px) {
+  .page-container {
+    max-width: 960px;
+  }
+}
+
+@media (min-width: 1200px) {
+  .page-container {
+    max-width: 1320px;
+  }
+}
+
+@media (min-width: 1400px) {
+  .page-container {
+    max-width: 1600px;
   }
 }
 
 /* Responsive footer container */
 .boxed-footer-container {
   width: 100%;
-  max-width: none;
+  max-width: 540px;
   margin: 0 auto;
   padding: 0 1rem;
 }
 
-@media (min-width: 640px) {
+@media (min-width: 768px) {
   .boxed-footer-container {
-    padding: 0 1.5rem;
+    max-width: 720px;
+  }
+}
+
+@media (min-width: 992px) {
+  .boxed-footer-container {
+    max-width: 960px;
+  }
+}
+
+@media (min-width: 1200px) {
+  .boxed-footer-container {
+    max-width: 1320px;
+  }
+}
+
+@media (min-width: 1400px) {
+  .boxed-footer-container {
+    max-width: 1600px;
   }
 }
 

@@ -21,7 +21,7 @@ const welfareLinks = [
 
 function SectionHeading({ children }) {
   return (
-    <h4 className="flex items-center gap-2 text-[11px] font-bold uppercase tracking-[0.22em] text-gold-400 mb-5">
+    <h4 className="flex items-center gap-2 text-sm font-bold uppercase tracking-[0.22em] text-gold-400 mb-5">
       <span className="w-4 h-px bg-gold-400/60" />
       {children}
     </h4>
@@ -90,10 +90,10 @@ export default function Footer() {
                 </div>
               </div>
               <div>
-                <h3 className="font-serif font-bold text-base leading-tight text-white">
+                <h3 className="font-banner font-bold text-base leading-tight text-white">
                   Brahmana Seva Sangham
                 </h3>
-                <p className="text-[10px] text-gold-400/90 uppercase tracking-[0.18em] mt-1 font-semibold">
+                <p className="text-sm text-gold-400/90 uppercase tracking-[0.18em] mt-1 font-semibold">
                   Regd No: 48/97 • Guntur
                 </p>
               </div>
@@ -104,7 +104,7 @@ export default function Footer() {
             </p>
 
             <div className="flex items-center gap-2.5 mb-6">
-              <p className="text-[10px] uppercase tracking-[0.18em] text-cream-100/50 font-semibold">
+              <p className="text-sm uppercase tracking-[0.18em] text-cream-100/50 font-semibold">
                 Follow us
               </p>
               {socialLinks.map((social) => (
@@ -127,7 +127,7 @@ export default function Footer() {
             <div className="flex flex-wrap gap-3">
               <Link
                 href="/contact#donate"
-                className="inline-flex items-center gap-2 px-5 py-2 rounded-full text-[13px] font-bold text-white bg-[#D60C0C] hover:bg-[#C20B0B] shadow-lg hover:shadow-xl hover:-translate-y-0.5 transition-all duration-300"
+                className="inline-flex items-center gap-2 px-5 py-2 rounded-full text-sm font-bold text-white bg-[#D60C0C] hover:bg-[#C20B0B] shadow-lg hover:shadow-xl hover:-translate-y-0.5 transition-all duration-300"
               >
                 <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
                   <path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z" />
@@ -136,7 +136,7 @@ export default function Footer() {
               </Link>
               <Link
                 href="/members#enrollment"
-                className="inline-flex items-center px-5 py-2 rounded-full text-[13px] font-bold text-white border-2 border-white/40 hover:bg-white/10 hover:border-white/70 hover:-translate-y-0.5 transition-all duration-300"
+                className="inline-flex items-center px-5 py-2 rounded-full text-sm font-bold text-white border-2 border-white/40 hover:bg-white/10 hover:border-white/70 hover:-translate-y-0.5 transition-all duration-300"
               >
                 Become a Member
               </Link>
@@ -162,10 +162,10 @@ export default function Footer() {
               ))}
             </div>
             <div className="mt-6 p-3.5 rounded-xl bg-white/[0.06] border border-gold-400/20">
-              <p className="flex items-center gap-1.5 text-[10px] text-gold-400 uppercase tracking-wider mb-1 font-bold">
+              <p className="flex items-center gap-1.5 text-sm text-gold-400 uppercase tracking-wider mb-1 font-bold">
                 <span>✦</span> 12A Tax Exempt
               </p>
-              <p className="text-xs text-cream-100/70">Valid FY 2025-26 to 2030-31</p>
+              <p className="text-sm text-cream-100/70">Valid FY 2025-26 to 2030-31</p>
             </div>
           </div>
 
@@ -189,18 +189,18 @@ export default function Footer() {
             </div>
             <div className="mt-4 space-y-2.5">
               <div className="p-3 rounded-lg bg-white/[0.06] border border-white/10 hover:border-gold-400/40 transition-colors duration-300">
-                <p className="text-[10px] text-gold-400/80 uppercase tracking-wider mb-1 font-semibold">
+                <p className="text-sm text-gold-400/80 uppercase tracking-wider mb-1 font-semibold">
                   Union Bank
                 </p>
-                <p className="text-xs font-mono text-white tracking-wide">156910100019148</p>
-                <p className="text-[10px] text-cream-100/50 font-mono mt-0.5">IFSC: UBIN0815691</p>
+                <p className="text-sm font-mono text-white tracking-wide">156910100019148</p>
+                <p className="text-sm text-cream-100/50 font-mono mt-0.5">IFSC: UBIN0815691</p>
               </div>
               <div className="p-3 rounded-lg bg-white/[0.06] border border-white/10 hover:border-gold-400/40 transition-colors duration-300">
-                <p className="text-[10px] text-gold-400/80 uppercase tracking-wider mb-1 font-semibold">
+                <p className="text-sm text-gold-400/80 uppercase tracking-wider mb-1 font-semibold">
                   State Bank of India
                 </p>
-                <p className="text-xs font-mono text-white tracking-wide">52112775646</p>
-                <p className="text-[10px] text-cream-100/50 font-mono mt-0.5">IFSC: SBIN0020715</p>
+                <p className="text-sm font-mono text-white tracking-wide">52112775646</p>
+                <p className="text-sm text-cream-100/50 font-mono mt-0.5">IFSC: SBIN0020715</p>
               </div>
             </div>
           </div>
@@ -210,11 +210,11 @@ export default function Footer() {
       {/* Bottom bar */}
       <div className="relative border-t border-white/10">
         <div className="boxed-footer-container py-5 flex flex-col sm:flex-row justify-between items-center gap-4">
-          <p className="text-xs text-cream-100/60 text-center sm:text-left">
+          <p className="text-sm text-cream-100/60 text-center sm:text-left">
             &copy; {new Date().getFullYear()} Brahmana Seva Samiti · Regd No: 48/97. All rights
             reserved.
           </p>
-          <div className="flex items-center gap-4 text-xs text-cream-100/60">
+          <div className="flex items-center gap-4 text-sm text-cream-100/60">
             <span>Guntur, Andhra Pradesh</span>
             <span className="w-1 h-1 rounded-full bg-gold-400/50" />
             <span>Est. 1994</span>

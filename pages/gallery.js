@@ -128,10 +128,9 @@ export default function Gallery() {
 
       <section className="relative text-white py-12 md:py-16 overflow-hidden">
         <Image src="/images/om-background.png" alt="" fill className="object-cover" sizes="100vw" style={{ backgroundColor: '#1a0a00', opacity: 0.25 }} />
-        <div className="absolute inset-0 bg-gradient-to-br from-saffron-700/90 via-saffron-800/85 to-gray-900/90" />
+        <div className="absolute inset-0 bg-gradient-to-br from-[#e8a53a]/85 via-[#c47a1a]/75 to-[#8a4a10]/90" />
         <div className="relative page-container text-center">
-          <p className="text-gold-300 text-[11px] uppercase tracking-[0.2em] font-semibold mb-3">Our Moments</p>
-          <h1 className="text-3xl md:text-4xl lg:text-5xl font-serif font-black mb-4 tracking-tight">Media & Gallery</h1>
+          <h1 className="text-3xl md:text-4xl lg:text-5xl font-banner font-black mb-4 tracking-tight">Media & Gallery</h1>
           <div className="ornament-line mb-5" />
           <p className="text-white/70 max-w-xl mx-auto leading-relaxed">
             Capturing our community&rsquo;s spirit through three decades of events, celebrations, and moments of togetherness.
@@ -176,12 +175,12 @@ export default function Gallery() {
                   ) : (
                     <span className="text-6xl group-hover:scale-110 transition-transform duration-300">{item.icon}</span>
                   )}
-                  <span className="absolute top-3 right-3 px-3 py-1 text-xs font-semibold rounded-full bg-white/90 text-saffron-600 shadow-sm">
+                  <span className="absolute top-3 right-3 px-3 py-1 text-sm font-semibold rounded-full bg-white/90 text-saffron-600 shadow-sm">
                     {item.category}
                   </span>
                 </div>
                 <div className="p-5">
-                  <div className="flex items-center gap-2 text-xs text-gray-400 mb-2">
+                  <div className="flex items-center gap-2 text-sm text-gray-400 mb-2">
                     <svg className="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
                     </svg>

@@ -45,10 +45,9 @@ export default function Committee() {
 
       <section className="relative text-white py-12 md:py-16 overflow-hidden">
         <Image src="/images/om-background.png" alt="" fill className="object-cover" sizes="100vw" style={{ backgroundColor: '#1a0a00', opacity: 0.25 }} />
-        <div className="absolute inset-0 bg-gradient-to-br from-saffron-700/90 via-saffron-800/85 to-gray-900/90" />
+        <div className="absolute inset-0 bg-gradient-to-br from-[#e8a53a]/85 via-[#c47a1a]/75 to-[#8a4a10]/90" />
         <div className="relative page-container text-center">
-          <p className="text-gold-300 text-[11px] uppercase tracking-[0.2em] font-semibold mb-3">Our Leaders</p>
-          <h1 className="text-3xl md:text-4xl lg:text-5xl font-serif font-black mb-4 tracking-tight">Executive Committee</h1>
+          <h1 className="text-3xl md:text-4xl lg:text-5xl font-banner font-black mb-4 tracking-tight">Executive Committee</h1>
           <div className="ornament-line mb-5" />
           <p className="text-white/70 max-w-xl mx-auto leading-relaxed">22 dedicated members working together to serve the Brahmin community. Elected unanimously on 18 April 2025.</p>
         </div>
@@ -74,8 +73,8 @@ export default function Committee() {
                         </div>
                         <div className="flex-1 min-w-0">
                           <h3 className="font-serif font-bold text-gray-800 text-sm mb-0.5 truncate">{member.name}</h3>
-                          <p className={`text-xs font-semibold ${cat.textColor} mb-2`}>{member.designation}</p>
-                          <a href={`tel:${member.phone}`} className="inline-flex items-center gap-1.5 text-xs text-gray-500 hover:text-saffron-500 transition-colors">
+                          <p className={`text-sm font-semibold ${cat.textColor} mb-2`}>{member.designation}</p>
+                          <a href={`tel:${member.phone}`} className="inline-flex items-center gap-1.5 text-sm text-gray-500 hover:text-saffron-500 transition-colors">
                             <svg className="w-3 h-3" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z" />
                             </svg>
@@ -92,7 +91,7 @@ export default function Committee() {
 
           {/* Auditor */}
           <div className="card p-6 bg-cream-50 border-cream-300 max-w-md mx-auto text-center">
-            <p className="text-xs uppercase tracking-wider text-gray-400 mb-2">Our Auditor</p>
+            <p className="text-sm uppercase tracking-wider text-gray-400 mb-2">Our Auditor</p>
             <p className="font-serif font-bold text-gray-800">Ketharaju Subba Rao & Co.</p>
             <p className="text-sm text-gray-500">2/12, Brodipet, Guntur</p>
             <p className="text-sm text-gray-500">Rep. by Ketharaju Subhash — 7702700117</p>

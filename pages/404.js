@@ -7,12 +7,12 @@ export default function Custom404() {
         <div className="w-20 h-20 mx-auto rounded-2xl bg-gradient-to-br from-saffron-50 to-gold-50 border border-saffron-100 flex items-center justify-center text-4xl mb-6">
           🙏
         </div>
-        <p className="text-[11px] uppercase tracking-[0.2em] text-saffron-500 font-semibold mb-3">
-          Page Not Found
-        </p>
-        <h1 className="text-5xl md:text-6xl font-serif font-black text-gray-800 mb-3">
+        <h1 className="text-5xl md:text-6xl font-banner font-black text-gray-800 mb-3">
           404
         </h1>
+        <p className="text-sm text-saffron-500 font-semibold mb-3">
+          Page Not Found
+        </p>
         <div className="ornament-line mb-5" />
         <p className="text-gray-500 mb-8 max-w-md mx-auto leading-relaxed">
           The page you are looking for does not exist or has been moved.

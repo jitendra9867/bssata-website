@@ -12,13 +12,6 @@ const executiveMembers = [
   { designation: 'Treasurer', name: 'Sri Susarla Venkata Ramana', phone: '9290515564', initials: 'SR', gradient: 'from-yellow-500 to-orange-600' },
 ];
 
-const quickStats = [
-  { label: 'Established', value: '1994', icon: '🏛️', suffix: '' },
-  { label: 'Regd. Society', value: '48', suffix: '/97' },
-  { label: 'Life Members', value: '760', suffix: '+' },
-  { label: 'Welfare Schemes', value: '12', suffix: '+' },
-];
-
 const recentHighlights = [
   { year: '2026', event: 'Scholarships of ₹1,97,000 disbursed to 4 B.Tech students', category: 'Scholarships', icon: '🎓' },
   { year: '2026', event: 'Ugadi celebrated — clothes to 45 Vedic students, sarees to 50 poor ladies', category: 'Celebrations', icon: '🎉' },
@@ -80,7 +73,7 @@ function HeroSlider() {
       {/* Centered content over the banner */}
       <div className="absolute inset-0 flex items-center justify-center">
         <div key={current} className="text-center px-6 animate-fade-in-up">
-          <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-serif font-black text-white drop-shadow-[0_2px_12px_rgba(0,0,0,0.7)] leading-tight mb-3 md:mb-4">
+          <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-banner font-black text-white drop-shadow-[0_2px_12px_rgba(0,0,0,0.7)] leading-tight mb-3 md:mb-4">
             {sliderSlides[current].title}
           </h1>
           <p className="text-sm sm:text-base md:text-lg lg:text-xl text-cream-100/95 max-w-2xl mx-auto leading-relaxed drop-shadow-[0_1px_8px_rgba(0,0,0,0.7)] mb-5 md:mb-7">
@@ -131,27 +124,40 @@ function TestimonialsCarousel() {
   const visible = testimonials.slice(page * itemsPerPage, page * itemsPerPage + itemsPerPage);
 
   return (
-    <section className="relative py-[50px] text-white overflow-hidden">
-      <Image src="/images/om-background.png" alt="" fill className="object-cover" sizes="100vw" style={{ backgroundColor: '#1a0a00', opacity: 0.35 }} />
-      <div className="absolute inset-0 bg-gradient-to-b from-gray-900/90 via-gray-900/85 to-gray-900/90" />
+    <section className="relative py-[50px] overflow-hidden bg-cream-100">
+      <div className="absolute top-0 left-0 w-[420px] h-[420px] bg-gold-200/40 rounded-full blur-3xl" />
+      <div className="absolute bottom-0 right-0 w-[380px] h-[380px] bg-gold-100/60 rounded-full blur-3xl" />
 
       <div className="relative page-container">
         <div className="text-center mb-12">
-          <p className="text-gold-400 text-[11px] uppercase tracking-[0.2em] font-semibold mb-3">Voices of Our Community</p>
-          <h2 className="text-2xl md:text-3xl lg:text-4xl font-serif font-black mb-4">What People Say</h2>
+          <h2 className="text-2xl md:text-3xl lg:text-4xl font-serif font-black text-gray-800 mb-4">What People Say</h2>
           <div className="ornament-line" />
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-3 gap-5 lg:gap-6 mb-10">
           {visible.map((t, i) => (
-            <div key={`${page}-${i}`} className="bg-white/[0.06] backdrop-blur-sm rounded-2xl p-6 md:p-7 border border-white/[0.08] hover:bg-white/[0.1] transition-all duration-400 hover:-translate-y-1 flex flex-col group">
-              <div className="text-3xl text-gold-400/60 font-serif leading-none mb-3 group-hover:text-gold-400 transition-colors">&ldquo;</div>
-              <p className="text-white/80 text-sm leading-relaxed mb-5 font-serif italic flex-1">{t.quote}</p>
-              <div className="flex items-center gap-3 pt-4 border-t border-white/[0.08]">
-                <div className="w-9 h-9 rounded-full bg-white/10 flex items-center justify-center text-base flex-shrink-0">{t.icon}</div>
+            <div key={`${page}-${i}`} className="relative bg-white rounded-2xl p-6 md:p-7 border border-cream-200/70 shadow-[0_4px_18px_rgba(0,0,0,0.04)] hover:shadow-[0_16px_40px_rgba(195,74,44,0.12)] hover:border-saffron-200 transition-all duration-400 hover:-translate-y-1 flex flex-col group">
+              {/* Gold top accent */}
+              <div className="absolute top-0 left-1/2 -translate-x-1/2 w-16 h-0.5 bg-gradient-to-r from-transparent via-gold-400 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+
+              {/* Big decorative quote mark */}
+              <span className="absolute top-4 right-6 text-[64px] leading-none font-serif text-saffron-100 select-none pointer-events-none group-hover:text-saffron-200 transition-colors">&rdquo;</span>
+
+              <div className="flex items-center gap-1 mb-4">
+                {[...Array(5)].map((_, s) => (
+                  <svg key={s} className="w-4 h-4 text-gold-400" fill="currentColor" viewBox="0 0 20 20">
+                    <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.286 3.958a1 1 0 00.95.69h4.162c.969 0 1.371 1.24.588 1.81l-3.367 2.446a1 1 0 00-.363 1.118l1.286 3.958c.3.922-.755 1.688-1.539 1.118l-3.366-2.446a1 1 0 00-1.176 0l-3.367 2.446c-.783.57-1.838-.196-1.538-1.118l1.285-3.958a1 1 0 00-.363-1.118L2.063 9.385c-.783-.57-.38-1.81.588-1.81h4.163a1 1 0 00.95-.69l1.285-3.958z" />
+                  </svg>
+                ))}
+              </div>
+
+              <p className="text-gray-600 text-sm leading-relaxed mb-6 font-serif italic flex-1">{t.quote}</p>
+
+              <div className="flex items-center gap-3 pt-4 border-t border-cream-200/80">
+                <div className="w-11 h-11 rounded-full bg-gradient-to-br from-saffron-100 to-gold-100 ring-2 ring-white shadow-md flex items-center justify-center text-lg flex-shrink-0">{t.icon}</div>
                 <div className="min-w-0">
-                  <p className="font-semibold text-white text-sm truncate">{t.name}</p>
-                  <p className="text-[11px] text-gold-300/80 truncate">{t.role}</p>
+                  <p className="font-semibold text-gray-800 text-sm truncate">{t.name}</p>
+                  <p className="text-sm text-saffron-500 font-medium truncate">{t.role}</p>
                 </div>
               </div>
             </div>
@@ -159,15 +165,15 @@ function TestimonialsCarousel() {
         </div>
 
         <div className="flex items-center justify-center gap-3">
-          <button onClick={prevPage} className="w-9 h-9 rounded-full bg-white/10 text-white flex items-center justify-center hover:bg-white/20 transition-all border border-white/10" aria-label="Previous">
+          <button onClick={prevPage} className="w-9 h-9 rounded-full bg-white text-saffron-600 flex items-center justify-center hover:bg-saffron-50 transition-all border border-cream-200 shadow-sm" aria-label="Previous">
             <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" /></svg>
           </button>
           <div className="flex items-center gap-2">
             {Array.from({ length: totalPages }).map((_, i) => (
-              <button key={i} onClick={() => setPage(i)} className={`transition-all duration-300 rounded-full ${i === page ? 'w-6 h-1.5 bg-gold-400' : 'w-1.5 h-1.5 bg-white/30 hover:bg-white/50'}`} aria-label={`Page ${i + 1}`} />
+              <button key={i} onClick={() => setPage(i)} className={`transition-all duration-300 rounded-full ${i === page ? 'w-6 h-1.5 bg-saffron-500' : 'w-1.5 h-1.5 bg-cream-300 hover:bg-saffron-300'}`} aria-label={`Page ${i + 1}`} />
             ))}
           </div>
-          <button onClick={nextPage} className="w-9 h-9 rounded-full bg-white/10 text-white flex items-center justify-center hover:bg-white/20 transition-all border border-white/10" aria-label="Next">
+          <button onClick={nextPage} className="w-9 h-9 rounded-full bg-white text-saffron-600 flex items-center justify-center hover:bg-saffron-50 transition-all border border-cream-200 shadow-sm" aria-label="Next">
             <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" /></svg>
           </button>
         </div>
@@ -175,6 +181,14 @@ function TestimonialsCarousel() {
     </section>
   );
 }
+
+/* Rotating tint styles for Recent Highlights cards */
+const highlightStyles = [
+  { card: 'bg-saffron-50 border border-saffron-200/70', tile: 'from-saffron-500 to-saffron-600', tileShadow: 'shadow-saffron-500/30', accent: 'text-saffron-600' },
+  { card: 'bg-gold-50 border border-gold-200/70', tile: 'from-gold-400 to-amber-500', tileShadow: 'shadow-gold-400/30', accent: 'text-gold-600' },
+  { card: 'bg-cream-100/70 border border-cream-300/80', tile: 'from-maroon-500 to-saffron-600', tileShadow: 'shadow-maroon-500/30', accent: 'text-maroon-600' },
+  { card: 'bg-gold-100/50 border border-gold-200/80', tile: 'from-saffron-600 to-maroon-600', tileShadow: 'shadow-saffron-600/30', accent: 'text-saffron-700' },
+];
 
 /* ─── Main Page ─── */
 export default function Home() {
@@ -190,16 +204,15 @@ export default function Home() {
       <HeroSlider />
 
       {/* ─── About Us ─── */}
-      <section className="relative py-[50px] overflow-hidden">
-        <div className="absolute inset-0 bg-gradient-to-b from-cream-50 via-white to-cream-50/50" />
-        <div className="absolute top-0 left-0 w-[500px] h-[500px] bg-saffron-100/30 rounded-full blur-3xl" />
-        <div className="absolute bottom-0 right-0 w-[400px] h-[400px] bg-gold-100/30 rounded-full blur-3xl" />
+      <section className="relative py-[50px] overflow-hidden bg-gradient-to-b from-white via-cream-50 to-white">
+        <div className="absolute top-0 left-0 w-[460px] h-[460px] bg-gold-100/50 rounded-full blur-3xl" />
+        <div className="absolute bottom-0 right-0 w-[380px] h-[380px] bg-saffron-100/40 rounded-full blur-3xl" />
 
         <div className="relative page-container">
           {/* Header */}
-          <div className="text-center mb-14 md:mb-16">
+          <div className="text-center mb-12 md:mb-14">
             <h2 className="text-3xl md:text-4xl lg:text-[42px] font-serif font-black text-gray-800 mb-4 leading-tight">
-              About <span className="bg-gradient-to-r from-saffron-600 via-gold-500 to-saffron-600 bg-clip-text text-transparent">Brahmana Seva Samiti</span>
+              About <span className="bg-gradient-to-r from-gold-500 via-[#cd8901] to-gold-500 bg-clip-text text-transparent">Brahmana Seva Samiti</span>
             </h2>
             <p className="text-gray-500 text-sm max-w-xl mx-auto leading-relaxed">
               A legacy of service, devotion, and community upliftment — spanning over three decades.
@@ -207,135 +220,104 @@ export default function Home() {
             <div className="ornament-line mt-4" />
           </div>
 
-          {/* Main content grid */}
-          <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-10 items-start max-w-6xl mx-auto">
-
-            {/* Left column — Image + Stats (5 cols) */}
-            <div className="lg:col-span-5">
-              {/* Featured image */}
-              <div className="relative rounded-2xl overflow-hidden mb-6 group shadow-[0_8px_30px_rgba(195,74,44,0.1)]">
-                <Image
-                  src="/images/slider/ugadi-2026-2.jpg"
-                  alt="Brahmana Seva Samiti Community Service"
-                  width={600}
-                  height={400}
-                  className="w-full h-[280px] md:h-[340px] object-cover group-hover:scale-105 transition-transform duration-700"
-                />
-                <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent" />
-                <div className="absolute bottom-0 left-0 right-0 p-5">
-                  <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-white/90 backdrop-blur-sm mb-2">
-                    <span className="w-1.5 h-1.5 rounded-full bg-saffron-500" />
-                    <span className="text-saffron-700 text-[10px] uppercase tracking-wider font-bold">Community Service</span>
-                  </div>
-                  <h3 className="text-white font-serif font-bold text-lg drop-shadow-lg">Serving the Community Since 1994</h3>
-                </div>
-              </div>
-
-              {/* Stats grid */}
-              <div className="grid grid-cols-2 gap-3">
-                {quickStats.map((stat) => (
-                  <div key={stat.label} className="group bg-white rounded-2xl p-4 border border-cream-200/60 hover:border-saffron-200 transition-all duration-300 hover:shadow-[0_8px_24px_rgba(195,74,44,0.06)] hover:-translate-y-0.5 text-center">
-                    <div className="text-2xl mb-1.5 group-hover:scale-110 transition-transform duration-300">{stat.icon}</div>
-                    <div className="text-xl md:text-2xl font-bold text-saffron-600 font-serif leading-none">
-                      {stat.value}<span className="text-sm text-saffron-400">{stat.suffix}</span>
-                    </div>
-                    <div className="text-[10px] text-gray-400 mt-1.5 font-medium uppercase tracking-wider">{stat.label}</div>
-                  </div>
-                ))}
-              </div>
-            </div>
-
-            {/* Right column — Story + Mission (7 cols) */}
-            <div className="lg:col-span-7">
-              {/* Story card */}
-              <div className="relative bg-white rounded-2xl p-7 md:p-8 border border-cream-200/60 hover:shadow-[0_12px_40px_rgba(195,74,44,0.06)] transition-all duration-500 mb-6">
-                <div className="absolute top-0 left-0 w-full h-px bg-gradient-to-r from-transparent via-gold-400 to-transparent" />
-                <div className="flex items-center gap-3 mb-5">
-                  <div className="w-12 h-12 rounded-xl bg-gradient-to-br from-saffron-500 to-gold-500 flex items-center justify-center shadow-lg shadow-saffron-500/20">
-                    <span className="text-2xl">🙏</span>
-                  </div>
-                  <div>
-                    <h3 className="font-serif font-bold text-gray-800 text-lg">Our Story</h3>
-                    <p className="text-saffron-400 text-[11px] uppercase tracking-wider font-semibold">Since 1994 · Guntur, Andhra Pradesh</p>
-                  </div>
-                </div>
-                <p className="text-gray-600 text-[15px] leading-relaxed mb-4">
-                  <strong className="text-gray-800">Brahmana Seva Samiti (Regd. No. 48/97)</strong> was founded with a vision to serve the Brahmin community through cultural preservation, educational empowerment, and welfare initiatives. What began as a small community effort has grown into one of the most active Sanghams in Andhra Pradesh.
-                </p>
-                <p className="text-gray-500 text-sm leading-relaxed">
-                  Over three decades, we have touched thousands of lives — from distributing 2,000 Yagnopaveethams on Jandhyala Pournami to awarding scholarships to engineering students, from organizing grand Karthika Samaradhana celebrations to providing affordable legal aid. Our Arama Kshetram stands as a symbol of our commitment to the community.
-                </p>
-              </div>
-
-              {/* Mission pillars */}
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
-                {[
-                  { icon: '🎓', title: 'Education & Scholarships', desc: 'Financial support to meritorious students from economically weaker sections.', accent: 'from-saffron-500 to-saffron-600', bg: 'bg-saffron-50' },
-                  { icon: '🏛️', title: 'Cultural Preservation', desc: 'Jandhyala Pournami, Ugadi, and Karthika Samaradhana celebrations.', accent: 'from-gold-500 to-gold-600', bg: 'bg-gold-50' },
-                  { icon: '🏘️', title: 'Community Welfare', desc: 'Free Upanayanams, Yagnopaveetham distribution, and family support.', accent: 'from-maroon-500 to-saffron-600', bg: 'bg-saffron-50' },
-                  { icon: '⚖️', title: 'Legal Aid Cell', desc: 'Affordable legal advice and support for Brahmin families in need.', accent: 'from-gold-600 to-maroon-600', bg: 'bg-gold-50' },
-                ].map((item) => (
-                  <div key={item.title} className="group/item bg-white rounded-2xl p-4 border border-cream-200/60 hover:border-saffron-200 hover:shadow-[0_6px_20px_rgba(195,74,44,0.06)] transition-all duration-300 hover:-translate-y-0.5">
-                    <div className="flex items-start gap-3">
-                      <div className={`w-10 h-10 rounded-xl bg-gradient-to-br ${item.accent} flex items-center justify-center flex-shrink-0 shadow-md group-hover/item:scale-105 transition-transform duration-300`}>
-                        <span className="text-lg">{item.icon}</span>
-                      </div>
-                      <div className="min-w-0">
-                        <h4 className="font-semibold text-gray-800 text-sm mb-0.5">{item.title}</h4>
-                        <p className="text-xs text-gray-500 leading-relaxed">{item.desc}</p>
-                      </div>
-                    </div>
-                  </div>
-                ))}
-              </div>
-
-              {/* CTA */}
-              <div className="mt-6">
-                <Link href="/about" className="group/btn inline-flex items-center gap-2.5 px-6 py-3 bg-gradient-to-r from-saffron-600 to-gold-600 text-white font-semibold rounded-xl hover:from-saffron-500 hover:to-gold-500 transition-all duration-300 text-sm shadow-lg shadow-saffron-600/20 hover:shadow-saffron-500/30 hover:-translate-y-0.5">
+          {/* Story + Photo */}
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-10 lg:gap-14 items-center max-w-6xl mx-auto">
+            {/* Story */}
+            <div>
+              <p className="text-gray-700 text-base md:text-lg leading-relaxed mb-5">
+                <strong className="text-gray-900">Brahmana Seva Samiti</strong> was founded on the Telugu New Year of 1994 at A.T. Agraharam, Guntur, and registered as <strong className="text-gray-900">Society No. 48/1997</strong>.
+              </p>
+              <p className="text-gray-500 text-sm md:text-[15px] leading-relaxed mb-5">
+                What began as a small gathering of families has grown into one of the most active Sanghams in Andhra Pradesh — serving through free mass Upanayanams, Yagnopaveetham distribution, scholarships, legal aid, and the Arama Kshetram, with families connected as far as London.
+              </p>
+              <blockquote className="border-l-4 border-gold-400 pl-4 py-1 mb-7 text-sm text-gray-600 italic leading-relaxed">
+                &ldquo;To help the Brahmin community in their livelihood, continue their customs and cultural identity — standing away from politics.&rdquo;
+              </blockquote>
+              <div className="flex flex-wrap items-center gap-3">
+                <Link href="/about" className="group/btn inline-flex items-center gap-2.5 px-6 py-3 bg-gradient-to-r from-[#cd8901] to-[#b87701] text-white font-semibold rounded-xl hover:from-[#b87701] hover:to-[#a06c00] transition-all duration-300 text-sm shadow-lg shadow-gold-500/25 hover:-translate-y-0.5">
                   Learn More About Us
                   <svg className="w-4 h-4 group-hover/btn:translate-x-0.5 transition-transform duration-300" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 8l4 4m0 0l-4 4m4-4H3" /></svg>
                 </Link>
+                <Link href="/committee" className="inline-flex items-center px-6 py-3 border-2 border-gold-200 text-gold-700 font-semibold rounded-xl hover:bg-gold-50 hover:border-gold-300 transition-all duration-300 text-sm">
+                  Meet the Committee
+                </Link>
+              </div>
+            </div>
+
+            {/* Photo with golden frame */}
+            <div className="relative">
+              <div className="rounded-[28px] bg-gradient-to-br from-gold-300 via-gold-400 to-amber-600 p-[3px] shadow-[0_24px_60px_rgba(205,137,1,0.25)]">
+                <div className="relative rounded-[25px] overflow-hidden">
+                  <Image
+                    src="/images/slider/ugadi-2026-2.jpg"
+                    alt="Brahmana Seva Samiti Community Service"
+                    width={600}
+                    height={430}
+                    className="w-full h-[300px] md:h-[390px] object-cover"
+                  />
+                  <div className="absolute inset-0 bg-gradient-to-t from-black/65 via-transparent to-transparent" />
+                  <div className="absolute bottom-0 left-0 right-0 p-6">
+                    <h3 className="text-white font-serif font-bold text-lg drop-shadow-lg leading-snug">Serving the Community Since 1994</h3>
+                    <p className="text-white/75 text-sm mt-1">Registered Society · Regd No: 48/97, Guntur</p>
+                  </div>
+                </div>
+              </div>
+              {/* Floating badge */}
+              <div className="absolute -top-5 left-4 md:-left-6 bg-white rounded-2xl shadow-xl border border-cream-200/80 px-4 py-3 flex items-center gap-3">
+                <span className="text-2xl">🛕</span>
+                <div>
+                  <div className="font-serif font-bold text-[#cd8901] leading-none">30+ Years</div>
+                  <div className="text-sm uppercase tracking-wider text-gray-400 mt-1 font-semibold">of Seva</div>
+                </div>
               </div>
             </div>
           </div>
 
-          {/* ─── Impact Numbers ─── */}
-          <div className="mt-16 md:mt-20">
-            <div className="text-center mb-10">
-              <h3 className="text-2xl md:text-3xl font-serif font-black text-gray-800 mb-3">
-                Our Impact Over <span className="text-saffron-600">30 Years</span>
-              </h3>
-              <p className="text-gray-500 text-sm max-w-lg mx-auto">Numbers that reflect our commitment to community service and cultural preservation.</p>
-              <div className="ornament-line mt-4" />
-            </div>
-
-            <div className="grid grid-cols-2 md:grid-cols-4 gap-4 max-w-5xl mx-auto">
-              {[
-                { value: '30+', label: 'Years of Service', icon: '🕐', desc: 'Serving since 1994' },
-                { value: '760+', label: 'Life Members', icon: '👥', desc: 'Across Andhra Pradesh' },
-                { value: '₹30L+', label: 'Scholarships Awarded', icon: '🎓', desc: 'To meritorious students' },
-                { value: '3000+', label: 'Calendars Distributed', icon: '📅', desc: 'Sampradaya Calendar annually' },
-              ].map((item) => (
-                <div key={item.label} className="group relative bg-white rounded-2xl p-6 border border-cream-200/60 hover:border-saffron-200 transition-all duration-400 hover:-translate-y-1 text-center overflow-hidden hover:shadow-[0_12px_40px_rgba(195,74,44,0.08)]">
-                  <div className="absolute top-0 left-0 w-full h-px bg-gradient-to-r from-transparent via-gold-400 to-transparent" />
-                  <div className="text-3xl mb-3 group-hover:scale-110 transition-transform duration-300">{item.icon}</div>
-                  <div className="text-3xl md:text-4xl font-bold font-serif text-saffron-600 leading-none mb-1">{item.value}</div>
-                  <div className="text-sm font-semibold text-gray-800 mb-0.5">{item.label}</div>
-                  <div className="text-[11px] text-gray-400">{item.desc}</div>
-                </div>
-              ))}
-            </div>
+          {/* Elegant stats strip */}
+          <div className="mt-12 max-w-5xl mx-auto grid grid-cols-2 md:grid-cols-4 gap-px bg-cream-200/80 rounded-2xl overflow-hidden border border-cream-200/80 shadow-[0_10px_36px_rgba(205,137,1,0.08)]">
+            {[
+              { value: '1994', label: 'Established' },
+              { value: '48/97', label: 'Registered Society' },
+              { value: '760+', label: 'Life Members' },
+              { value: '12+', label: 'Welfare Activities' },
+            ].map((stat) => (
+              <div key={stat.label} className="bg-white py-5 px-3 text-center">
+                <div className="text-xl md:text-2xl font-bold font-serif text-[#cd8901] leading-none">{stat.value}</div>
+                <div className="text-sm md:text-sm text-gray-400 mt-1.5 font-medium uppercase tracking-wider">{stat.label}</div>
+              </div>
+            ))}
           </div>
 
+          {/* ─── Mission Pillars — with counts ─── */}
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5 max-w-6xl mx-auto mt-12">
+            {[
+              { icon: '🎓', title: 'Education & Scholarships', desc: 'Sri Vidyanidhi financial support for meritorious B.Tech students from weaker sections.', href: '/schemes#scholarships', bg: 'bg-saffron-50', border: 'border-saffron-200/70', accent: 'from-saffron-500 to-saffron-600', count: '₹30L+', countLabel: 'Awarded' },
+              { icon: '🏛️', title: 'Cultural Preservation', desc: 'Jandhyala Pournami, Ugadi Panchanga Sravanam and Karthika Samaradhana celebrations.', href: '/programs', bg: 'bg-gold-50', border: 'border-gold-200/70', accent: 'from-gold-400 to-amber-500', count: '3000+', countLabel: 'Calendars / Year' },
+              { icon: '🏘️', title: 'Community Welfare', desc: 'Free mass Upanayanams, Yagnopaveetham distribution and family support services.', href: '/about#welfare', bg: 'bg-cream-100/70', border: 'border-cream-300/80', accent: 'from-maroon-500 to-saffron-600', count: '2000+', countLabel: 'Yagnopaveethams' },
+              { icon: '⚖️', title: 'Legal Aid Cell', desc: 'Affordable legal advice by a Retd. Judge and senior advocates for families in need.', href: '/about#welfare', bg: 'bg-gold-100/50', border: 'border-gold-200/80', accent: 'from-gold-600 to-maroon-600', count: '2', countLabel: 'Expert Advisors' },
+            ].map((item) => (
+              <Link key={item.title} href={item.href} className={`group ${item.bg} ${item.border} border rounded-2xl p-5 flex flex-col transition-all duration-300 hover:-translate-y-1 hover:shadow-[0_16px_40px_rgba(195,74,44,0.12)]`}>
+                <div className={`w-12 h-12 rounded-2xl bg-gradient-to-br ${item.accent} shadow-md flex items-center justify-center mb-4 group-hover:scale-110 group-hover:-rotate-3 transition-transform duration-300`}>
+                  <span className="text-xl">{item.icon}</span>
+                </div>
+                <h4 className="font-serif font-bold text-gray-800 text-[15px] mb-1.5">{item.title}</h4>
+                <p className="text-sm text-gray-500 leading-relaxed flex-1">{item.desc}</p>
+                <div className="flex items-baseline gap-1.5 mt-4 pt-3 border-t border-black/5">
+                  <span className={`text-xl font-bold font-serif ${item.accent.includes('gold-400') ? 'text-gold-600' : 'text-saffron-600'}`}>{item.count}</span>
+                  <span className="text-sm uppercase tracking-wider text-gray-400 font-semibold">{item.countLabel}</span>
+                </div>
+              </Link>
+            ))}
+          </div>
         </div>
       </section>
 
       {/* ─── Executive Committee ─── */}
       <section className="relative py-[50px] overflow-hidden">
-        <Image src="/images/om-background.png" alt="" fill className="object-cover" sizes="100vw" style={{ backgroundColor: '#1a0a00', opacity: 0.4 }} />
-        <div className="absolute inset-0 bg-gradient-to-br from-[#3a0f04] via-[#6E1D00] to-[#24100b]" />
-        <div className="absolute top-0 right-0 w-96 h-96 bg-gold-400/15 rounded-full blur-3xl" />
-        <div className="absolute bottom-0 left-0 w-80 h-80 bg-orange-500/10 rounded-full blur-3xl" />
+        <Image src="/images/om-background.png" alt="" fill className="object-cover" sizes="100vw" style={{ backgroundColor: '#1a0a00' }} />
+        <div className="absolute inset-0 bg-gradient-to-br from-[#e8a53a]/80 via-[#c47a1a]/70 to-[#8a4a10]/85" />
+        <div className="absolute top-0 right-0 w-96 h-96 bg-gold-300/20 rounded-full blur-3xl" />
+        <div className="absolute bottom-0 left-0 w-80 h-80 bg-amber-400/15 rounded-full blur-3xl" />
 
         <div className="relative page-container">
           <div className="text-center mb-12">
@@ -345,34 +327,37 @@ export default function Home() {
 
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5 lg:gap-6 max-w-5xl mx-auto">
             {executiveMembers.map((m) => (
-              <div key={m.designation} className="group relative bg-white/[0.07] backdrop-blur-md rounded-2xl px-6 py-7 border border-gold-400/15 text-center transition-all duration-400 hover:-translate-y-1.5 hover:bg-white/[0.11] hover:border-gold-400/40 hover:shadow-[0_20px_50px_rgba(0,0,0,0.35)]">
-                <div className="absolute top-0 left-1/2 -translate-x-1/2 w-20 h-0.5 bg-gradient-to-r from-transparent via-gold-400 to-transparent" />
+              <div key={m.designation} className="group relative bg-[#241300]/80 backdrop-blur-md rounded-2xl border border-gold-400/30 overflow-hidden transition-all duration-400 hover:-translate-y-1.5 hover:bg-[#1a0d00]/90 hover:border-gold-400/60 hover:shadow-[0_20px_50px_rgba(0,0,0,0.45)]">
+                {/* Left gold edge */}
+                <div className="absolute left-0 top-0 bottom-0 w-1 bg-gradient-to-b from-gold-400 via-amber-500 to-gold-400 opacity-70 group-hover:opacity-100 transition-opacity duration-300" />
 
-                {/* Avatar with golden ring */}
-                <div className="relative w-20 h-20 mx-auto mb-4">
-                  <div className="absolute inset-0 rounded-full bg-gradient-to-br from-yellow-300 via-gold-400 to-amber-600 p-[2.5px] shadow-[0_6px_20px_rgba(218,165,32,0.35)] group-hover:scale-105 transition-transform duration-300">
-                    <div className={`w-full h-full rounded-full bg-gradient-to-br ${m.gradient} flex items-center justify-center`}>
-                      <span className="text-xl font-serif font-black text-white drop-shadow">{m.initials}</span>
+                <div className="flex items-center gap-4 p-5 pl-6">
+                  {/* Compact avatar with golden ring */}
+                  <div className="relative w-14 h-14 flex-shrink-0">
+                    <div className="absolute inset-0 rounded-full bg-gradient-to-br from-yellow-300 via-gold-400 to-amber-600 p-[2.5px] shadow-[0_6px_20px_rgba(218,165,32,0.35)] group-hover:scale-105 transition-transform duration-300">
+                      <div className={`w-full h-full rounded-full bg-gradient-to-br ${m.gradient} flex items-center justify-center`}>
+                        <span className="text-base font-serif font-black text-white drop-shadow">{m.initials}</span>
+                      </div>
                     </div>
                   </div>
+
+                  <div className="min-w-0 flex-1">
+                    {/* Designation */}
+                    <p className="text-sm font-extrabold uppercase tracking-[0.16em] text-gold-300 mb-1">
+                      {m.designation}
+                    </p>
+                    {/* Name */}
+                    <h3 className="text-sm md:text-[15px] font-serif font-bold text-white leading-snug mb-2.5">{m.name}</h3>
+                    {/* Phone pill */}
+                    <a
+                      href={`tel:${m.phone}`}
+                      className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-white/15 text-sm font-semibold text-white hover:bg-gold-400 hover:text-[#3a0f04] transition-all duration-300"
+                    >
+                      <svg className="w-3 h-3" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z" /></svg>
+                      {m.phone}
+                    </a>
+                  </div>
                 </div>
-
-                {/* Designation */}
-                <div className="inline-block px-3.5 py-1 mb-3 text-[10px] font-bold uppercase tracking-[0.14em] text-gold-300 bg-gold-400/15 rounded-full border border-gold-400/25">
-                  {m.designation}
-                </div>
-
-                {/* Name */}
-                <h3 className="text-[15px] md:text-base font-serif font-bold text-white leading-snug mb-4">{m.name}</h3>
-
-                {/* Phone pill */}
-                <a
-                  href={`tel:${m.phone}`}
-                  className="inline-flex items-center gap-1.5 px-4 py-1.5 rounded-full bg-white/10 text-xs font-semibold text-cream-100 hover:bg-gold-400 hover:text-[#3a0f04] hover:-translate-y-0.5 transition-all duration-300"
-                >
-                  <svg className="w-3 h-3" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z" /></svg>
-                  {m.phone}
-                </a>
               </div>
             ))}
           </div>
@@ -393,30 +378,34 @@ export default function Home() {
 
         <div className="relative page-container">
           <div className="text-center mb-12">
-            <p className="text-saffron-500 text-[11px] uppercase tracking-[0.2em] font-semibold mb-3">Milestones</p>
             <h2 className="text-2xl md:text-3xl lg:text-4xl font-serif font-black text-gray-800 mb-3">Recent Highlights</h2>
             <div className="ornament-line" />
           </div>
 
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5 max-w-6xl mx-auto">
-            {recentHighlights.map((item, idx) => (
-              <div key={idx} className="group relative bg-white rounded-2xl p-6 border border-cream-200/70 overflow-hidden transition-all duration-400 hover:-translate-y-1.5 hover:border-gold-300 hover:shadow-[0_20px_50px_rgba(195,74,44,0.14)]">
-                {/* Gold top accent */}
-                <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-gold-400 via-saffron-400 to-gold-400 opacity-70 group-hover:opacity-100 transition-opacity duration-300" />
-
-                <div className="flex items-start justify-between mb-4">
-                  <div className="w-12 h-12 rounded-xl bg-gradient-to-br from-saffron-50 to-gold-50 border border-saffron-100 flex items-center justify-center text-2xl group-hover:scale-110 group-hover:rotate-3 transition-transform duration-300">
+            {recentHighlights.map((item, idx) => {
+              const s = highlightStyles[idx % highlightStyles.length];
+              return (
+                <div key={idx} className={`group relative ${s.card} rounded-2xl p-6 overflow-hidden transition-all duration-400 hover:-translate-y-1.5 hover:shadow-[0_20px_50px_rgba(195,74,44,0.16)]`}>
+                  {/* Watermark icon */}
+                  <span className="absolute -bottom-4 -right-2 text-[76px] leading-none opacity-10 select-none pointer-events-none group-hover:scale-110 transition-transform duration-500">
                     {item.icon}
-                  </div>
-                  <span className="text-[11px] font-bold text-saffron-600 bg-saffron-50 border border-saffron-200/70 px-2.5 py-1 rounded-full whitespace-nowrap">
-                    {item.year}
                   </span>
-                </div>
 
-                <span className="block text-[10px] font-bold uppercase tracking-[0.14em] text-gray-400 mb-2">{item.category}</span>
-                <p className="text-sm text-gray-700 leading-relaxed font-medium">{item.event}</p>
-              </div>
-            ))}
+                  <div className="relative flex items-start justify-between mb-5">
+                    <div className={`w-14 h-14 rounded-2xl bg-gradient-to-br ${s.tile} ${s.tileShadow} shadow-lg ring-4 ring-white/70 flex items-center justify-center group-hover:scale-110 group-hover:-rotate-3 transition-transform duration-300`}>
+                      <span className="text-2xl drop-shadow-sm">{item.icon}</span>
+                    </div>
+                    <span className="text-sm font-bold text-white bg-gray-800/70 backdrop-blur-sm px-2.5 py-1 rounded-full whitespace-nowrap">
+                      {item.year}
+                    </span>
+                  </div>
+
+                  <span className={`relative block text-sm font-extrabold uppercase tracking-[0.16em] ${s.accent} mb-1.5`}>{item.category}</span>
+                  <p className="relative text-sm text-gray-700 leading-relaxed font-medium">{item.event}</p>
+                </div>
+              );
+            })}
           </div>
 
           <div className="text-center mt-10">
@@ -430,29 +419,33 @@ export default function Home() {
 
       <TestimonialsCarousel />
 
-      {/* ─── Join CTA ─── */}
-      <section className="relative py-[50px] text-white overflow-hidden">
-        <Image src="/images/om-background.png" alt="" fill className="object-cover" sizes="100vw" style={{ backgroundColor: '#1a0a00', opacity: 0.25 }} />
-        <div className="absolute inset-0 bg-gradient-to-br from-saffron-700/90 via-saffron-800/85 to-gray-900/90" />
+      {/* ─── Join CTA — deep gold gradient, text left / buttons right ─── */}
+      <section className="relative py-10 md:py-12 overflow-hidden text-white bg-gradient-to-br from-[#8a5f00] via-[#cd8901] to-[#8a5f00]">
+        <div
+          className="absolute inset-0 pointer-events-none opacity-[0.07]"
+          style={{ backgroundImage: 'radial-gradient(circle at 1px 1px, #ffffff 1px, transparent 0)', backgroundSize: '28px 28px' }}
+        />
+        <div className="absolute -top-24 left-1/2 -translate-x-1/2 w-[640px] h-48 rounded-full bg-white/10 blur-3xl pointer-events-none" />
 
         <div className="relative page-container">
-          <div className="max-w-3xl mx-auto text-center">
-            <p className="text-gold-300 text-[11px] uppercase tracking-[0.2em] font-semibold mb-3">Join Our Mission</p>
-            <h2 className="text-2xl md:text-3xl lg:text-4xl font-serif font-black mb-4">Be Part of Our Legacy</h2>
-            <div className="ornament-line mb-6" />
-            <p className="text-white/70 mb-8 max-w-xl mx-auto leading-relaxed">
-              Become a life member and join our mission to serve the community and preserve our rich cultural heritage.
-              Life membership is open with a contribution of <strong className="text-gold-300">₹10,000 and above</strong>.
-            </p>
-            <div className="flex flex-col sm:flex-row items-center justify-center gap-3">
-              <Link href="/members" className="w-full sm:w-auto px-7 py-3 bg-white text-saffron-700 font-semibold rounded-xl hover:bg-cream-100 transition-all duration-300 shadow-xl text-center text-sm hover:-translate-y-0.5">
+          <div className="flex flex-col lg:flex-row items-start lg:items-center justify-between gap-6">
+            {/* Left — heading + text */}
+            <div className="max-w-xl">
+              <h2 className="text-2xl md:text-3xl font-serif font-black mb-2.5">Be Part of Our Legacy</h2>
+              <p className="text-cream-100/75 leading-relaxed text-sm">
+                Become a life member and join our mission to serve the community and preserve our rich cultural heritage.
+                Life membership is open with a contribution of <strong className="text-gold-300">₹10,000 and above</strong>.
+              </p>
+            </div>
+
+            {/* Right — action buttons */}
+            <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-3 flex-shrink-0">
+              <Link href="/members" className="inline-flex items-center justify-center gap-2 px-6 py-3 bg-white text-[#8a5f00] font-bold rounded-xl hover:bg-cream-100 transition-all duration-300 shadow-lg text-sm hover:-translate-y-0.5">
                 View Life Members
+                <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M17 8l4 4m0 0l-4 4m4-4H3" /></svg>
               </Link>
-              <Link href="/contact" className="w-full sm:w-auto px-7 py-3 border-2 border-white/20 text-white font-semibold rounded-xl hover:bg-white/10 transition-all duration-300 text-center text-sm">
+              <Link href="/contact" className="inline-flex items-center justify-center px-6 py-3 border-2 border-white/40 text-white font-semibold rounded-xl hover:bg-white/10 hover:border-white/70 transition-all duration-300 text-sm text-center">
                 Bank Details & Donations
-              </Link>
-              <Link href="/gallery" className="w-full sm:w-auto px-7 py-3 border border-white/10 text-white/70 font-medium rounded-xl hover:bg-white/5 hover:text-white transition-all duration-300 text-center text-sm">
-                Photo Gallery
               </Link>
             </div>
           </div>

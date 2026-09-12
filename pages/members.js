@@ -145,10 +145,9 @@ export default function Members() {
       {/* Hero */}
       <section className="relative text-white py-12 md:py-16 overflow-hidden">
         <Image src="/images/om-background.png" alt="" fill className="object-cover" sizes="100vw" style={{ backgroundColor: '#1a0a00', opacity: 0.25 }} />
-        <div className="absolute inset-0 bg-gradient-to-br from-saffron-700/90 via-saffron-800/85 to-gray-900/90" />
+        <div className="absolute inset-0 bg-gradient-to-br from-[#e8a53a]/85 via-[#c47a1a]/75 to-[#8a4a10]/90" />
         <div className="relative page-container text-center">
-          <p className="text-gold-300 text-[11px] uppercase tracking-[0.2em] font-semibold mb-3">Our Community</p>
-          <h1 className="text-3xl md:text-4xl lg:text-5xl font-serif font-black mb-4 tracking-tight">Life Members Directory</h1>
+          <h1 className="text-3xl md:text-4xl lg:text-5xl font-banner font-black mb-4 tracking-tight">Life Members Directory</h1>
           <p className="text-white/70 max-w-xl mx-auto leading-relaxed">
             Browse our growing family of <strong className="text-gold-300">{members.length}+</strong> life members united by tradition, service, and community spirit.
           </p>
@@ -205,7 +204,7 @@ export default function Members() {
                 <button
                   key={gotram}
                   onClick={() => setGotramFilter(gotramFilter === gotram ? 'all' : gotram)}
-                  className={`px-3.5 py-1.5 rounded-full text-xs font-medium transition-all duration-200 ${
+                  className={`px-3.5 py-1.5 rounded-full text-sm font-medium transition-all duration-200 ${
                     gotramFilter === gotram
                       ? 'bg-saffron-500 text-white shadow-md shadow-saffron-300/40'
                       : 'bg-white text-gray-600 hover:bg-cream-100 border border-cream-300 hover:border-saffron-300'
@@ -223,23 +222,23 @@ export default function Members() {
               <table className="w-full text-sm">
                 <thead>
                   <tr className="bg-gradient-to-r from-saffron-600 via-saffron-500 to-maroon-500 text-white">
-                    <th className="px-5 py-4 text-left font-semibold text-xs uppercase tracking-wider">
+                    <th className="px-5 py-4 text-left font-semibold text-sm uppercase tracking-wider">
                       <button onClick={() => handleSort('r_no')} className="flex items-center gap-0.5 hover:text-gold-200 transition-colors">
                         R. No <SortIcon field="r_no" />
                       </button>
                     </th>
-                    <th className="px-5 py-4 text-left font-semibold text-xs uppercase tracking-wider">
+                    <th className="px-5 py-4 text-left font-semibold text-sm uppercase tracking-wider">
                       <button onClick={() => handleSort('fullname')} className="flex items-center gap-0.5 hover:text-gold-200 transition-colors">
                         Full Name <SortIcon field="fullname" />
                       </button>
                     </th>
-                    <th className="px-5 py-4 text-left font-semibold text-xs uppercase tracking-wider">
+                    <th className="px-5 py-4 text-left font-semibold text-sm uppercase tracking-wider">
                       <button onClick={() => handleSort('gotram')} className="flex items-center gap-0.5 hover:text-gold-200 transition-colors">
                         Gotram <SortIcon field="gotram" />
                       </button>
                     </th>
-                    <th className="px-5 py-4 text-left font-semibold text-xs uppercase tracking-wider hidden lg:table-cell">Address</th>
-                    <th className="px-5 py-4 text-left font-semibold text-xs uppercase tracking-wider">Phone</th>
+                    <th className="px-5 py-4 text-left font-semibold text-sm uppercase tracking-wider hidden lg:table-cell">Address</th>
+                    <th className="px-5 py-4 text-left font-semibold text-sm uppercase tracking-wider">Phone</th>
                   </tr>
                 </thead>
                 <tbody className="divide-y divide-cream-200">
@@ -266,7 +265,7 @@ export default function Members() {
                           </td>
                           <td className="px-5 py-3.5">
                             {hasInvalidName ? (
-                              <span className="inline-flex items-center gap-1.5 text-gray-400 italic text-xs">
+                              <span className="inline-flex items-center gap-1.5 text-gray-400 italic text-sm">
                                 <svg className="w-3.5 h-3.5 text-amber-400 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
                                   <path fillRule="evenodd" d="M8.257 3.099c.765-1.36 2.722-1.36 3.486 0l5.58 9.92c.75 1.334-.213 2.98-1.742 2.98H4.42c-1.53 0-2.493-1.646-1.743-2.98l5.58-9.92zM11 13a1 1 0 11-2 0 1 1 0 012 0zm-1-8a1 1 0 00-1 1v3a1 1 0 002 0V6a1 1 0 00-1-1z" clipRule="evenodd" />
                                 </svg>
@@ -277,7 +276,7 @@ export default function Members() {
                             )}
                           </td>
                           <td className="px-5 py-3.5">
-                            <span className="inline-block px-2.5 py-1 text-[11px] font-bold rounded-full bg-saffron-50 text-saffron-600 border border-saffron-200/80 uppercase tracking-wide">
+                            <span className="inline-block px-2.5 py-1 text-sm font-bold rounded-full bg-saffron-50 text-saffron-600 border border-saffron-200/80 uppercase tracking-wide">
                               {member.gotram}
                             </span>
                           </td>
@@ -293,7 +292,7 @@ export default function Members() {
                                 {member.phone_no}
                               </a>
                             ) : (
-                              <span className="text-xs text-gray-300">—</span>
+                              <span className="text-sm text-gray-300">—</span>
                             )}
                           </td>
                         </tr>

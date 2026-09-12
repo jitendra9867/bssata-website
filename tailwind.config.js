@@ -53,8 +53,9 @@ module.exports = {
         },
       },
       fontFamily: {
-        sans: ['Inter', 'system-ui', '-apple-system', 'sans-serif'],
-        serif: ['Raleway', 'Inter', 'system-ui', 'sans-serif'],
+        sans: ['"DM Sans"', 'system-ui', '-apple-system', 'sans-serif'],
+        serif: ['"Playfair Display"', 'Georgia', 'serif'],
+        banner: ['Cinzel', '"Playfair Display"', 'serif'],
       },
       animation: {
         'marquee': 'marquee 25s linear infinite',

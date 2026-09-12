@@ -12,10 +12,9 @@ export default function Contact() {
 
       <section className="relative text-white py-12 md:py-16 overflow-hidden">
         <Image src="/images/om-background.png" alt="" fill className="object-cover" sizes="100vw" style={{ backgroundColor: '#1a0a00', opacity: 0.25 }} />
-        <div className="absolute inset-0 bg-gradient-to-br from-saffron-700/90 via-saffron-800/85 to-gray-900/90" />
+        <div className="absolute inset-0 bg-gradient-to-br from-[#e8a53a]/85 via-[#c47a1a]/75 to-[#8a4a10]/90" />
         <div className="relative page-container text-center">
-          <p className="text-gold-300 text-[11px] uppercase tracking-[0.2em] font-semibold mb-3">Get In Touch</p>
-          <h1 className="text-3xl md:text-4xl lg:text-5xl font-serif font-black mb-4 tracking-tight">Contact & Donations</h1>
+          <h1 className="text-3xl md:text-4xl lg:text-5xl font-banner font-black mb-4 tracking-tight">Contact & Donations</h1>
           <div className="ornament-line mb-5" />
           <p className="text-white/70 max-w-xl mx-auto leading-relaxed">
             Your generous contributions help us serve the community better. All donations are eligible for tax exemption under Section 12A.
@@ -37,7 +36,7 @@ export default function Contact() {
 
                 {/* Account 1 */}
                 <div className="p-4 bg-cream-50 rounded-lg border border-cream-200 mb-4">
-                  <p className="text-xs font-bold text-saffron-500 uppercase tracking-wider mb-2">Union Bank of India</p>
+                  <p className="text-sm font-bold text-saffron-500 uppercase tracking-wider mb-2">Union Bank of India</p>
                   <div className="space-y-1 text-sm text-gray-700">
                     <p><span className="text-gray-500">A/C No:</span> <strong>156910100019148</strong></p>
                     <p><span className="text-gray-500">IFSC:</span> <strong>UBIN0815691</strong></p>
@@ -47,7 +46,7 @@ export default function Contact() {
 
                 {/* Account 2 */}
                 <div className="p-4 bg-cream-50 rounded-lg border border-cream-200">
-                  <p className="text-xs font-bold text-saffron-500 uppercase tracking-wider mb-2">State Bank of India</p>
+                  <p className="text-sm font-bold text-saffron-500 uppercase tracking-wider mb-2">State Bank of India</p>
                   <div className="space-y-1 text-sm text-gray-700">
                     <p><span className="text-gray-500">A/C No:</span> <strong>52112775646</strong></p>
                     <p><span className="text-gray-500">IFSC:</span> <strong>SBIN0020715</strong></p>
@@ -55,7 +54,7 @@ export default function Contact() {
                   </div>
                 </div>
 
-                <p className="text-xs text-gray-400 mt-4 text-center">
+                <p className="text-sm text-gray-400 mt-4 text-center">
                   Account Name: BRAHMANA SEVA SANGHAM, A.T. Agraharam, Guntur
                 </p>
               </div>
@@ -106,7 +105,7 @@ export default function Contact() {
                         Guntur – Chilakaluripet Highway,<br />
                         Guntur – 522 004
                       </p>
-                      <p className="text-xs text-saffron-500 mt-1">ℹ️ Office shifted here from Aug 2025</p>
+                      <p className="text-sm text-saffron-500 mt-1">ℹ️ Office shifted here from Aug 2025</p>
                     </div>
                   </div>
 
@@ -134,14 +133,14 @@ export default function Contact() {
 
               {/* Secretary Contact */}
               <div className="card p-6 bg-cream-50 border-cream-300">
-                <p className="text-xs uppercase tracking-wider text-gray-400 mb-3">Secretary</p>
+                <p className="text-sm uppercase tracking-wider text-gray-400 mb-3">Secretary</p>
                 <p className="font-serif font-bold text-gray-800">Sri Pamidighantam Venkata Satyanarayana</p>
                 <a href="tel:7893961234" className="text-sm text-saffron-500 hover:text-saffron-600">📞 78939 61234</a>
               </div>
 
               {/* Auditor */}
               <div className="card p-6 bg-cream-50 border-cream-300">
-                <p className="text-xs uppercase tracking-wider text-gray-400 mb-3">Auditor</p>
+                <p className="text-sm uppercase tracking-wider text-gray-400 mb-3">Auditor</p>
                 <p className="font-serif font-bold text-gray-800">Ketharaju Subba Rao & Co.</p>
                 <p className="text-sm text-gray-600">2/12, Brodipet, Guntur</p>
                 <p className="text-sm text-gray-500">Rep. by Ketharaju Subhash — 7702700117</p>

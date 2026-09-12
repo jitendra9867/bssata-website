@@ -139,12 +139,11 @@ export default function Schemes() {
       {/* Page Hero */}
       <section className="relative text-white py-12 md:py-16 overflow-hidden">
         <Image src="/images/om-background.png" alt="" fill className="object-cover" sizes="100vw" style={{ backgroundColor: '#1a0a00', opacity: 0.25 }} />
-        <div className="absolute inset-0 bg-gradient-to-br from-saffron-700/90 via-saffron-800/85 to-gray-900/90" />
+        <div className="absolute inset-0 bg-gradient-to-br from-[#e8a53a]/85 via-[#c47a1a]/75 to-[#8a4a10]/90" />
         <div className="relative page-container text-center">
-          <p className="text-gold-300 text-[11px] uppercase tracking-[0.2em] font-semibold mb-3">Our Initiatives</p>
-          <h1 className="text-3xl md:text-4xl lg:text-5xl font-serif font-black mb-4 tracking-tight">Welfare Schemes</h1>
+          <h1 className="text-3xl md:text-4xl lg:text-5xl font-banner font-black mb-4 tracking-tight">Welfare Schemes</h1>
           <div className="ornament-line mb-5" />
-          <p className="text-white/70 max-w-2xl mx-auto text-base md:text-lg leading-relaxed">
+          <p className="text-white/85 max-w-2xl mx-auto text-base md:text-lg leading-relaxed">
             A comprehensive suite of welfare schemes and cultural programs designed to serve every member of our community.
           </p>
         </div>
@@ -172,14 +171,14 @@ export default function Schemes() {
               <div key={scheme.id} className="bg-white rounded-2xl p-6 shadow-lg border border-cream-200/60 hover:shadow-xl hover:-translate-y-1 transition-all duration-300 group">
                 <div className="flex items-start justify-between mb-4">
                   <span className="text-4xl group-hover:scale-110 transition-transform duration-300">{scheme.icon}</span>
-                  <span className="px-2 py-1 rounded-full bg-saffron-50 text-saffron-600 text-[10px] font-bold uppercase tracking-wider">
+                  <span className="px-2 py-1 rounded-full bg-saffron-50 text-saffron-600 text-sm font-bold uppercase tracking-wider">
                     {scheme.category}
                   </span>
                 </div>
                 <h3 className="text-lg font-serif font-bold text-gray-800 mb-2 group-hover:text-saffron-600 transition-colors">{scheme.title}</h3>
                 <p className="text-sm text-gray-600 leading-relaxed mb-4">{scheme.description}</p>
                 <div className="flex items-center justify-between">
-                  <span className="inline-flex items-center gap-1.5 text-xs font-semibold text-green-600 bg-green-50 px-2.5 py-1 rounded-full">
+                  <span className="inline-flex items-center gap-1.5 text-sm font-semibold text-green-600 bg-green-50 px-2.5 py-1 rounded-full">
                     <span className="w-1.5 h-1.5 rounded-full bg-green-500" />
                     {scheme.status}
                   </span>

@@ -65,11 +65,11 @@ function EventList({ events }) {
     <div className="space-y-3">
       {events.map((e, i) => (
         <div key={i} className="flex items-start gap-3 p-3.5 rounded-xl bg-cream-50 border border-cream-200/70">
-          <span className="text-[11px] font-bold text-saffron-600 bg-white border border-saffron-200 px-2.5 py-1 rounded-full flex-shrink-0 whitespace-nowrap">
+          <span className="text-sm font-bold text-saffron-600 bg-white border border-saffron-200 px-2.5 py-1 rounded-full flex-shrink-0 whitespace-nowrap">
             {e.year}
           </span>
           <div className="min-w-0">
-            {e.date && <span className="text-xs text-gray-400 font-medium mr-1.5">{e.date} —</span>}
+            {e.date && <span className="text-sm text-gray-400 font-medium mr-1.5">{e.date} —</span>}
             <span className="text-sm text-gray-600 leading-relaxed">{e.detail}</span>
           </div>
         </div>
@@ -92,12 +92,11 @@ export default function Programs() {
       {/* Page Hero */}
       <section className="relative text-white py-12 md:py-16 overflow-hidden">
         <Image src="/images/om-background.png" alt="" fill className="object-cover" sizes="100vw" style={{ backgroundColor: '#1a0a00', opacity: 0.25 }} />
-        <div className="absolute inset-0 bg-gradient-to-br from-saffron-700/90 via-saffron-800/85 to-gray-900/90" />
+        <div className="absolute inset-0 bg-gradient-to-br from-[#e8a53a]/85 via-[#c47a1a]/75 to-[#8a4a10]/90" />
         <div className="relative page-container text-center">
-          <p className="text-gold-300 text-[11px] uppercase tracking-[0.2em] font-semibold mb-3">Year-Round Service</p>
-          <h1 className="text-3xl md:text-4xl lg:text-5xl font-serif font-black mb-4 tracking-tight">Annual Programs & Events</h1>
+          <h1 className="text-3xl md:text-4xl lg:text-5xl font-banner font-black mb-4 tracking-tight">Annual Programs & Events</h1>
           <div className="ornament-line mb-5" />
-          <p className="text-white/70 max-w-2xl mx-auto text-base md:text-lg leading-relaxed">
+          <p className="text-white/85 max-w-2xl mx-auto text-base md:text-lg leading-relaxed">
             Ten flagship programs conducted every year for the community — religious ceremonies,
             education support, welfare services and community infrastructure.
           </p>
@@ -135,7 +134,7 @@ export default function Programs() {
                 thread ceremony conducted at no cost to families, followed by community dining.
               </p>
               <div className="p-3.5 rounded-xl bg-saffron-50 border border-saffron-200/60">
-                <p className="text-xs text-saffron-700 leading-relaxed">
+                <p className="text-sm text-saffron-700 leading-relaxed">
                   <strong>Regular venue:</strong> Santoshimata Temple, Syamala Nagar, Guntur.
                   Families interested in enrolling a Vatuvu can contact the Secretary.
                 </p>
@@ -164,7 +163,7 @@ export default function Programs() {
                 distribution of new clothes to Vedic students and sarees to poor ladies of the community.
               </p>
               <div className="p-3.5 rounded-xl bg-white border border-cream-200">
-                <p className="text-xs text-gray-600 leading-relaxed">
+                <p className="text-sm text-gray-600 leading-relaxed">
                   <strong>Held every year</strong> on Ugadi day at local temples — all community members are welcome.
                 </p>
               </div>
@@ -192,7 +191,7 @@ export default function Programs() {
                 activities are reviewed and the executive committee is elected.
               </p>
               <div className="p-3.5 rounded-xl bg-saffron-50 border border-saffron-200/60">
-                <p className="text-xs text-saffron-700 leading-relaxed">
+                <p className="text-sm text-saffron-700 leading-relaxed">
                   <strong>Life members</strong> are notified of the date and venue in advance.
                   Election of the new body is conducted unanimously as per the Sangham's tradition.
                 </p>
@@ -221,7 +220,7 @@ export default function Programs() {
                 in professional courses — disbursed every August.
               </p>
               <div className="p-3.5 rounded-xl bg-white border border-cream-200">
-                <p className="text-xs text-gray-600 leading-relaxed">
+                <p className="text-sm text-gray-600 leading-relaxed">
                   <strong>Eligibility:</strong> B.Tech and professional course students from member
                   families. Applications open mid-year — watch this page or contact the Secretary.
                 </p>
@@ -250,10 +249,10 @@ export default function Programs() {
                 temples, Vedapathasalas and member residences across Guntur — and even abroad.
               </p>
               <div className="p-3.5 rounded-xl bg-saffron-50 border border-saffron-200/60">
-                <p className="text-xs text-saffron-700 leading-relaxed">
+                <p className="text-sm text-saffron-700 leading-relaxed">
                   <strong>46 distribution centers</strong> across Guntur, Hyderabad and London.
                   The full list of centers with contacts is on the{' '}
-                  <Link href="/about#jandhyala" className="underline font-semibold">About page</Link>.
+                  <Link href="/community#jandhyala-centers" className="underline font-semibold">Community page</Link>.
                 </p>
               </div>
               <Link href="/programs/jandhyala-pournami" className="inline-flex items-center gap-1.5 mt-4 text-sm font-semibold text-saffron-600 hover:text-saffron-700 transition-colors">
@@ -280,7 +279,7 @@ export default function Programs() {
                 gathering of the Sangham year, with cultural and music programmes.
               </p>
               <div className="p-3.5 rounded-xl bg-white border border-cream-200">
-                <p className="text-xs text-gray-600 leading-relaxed">
+                <p className="text-sm text-gray-600 leading-relaxed">
                   <strong>Attendance growing every year:</strong> 650 (2023) → 750+ (2024) → 800+ (2025).
                   Donors are felicitated at the event.
                 </p>
@@ -309,7 +308,7 @@ export default function Programs() {
                 site near Visalakshi Cold Storage on the Guntur–Chilakaluripet Highway.
               </p>
               <div className="p-3.5 rounded-xl bg-saffron-50 border border-saffron-200/60">
-                <p className="text-xs text-saffron-700 leading-relaxed">
+                <p className="text-sm text-saffron-700 leading-relaxed">
                   <strong>Expansion:</strong> First floor inaugurated Dec 2023; 100 sq. yards purchased
                   in 2025-26; Bhudanam collection for 200 sq. yards ongoing.{' '}
                   <Link href="/contact#donate" className="underline font-semibold">Support the expansion →</Link>
@@ -329,7 +328,7 @@ export default function Programs() {
                   { year: '2025-26', detail: '100 sq. yards site purchased behind Arama Kshetram; Bhudanam collection started for 200 sq. yards on the north side.' },
                 ].map((e, i) => (
                   <div key={i} className="flex items-start gap-3 p-3.5 rounded-xl bg-cream-50 border border-cream-200/70">
-                    <span className="text-[11px] font-bold text-saffron-600 bg-white border border-saffron-200 px-2.5 py-1 rounded-full flex-shrink-0 whitespace-nowrap">
+                    <span className="text-sm font-bold text-saffron-600 bg-white border border-saffron-200 px-2.5 py-1 rounded-full flex-shrink-0 whitespace-nowrap">
                       {e.year}
                     </span>
                     <span className="text-sm text-gray-600 leading-relaxed">{e.detail}</span>
@@ -354,7 +353,7 @@ export default function Programs() {
                 a service especially valued by members staying outside Andhra Pradesh and abroad.
               </p>
               <div className="p-3.5 rounded-xl bg-white border border-cream-200">
-                <p className="text-xs text-gray-600 leading-relaxed">
+                <p className="text-sm text-gray-600 leading-relaxed">
                   <strong>How it works:</strong> The Sangham coordinates with family priests and the
                   Arama Kshetram so rites are performed properly even when the family cannot travel.
                   Contact the Secretary to arrange.
@@ -384,7 +383,7 @@ export default function Programs() {
                 ancestors — Tila Tarpanams offered with full Vedic guidance, first conducted in 2025.
               </p>
               <div className="p-3.5 rounded-xl bg-saffron-50 border border-saffron-200/60">
-                <p className="text-xs text-saffron-700 leading-relaxed">
+                <p className="text-sm text-saffron-700 leading-relaxed">
                   <strong>When:</strong> Every Mahalaya Amavasya fortnight at Arama Kshetram.
                   Intimate the thithi of your forefather to the Secretary to book a slot.
                 </p>
@@ -431,7 +430,6 @@ export default function Programs() {
       <section className="py-16 md:py-20 bg-gradient-to-br from-saffron-600 via-saffron-700 to-gray-900 text-white overflow-hidden">
         <div className="page-container">
           <div className="max-w-3xl mx-auto text-center">
-            <p className="text-gold-300 text-[11px] uppercase tracking-[0.2em] font-semibold mb-3">Get Involved</p>
             <h2 className="text-2xl md:text-3xl font-serif font-black mb-4">Participate in Our Programs</h2>
             <div className="ornament-line mb-5" />
             <p className="text-white/70 mb-8 max-w-xl mx-auto leading-relaxed">

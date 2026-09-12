@@ -3,7 +3,7 @@ function Error({ statusCode }) {
     <div className="min-h-[60vh] flex items-center justify-center">
       <div className="text-center">
         <div className="text-6xl mb-4">🙏</div>
-        <h1 className="text-4xl font-serif font-bold text-saffron-500 mb-2">
+        <h1 className="text-4xl font-banner font-bold text-saffron-500 mb-2">
           {statusCode || 'Error'}
         </h1>
         <p className="text-gray-600 mb-6">

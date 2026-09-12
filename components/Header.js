@@ -4,6 +4,10 @@ import Image from 'next/image';
 import { useRouter } from 'next/router';
 import { PROGRAMS } from './ProgramPage';
 
+const CONTACT_PHONE = '7893961234';
+const CONTACT_PHONE_DISPLAY = '78939 61234';
+const WHATSAPP_URL = `https://wa.me/91${CONTACT_PHONE}`;
+
 const navLinks = [
   { 
     href: '/', 
@@ -16,9 +20,18 @@ const navLinks = [
     children: [
       { href: '/about#history', label: 'Our History' },
       { href: '/about#welfare', label: 'Welfare Activities' },
-      { href: '/about#timeline', label: 'Timeline' },
       { href: '/about#visista', label: 'Visista Vyakthulu' },
       { href: '/about#datalu', label: 'Visista Datalu' },
+      { href: '/community#bala-goseva', label: 'Bala Goseva Donors' },
+      { href: '/community#jandhyala-centers', label: 'Jandhyala Centers' },
+    ]
+  },
+  { 
+    href: '/programs', 
+    label: 'Programs',
+    children: [
+      { href: '/programs', label: 'All Programs' },
+      ...PROGRAMS.map((p) => ({ href: `/programs/${p.slug}`, label: p.title })),
     ]
   },
   { 
@@ -64,11 +77,11 @@ const navLinks = [
     ]
   },
   { 
-    href: '/programs', 
-    label: 'Programs',
+    href: '/community', 
+    label: 'Community',
     children: [
-      { href: '/programs', label: 'All Programs' },
-      ...PROGRAMS.map((p) => ({ href: `/programs/${p.slug}`, label: p.title })),
+      { href: '/community#bala-goseva', label: 'Bala Goseva Donors' },
+      { href: '/community#jandhyala-centers', label: 'Jandhyala Centers' },
     ]
   },
 ];
@@ -147,22 +160,24 @@ export default function Header() {
   };
 
   return (
-    <header className="boxed-header">
+    <>
+    {/* Logo/top bar — sticks on mobile (holds the hamburger), scrolls away on desktop */}
+    <header className="sticky top-0 z-50 lg:static">
       {/* ─── Top row: Logo left + Calendar button right ─── */}
       <div className={`bg-[#8B2500] transition-shadow duration-300 ${scrolled ? 'shadow-lg' : ''}`}>
         <div className="boxed-nav-container">
           <div className="flex items-center justify-between gap-4 py-2.5">
             {/* Logo left */}
             <Link href="/" className="flex items-center gap-4 group">
-              <div className="relative w-14 h-14 md:w-16 md:h-16 flex-shrink-0">
+              <div className="relative w-16 h-16 md:w-20 md:h-20 2xl:w-24 2xl:h-24 flex-shrink-0">
                 {/* Golden ring border */}
                 <div className="absolute inset-0 rounded-full bg-gradient-to-br from-yellow-400 via-yellow-500 to-amber-600 p-[3px] shadow-lg">
                   <div className="w-full h-full rounded-full overflow-hidden bg-white p-[2px]">
                     <Image
                       src="/images/newlogo.png"
                       alt="Brahmana Seva Samiti Logo"
-                      width={60}
-                      height={60}
+                      width={80}
+                      height={80}
                       className="object-contain w-full h-full"
                       priority
                     />
@@ -170,10 +185,10 @@ export default function Header() {
                 </div>
               </div>
               <div className="leading-tight">
-                <h1 className="text-xl md:text-[20px] font-bold text-white font-serif tracking-wide leading-tight uppercase">
+                <h1 className="text-lg lg:text-xl 2xl:text-[22px] font-bold text-white font-banner tracking-wide leading-tight uppercase">
                   Brahmana Seva Sangham
                 </h1>
-                <p className="text-[11px] md:text-xs text-gold-400 font-semibold tracking-wider uppercase mt-0.5">
+                <p className="text-sm md:text-sm text-gold-400 font-semibold tracking-wider uppercase mt-0.5">
                   Regd No: 48/97 • Guntur
                 </p>
               </div>
@@ -183,7 +198,7 @@ export default function Header() {
             <div className="flex items-center gap-2">
               <Link
                 href="/contact"
-                className="hidden sm:inline-flex items-center gap-2 px-4 xl:px-5 py-2.5 rounded-full text-[13px] font-bold text-[#3a0f04] bg-gradient-to-r from-gold-400 to-amber-500 hover:from-yellow-300 hover:to-gold-400 shadow-lg hover:shadow-xl hover:-translate-y-0.5 transition-all duration-300"
+                className="hidden sm:inline-flex items-center gap-2 px-4 xl:px-5 py-2.5 rounded-full text-sm font-bold text-[#3a0f04] bg-gradient-to-r from-gold-400 to-amber-500 hover:from-yellow-300 hover:to-gold-400 shadow-lg hover:shadow-xl hover:-translate-y-0.5 transition-all duration-300"
               >
                 <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z" />
@@ -194,7 +209,7 @@ export default function Header() {
               <a
                 href="/images/calendars/cal%202026.pdf"
                 download
-                className="hidden sm:inline-flex items-center gap-2 px-4 xl:px-5 py-2.5 rounded-full text-[13px] font-bold text-white bg-[#D60C0C] hover:bg-[#C20B0B] shadow-lg hover:shadow-xl hover:-translate-y-0.5 transition-all duration-300"
+                className="hidden sm:inline-flex items-center gap-2 px-4 xl:px-5 py-2.5 rounded-full text-sm font-bold text-white bg-[#D60C0C] hover:bg-[#C20B0B] shadow-lg hover:shadow-xl hover:-translate-y-0.5 transition-all duration-300"
               >
                 <SunIcon className="w-4 h-4" />
                 Sampradaya Calendar
@@ -220,8 +235,10 @@ export default function Header() {
         </div>
       </div>
 
-      {/* ─── Bottom row: Navigation (desktop) ─── */}
-      <div className="hidden lg:block bg-[#6E1D00] border-t border-white/10 shadow-md">
+    </header>
+
+    {/* ─── Desktop navigation bar — sticky on its own, logo block scrolls away ─── */}
+    <div className="hidden lg:block sticky top-0 z-50 bg-[#6E1D00] border-t border-white/10 shadow-md">
         <div className="boxed-nav-container">
           <div className="flex items-center justify-between gap-4">
           <nav className="flex items-center flex-wrap gap-1" ref={dropdownRef}>
@@ -239,7 +256,7 @@ export default function Header() {
                 >
                   <Link
                     href={link.href}
-                    className={`relative px-2.5 xl:px-3.5 py-2.5 rounded-lg text-base font-normal transition-all duration-200 flex items-center gap-1 ${
+                    className={`relative px-2 xl:px-3.5 py-2.5 rounded-lg text-sm xl:text-base font-normal transition-all duration-200 flex items-center gap-1 ${
                       openDropdown === link.label
                         ? 'text-white bg-white/20'
                         : active
@@ -286,13 +303,36 @@ export default function Header() {
             })}
           </nav>
 
-
+            {/* Phone + WhatsApp — right side of the navigation bar */}
+            <div className="flex items-center gap-2 flex-shrink-0 pl-3 border-l border-white/15">
+              <a
+                href={`tel:+91${CONTACT_PHONE}`}
+                className="inline-flex items-center gap-1.5 px-2.5 py-1.5 rounded-full text-sm font-semibold text-white bg-white/10 hover:bg-white/20 transition-colors duration-200 whitespace-nowrap"
+              >
+                <svg className="w-4 h-4 text-gold-300" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z" />
+                </svg>
+                {CONTACT_PHONE_DISPLAY}
+              </a>
+              <a
+                href={WHATSAPP_URL}
+                target="_blank"
+                rel="noopener noreferrer"
+                aria-label="Chat on WhatsApp"
+                title="Chat on WhatsApp"
+                className="inline-flex items-center justify-center w-8 h-8 rounded-full bg-[#25D366] text-white shadow-md hover:bg-[#1ebe5a] hover:scale-105 transition-all duration-200"
+              >
+                <svg className="w-4 h-4" viewBox="0 0 24 24" fill="currentColor">
+                  <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z" />
+                </svg>
+              </a>
+            </div>
           </div>
         </div>
       </div>
 
       {/* Mobile menu */}
-      <div className={`lg:hidden overflow-hidden transition-all duration-300 ease-in-out ${mobileOpen ? 'max-h-[80vh] opacity-100' : 'max-h-0 opacity-0'}`}>
+      <div className={`lg:hidden sticky top-[84px] md:top-[100px] z-40 overflow-hidden transition-all duration-300 ease-in-out ${mobileOpen ? 'max-h-[85vh] opacity-100' : 'max-h-0 opacity-0'}`}>
         <div className="bg-white border-t border-cream-200/60 shadow-xl max-h-[80vh] overflow-y-auto">
           <div className="boxed-nav-container py-3 space-y-0.5">
             {/* Calendar + Donate buttons - at top of mobile menu */}
@@ -317,6 +357,31 @@ export default function Header() {
                 Donate Now
               </Link>
 
+            </div>
+
+            {/* Call + WhatsApp quick actions */}
+            <div className="pt-2 px-4 flex items-center gap-2">
+              <a
+                href={`tel:+91${CONTACT_PHONE}`}
+                className="flex-1 inline-flex items-center justify-center gap-2 px-6 py-3 rounded-full text-[14px] font-bold text-white bg-saffron-600 hover:bg-saffron-700 transition-all duration-300 shadow-lg"
+              >
+                <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z" />
+                </svg>
+                {CONTACT_PHONE_DISPLAY}
+              </a>
+              <a
+                href={WHATSAPP_URL}
+                target="_blank"
+                rel="noopener noreferrer"
+                aria-label="Chat on WhatsApp"
+                className="inline-flex items-center justify-center gap-2 px-5 py-3 rounded-full text-[14px] font-bold text-white bg-[#25D366] hover:bg-[#1ebe5a] transition-all duration-300 shadow-lg"
+              >
+                <svg className="w-5 h-5" viewBox="0 0 24 24" fill="currentColor">
+                  <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z" />
+                </svg>
+                WhatsApp
+              </a>
             </div>
 
             {navLinks.map((link) => (
@@ -366,6 +431,6 @@ export default function Header() {
           </div>
         </div>
       </div>
-    </header>
+    </>
   );
 }
