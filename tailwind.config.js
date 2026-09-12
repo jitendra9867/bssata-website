@@ -55,7 +55,7 @@ module.exports = {
       fontFamily: {
         sans: ['"DM Sans"', 'system-ui', '-apple-system', 'sans-serif'],
         serif: ['"Playfair Display"', 'Georgia', 'serif'],
-        banner: ['Cinzel', '"Playfair Display"', 'serif'],
+        banner: ['Raleway', '"DM Sans"', 'sans-serif'],
       },
       animation: {
         'marquee': 'marquee 25s linear infinite',

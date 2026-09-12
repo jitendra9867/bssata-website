@@ -287,7 +287,7 @@ export default function Header() {
                           key={child.href}
                           href={child.href}
                           onClick={() => setOpenDropdown(null)}
-                          className={`block px-4 py-2.5 text-[15px] font-normal transition-all duration-200 ${
+                          className={`block px-4 py-2.5 text-base font-normal transition-all duration-200 ${
                             child.label === 'All Programs'
                               ? 'font-semibold text-saffron-600 hover:bg-saffron-50'
                               : 'text-gray-600 hover:text-saffron-600 hover:bg-saffron-50/50'
@@ -418,7 +418,7 @@ export default function Header() {
                         key={child.href}
                         href={child.href}
                         onClick={() => setMobileOpen(false)}
-                        className="block px-4 py-2.5 rounded-lg text-[15px] font-normal text-gray-500 hover:text-saffron-600 hover:bg-saffron-50/50 transition-all duration-200"
+                        className="block px-4 py-2.5 rounded-lg text-base font-normal text-gray-500 hover:text-saffron-600 hover:bg-saffron-50/50 transition-all duration-200"
                       >
                         {child.label}
                       </Link>

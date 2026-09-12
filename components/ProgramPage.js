@@ -1,4 +1,5 @@
 import Head from 'next/head';
+import Image from 'next/image';
 import Link from 'next/link';
 
 /* ═══════════════════════════════════════════════════════════════
@@ -240,7 +241,8 @@ export default function ProgramPage({ program }) {
 
       {/* Hero */}
       <section className="relative text-white py-12 md:py-16 overflow-hidden">
-        <div className="absolute inset-0 bg-gradient-to-br from-[#e8a53a]/90 via-[#c47a1a]/80 to-[#8a4a10]/95" />
+        <Image src="/images/om-banner.png" alt="" fill className="object-cover" sizes="100vw" style={{ backgroundColor: '#1a0a00' }} />
+        <div className="absolute inset-0 hero-om-overlay" />
         <div className="absolute top-0 right-0 w-[400px] h-[400px] bg-gold-400/10 rounded-full blur-3xl" />
         <div className="relative page-container text-center">
           <span className="text-5xl mb-3 block">{program.icon}</span>

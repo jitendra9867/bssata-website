@@ -136,28 +136,28 @@ function TestimonialsCarousel() {
 
         <div className="grid grid-cols-1 md:grid-cols-3 gap-5 lg:gap-6 mb-10">
           {visible.map((t, i) => (
-            <div key={`${page}-${i}`} className="relative bg-white rounded-2xl p-6 md:p-7 border border-cream-200/70 shadow-[0_4px_18px_rgba(0,0,0,0.04)] hover:shadow-[0_16px_40px_rgba(195,74,44,0.12)] hover:border-saffron-200 transition-all duration-400 hover:-translate-y-1 flex flex-col group">
+            <div key={`${page}-${i}`} className={`relative rounded-2xl p-6 md:p-7 border shadow-[0_4px_18px_rgba(0,0,0,0.05)] hover:shadow-[0_16px_40px_rgba(195,74,44,0.15)] transition-all duration-400 hover:-translate-y-1 flex flex-col group ${testimonialStyles[i % testimonialStyles.length].card}`}>
               {/* Gold top accent */}
-              <div className="absolute top-0 left-1/2 -translate-x-1/2 w-16 h-0.5 bg-gradient-to-r from-transparent via-gold-400 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+              <div className="absolute top-0 left-1/2 -translate-x-1/2 w-16 h-0.5 bg-gradient-to-r from-transparent via-gold-500 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
 
               {/* Big decorative quote mark */}
-              <span className="absolute top-4 right-6 text-[64px] leading-none font-serif text-saffron-100 select-none pointer-events-none group-hover:text-saffron-200 transition-colors">&rdquo;</span>
+              <span className="absolute top-4 right-6 text-[64px] leading-none font-serif text-black/5 select-none pointer-events-none">&rdquo;</span>
 
               <div className="flex items-center gap-1 mb-4">
                 {[...Array(5)].map((_, s) => (
-                  <svg key={s} className="w-4 h-4 text-gold-400" fill="currentColor" viewBox="0 0 20 20">
+                  <svg key={s} className="w-4 h-4 text-gold-500" fill="currentColor" viewBox="0 0 20 20">
                     <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.286 3.958a1 1 0 00.95.69h4.162c.969 0 1.371 1.24.588 1.81l-3.367 2.446a1 1 0 00-.363 1.118l1.286 3.958c.3.922-.755 1.688-1.539 1.118l-3.366-2.446a1 1 0 00-1.176 0l-3.367 2.446c-.783.57-1.838-.196-1.538-1.118l1.285-3.958a1 1 0 00-.363-1.118L2.063 9.385c-.783-.57-.38-1.81.588-1.81h4.163a1 1 0 00.95-.69l1.285-3.958z" />
                   </svg>
                 ))}
               </div>
 
-              <p className="text-gray-600 text-sm leading-relaxed mb-6 font-serif italic flex-1">{t.quote}</p>
+              <p className="text-gray-800 text-sm leading-relaxed mb-6 font-serif italic flex-1">{t.quote}</p>
 
-              <div className="flex items-center gap-3 pt-4 border-t border-cream-200/80">
-                <div className="w-11 h-11 rounded-full bg-gradient-to-br from-saffron-100 to-gold-100 ring-2 ring-white shadow-md flex items-center justify-center text-lg flex-shrink-0">{t.icon}</div>
+              <div className="flex items-center gap-3 pt-4 border-t border-black/10">
+                <div className="w-11 h-11 rounded-full bg-white ring-2 ring-gold-300/60 shadow-md flex items-center justify-center text-lg flex-shrink-0">{t.icon}</div>
                 <div className="min-w-0">
-                  <p className="font-semibold text-gray-800 text-sm truncate">{t.name}</p>
-                  <p className="text-sm text-saffron-500 font-medium truncate">{t.role}</p>
+                  <p className="font-bold text-gray-900 text-sm truncate">{t.name}</p>
+                  <p className="text-sm text-saffron-700 font-semibold truncate">{t.role}</p>
                 </div>
               </div>
             </div>
@@ -181,6 +181,13 @@ function TestimonialsCarousel() {
     </section>
   );
 }
+
+/* Rotating tint styles for What People Say cards */
+const testimonialStyles = [
+  { card: 'bg-saffron-50 border-saffron-200' },
+  { card: 'bg-gold-50 border-gold-200' },
+  { card: 'bg-cream-100 border-cream-300' },
+];
 
 /* Rotating tint styles for Recent Highlights cards */
 const highlightStyles = [
@@ -227,7 +234,7 @@ export default function Home() {
               <p className="text-gray-700 text-base md:text-lg leading-relaxed mb-5">
                 <strong className="text-gray-900">Brahmana Seva Samiti</strong> was founded on the Telugu New Year of 1994 at A.T. Agraharam, Guntur, and registered as <strong className="text-gray-900">Society No. 48/1997</strong>.
               </p>
-              <p className="text-gray-500 text-sm md:text-[15px] leading-relaxed mb-5">
+              <p className="text-gray-500 text-sm md:text-base leading-relaxed mb-5">
                 What began as a small gathering of families has grown into one of the most active Sanghams in Andhra Pradesh — serving through free mass Upanayanams, Yagnopaveetham distribution, scholarships, legal aid, and the Arama Kshetram, with families connected as far as London.
               </p>
               <blockquote className="border-l-4 border-gold-400 pl-4 py-1 mb-7 text-sm text-gray-600 italic leading-relaxed">
@@ -300,7 +307,7 @@ export default function Home() {
                 <div className={`w-12 h-12 rounded-2xl bg-gradient-to-br ${item.accent} shadow-md flex items-center justify-center mb-4 group-hover:scale-110 group-hover:-rotate-3 transition-transform duration-300`}>
                   <span className="text-xl">{item.icon}</span>
                 </div>
-                <h4 className="font-serif font-bold text-gray-800 text-[15px] mb-1.5">{item.title}</h4>
+                <h4 className="font-serif font-bold text-gray-800 text-base mb-1.5">{item.title}</h4>
                 <p className="text-sm text-gray-500 leading-relaxed flex-1">{item.desc}</p>
                 <div className="flex items-baseline gap-1.5 mt-4 pt-3 border-t border-black/5">
                   <span className={`text-xl font-bold font-serif ${item.accent.includes('gold-400') ? 'text-gold-600' : 'text-saffron-600'}`}>{item.count}</span>
@@ -314,8 +321,8 @@ export default function Home() {
 
       {/* ─── Executive Committee ─── */}
       <section className="relative py-[50px] overflow-hidden">
-        <Image src="/images/om-background.png" alt="" fill className="object-cover" sizes="100vw" style={{ backgroundColor: '#1a0a00' }} />
-        <div className="absolute inset-0 bg-gradient-to-br from-[#e8a53a]/80 via-[#c47a1a]/70 to-[#8a4a10]/85" />
+        <Image src="/images/om-banner.png" alt="" fill className="object-cover" sizes="100vw" style={{ backgroundColor: '#1a0a00' }} />
+        <div className="absolute inset-0 bg-gradient-to-br from-[#b47a20]/85 via-[#94591a]/80 to-[#5f3a0c]/92" />
         <div className="absolute top-0 right-0 w-96 h-96 bg-gold-300/20 rounded-full blur-3xl" />
         <div className="absolute bottom-0 left-0 w-80 h-80 bg-amber-400/15 rounded-full blur-3xl" />
 
@@ -347,7 +354,7 @@ export default function Home() {
                       {m.designation}
                     </p>
                     {/* Name */}
-                    <h3 className="text-sm md:text-[15px] font-serif font-bold text-white leading-snug mb-2.5">{m.name}</h3>
+                    <h3 className="text-sm md:text-base font-serif font-bold text-white leading-snug mb-2.5">{m.name}</h3>
                     {/* Phone pill */}
                     <a
                       href={`tel:${m.phone}`}

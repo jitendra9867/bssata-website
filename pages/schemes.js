@@ -138,8 +138,8 @@ export default function Schemes() {
 
       {/* Page Hero */}
       <section className="relative text-white py-12 md:py-16 overflow-hidden">
-        <Image src="/images/om-background.png" alt="" fill className="object-cover" sizes="100vw" style={{ backgroundColor: '#1a0a00', opacity: 0.25 }} />
-        <div className="absolute inset-0 bg-gradient-to-br from-[#e8a53a]/85 via-[#c47a1a]/75 to-[#8a4a10]/90" />
+        <Image src="/images/om-banner.png" alt="" fill className="object-cover" sizes="100vw" style={{ backgroundColor: '#1a0a00', opacity: 0.25 }} />
+        <div className="absolute inset-0 hero-om-overlay" />
         <div className="relative page-container text-center">
           <h1 className="text-3xl md:text-4xl lg:text-5xl font-banner font-black mb-4 tracking-tight">Welfare Schemes</h1>
           <div className="ornament-line mb-5" />
