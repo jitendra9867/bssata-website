@@ -257,18 +257,19 @@ export default function ProgramPage({ program }) {
       </section>
 
       {/* About + Highlights */}
-      <section className="py-14 md:py-16 bg-white">
+      <section className="py-14 md:py-16 section-tint">
         <div className="page-container">
           <div className="max-w-6xl mx-auto">
             <div className="grid lg:grid-cols-5 gap-8 items-start mb-12">
               <div className="lg:col-span-2">
-                <h2 className="text-2xl md:text-3xl font-serif font-bold text-gray-800 mb-3">
-                  About the Program
+                <span className="section-eyebrow">About the Program</span>
+                <h2 className="text-2xl md:text-3xl font-serif font-bold text-gray-900 mb-3">
+                  About this Program
                 </h2>
                 <div className="ornament-line mb-4 !mx-0" />
-                <p className="text-sm text-gray-600 leading-relaxed mb-5">{program.description}</p>
-                <div className="p-3.5 rounded-xl bg-saffron-50 border border-saffron-200/60">
-                  <p className="text-sm text-saffron-700 leading-relaxed">
+                <p className="text-base text-gray-700 leading-relaxed mb-5">{program.description}</p>
+                <div className="callout border-saffron-200/80 bg-white">
+                  <p className="text-sm text-saffron-800 leading-relaxed">
                     <strong>How to participate:</strong> Contact the Secretary at{' '}
                     <a href="tel:7893961234" className="underline font-semibold whitespace-nowrap">78939 61234</a>{' '}
                     or{' '}
@@ -280,13 +281,13 @@ export default function ProgramPage({ program }) {
                 </div>
               </div>
               <div className="lg:col-span-3">
-                <h3 className="text-lg font-serif font-bold text-gray-800 mb-4">Program Highlights</h3>
+                <h3 className="text-lg font-serif font-bold text-gray-900 mb-4">Program Highlights</h3>
                 <div className="grid sm:grid-cols-2 gap-4">
                   {program.highlights.map((h) => (
-                    <div key={h.title} className="p-4 rounded-xl bg-cream-50 border border-cream-200/70 hover:border-saffron-200 transition-colors duration-300">
-                      <span className="text-2xl mb-2 block">{h.icon}</span>
-                      <h4 className="text-sm font-bold text-gray-800 mb-1">{h.title}</h4>
-                      <p className="text-sm text-gray-500 leading-relaxed">{h.text}</p>
+                    <div key={h.title} className="p-5 rounded-xl bg-white border border-cream-200 shadow-[0_2px_12px_rgba(195,74,44,0.06)] hover:border-saffron-200 hover:shadow-[0_10px_28px_rgba(195,74,44,0.10)] transition-all duration-300">
+                      <span className="icon-badge mb-3">{h.icon}</span>
+                      <h4 className="text-base font-bold text-gray-900 mb-1">{h.title}</h4>
+                      <p className="text-sm text-gray-600 leading-relaxed">{h.text}</p>
                     </div>
                   ))}
                 </div>
@@ -294,15 +295,15 @@ export default function ProgramPage({ program }) {
             </div>
 
             {/* How it works */}
-            <div className="p-6 md:p-8 rounded-2xl bg-cream-50 border border-cream-200/70">
-              <h3 className="text-lg font-serif font-bold text-gray-800 mb-4">How It Works</h3>
-              <ol className="space-y-3">
+            <div className="p-6 md:p-8 rounded-2xl bg-white border border-cream-200 shadow-[0_2px_12px_rgba(195,74,44,0.06)]">
+              <h3 className="text-lg font-serif font-bold text-gray-900 mb-5">How It Works</h3>
+              <ol className="space-y-4">
                 {program.how.map((step, i) => (
                   <li key={i} className="flex items-start gap-3">
-                    <span className="w-6 h-6 rounded-full bg-saffron-500 text-white text-sm font-bold flex items-center justify-center flex-shrink-0 mt-0.5">
+                    <span className="w-7 h-7 rounded-full bg-gradient-to-br from-saffron-500 to-saffron-600 text-white text-sm font-bold flex items-center justify-center flex-shrink-0 mt-0.5 shadow-[0_4px_10px_rgba(195,74,44,0.3)]">
                       {i + 1}
                     </span>
-                    <span className="text-sm text-gray-600 leading-relaxed">{step}</span>
+                    <span className="text-base text-gray-700 leading-relaxed pt-0.5">{step}</span>
                   </li>
                 ))}
               </ol>
@@ -312,11 +313,12 @@ export default function ProgramPage({ program }) {
       </section>
 
       {/* Other programs */}
-      <section className="py-14 md:py-16 bg-cream-50">
-        <div className="page-container">
+      <section className="py-14 md:py-16 section-photo border-y border-cream-200">
+        <div className="page-container relative">
           <div className="max-w-6xl mx-auto">
-            <div className="text-center mb-8">
-              <h2 className="text-2xl font-serif font-bold text-gray-800 mb-2">Explore Other Programs</h2>
+            <div className="text-center mb-10">
+              <span className="section-eyebrow">Keep Exploring</span>
+              <h2 className="text-2xl font-serif font-bold text-gray-900 mb-2">Explore Other Programs</h2>
               <div className="ornament-line mb-4" />
             </div>
             <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-3">
@@ -324,10 +326,10 @@ export default function ProgramPage({ program }) {
                 <Link
                   key={p.slug}
                   href={`/programs/${p.slug}`}
-                  className="group p-4 rounded-xl bg-white border border-cream-200/70 text-center hover:border-saffron-200 hover:shadow-[0_12px_30px_rgba(195,74,44,0.08)] hover:-translate-y-0.5 transition-all duration-300"
+                  className="group p-4 rounded-xl bg-white/90 backdrop-blur-sm border border-cream-200 text-center hover:border-saffron-300 hover:shadow-[0_12px_30px_rgba(195,74,44,0.12)] hover:-translate-y-0.5 transition-all duration-300"
                 >
-                  <span className="text-2xl mb-2 block">{p.icon}</span>
-                  <span className="text-sm font-semibold text-gray-700 group-hover:text-saffron-600 leading-snug block">
+                  <span className="text-3xl mb-2 block">{p.icon}</span>
+                  <span className="text-sm font-semibold text-gray-800 group-hover:text-saffron-600 leading-snug block">
                     {p.title}
                   </span>
                 </Link>
@@ -336,7 +338,7 @@ export default function ProgramPage({ program }) {
             <div className="text-center mt-8">
               <Link
                 href="/programs"
-                className="inline-flex items-center gap-2 px-6 py-2.5 rounded-xl text-sm font-semibold text-saffron-600 bg-white border-2 border-saffron-200 hover:border-saffron-300 hover:bg-saffron-50 transition-all duration-300"
+                className="inline-flex items-center gap-2 px-6 py-2.5 rounded-xl text-sm font-semibold text-white bg-gradient-to-r from-saffron-500 to-saffron-600 border border-saffron-500 hover:from-saffron-600 hover:to-saffron-700 hover:shadow-[0_10px_24px_rgba(195,74,44,0.3)] transition-all duration-300"
               >
                 View All Programs
               </Link>
@@ -345,26 +347,6 @@ export default function ProgramPage({ program }) {
         </div>
       </section>
 
-      {/* CTA */}
-      <section className="py-16 md:py-20 bg-gradient-to-br from-saffron-600 via-saffron-700 to-gray-900 text-white overflow-hidden">
-        <div className="page-container">
-          <div className="max-w-3xl mx-auto text-center">
-            <h2 className="text-2xl md:text-3xl font-serif font-black mb-4">Support {program.title}</h2>
-            <div className="ornament-line mb-5" />
-            <p className="text-white/70 mb-8 max-w-xl mx-auto leading-relaxed">
-              Every program runs on community support. Donate, volunteer or sponsor — every contribution strengthens the community.
-            </p>
-            <div className="flex flex-col sm:flex-row items-center justify-center gap-3">
-              <Link href="/contact#donate" className="px-7 py-3 bg-white text-saffron-700 font-semibold rounded-xl hover:bg-cream-100 transition-all duration-300 shadow-xl text-center text-sm hover:-translate-y-0.5">
-                Donate Now
-              </Link>
-              <Link href="/contact" className="px-7 py-3 border-2 border-white/20 text-white font-semibold rounded-xl hover:bg-white/10 transition-all duration-300 text-center text-sm">
-                Contact Us
-              </Link>
-            </div>
-          </div>
-        </div>
-      </section>
     </>
   );
 }

@@ -2,7 +2,7 @@ import Link from 'next/link';
 
 export default function Custom404() {
   return (
-    <div className="min-h-[60vh] flex items-center justify-center py-16">
+    <div className="min-h-[60vh] flex items-center justify-center py-16 section-photo">
       <div className="text-center page-container">
         <div className="w-20 h-20 mx-auto rounded-2xl bg-gradient-to-br from-saffron-50 to-gold-50 border border-saffron-100 flex items-center justify-center text-4xl mb-6">
           🙏

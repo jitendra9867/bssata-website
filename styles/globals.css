@@ -82,6 +82,75 @@
     @apply w-20 h-0.5 bg-gradient-to-r from-transparent via-saffron-400 to-transparent mx-auto;
   }
 
+  /* ═══════════════════════════════════════════════════════════════
+     INNER PAGE SECTION DESIGN SYSTEM
+     Alternating warm section backgrounds so no two adjacent sections
+     look the same and every section reads as a distinct "card" band.
+     ═══════════════════════════════════════════════════════════════ */
+
+  /* Band 1 — cream tint (light, visible) */
+  .section-tint {
+    background-color: #FFF9E8;
+  }
+
+  /* Band 2 — saffron tint (warm, visible) */
+  .section-warm {
+    background-color: #fdeee5;
+  }
+
+  /* Band 3 — white with a subtle radial texture so it never reads flat */
+  .section-plain {
+    background-color: #ffffff;
+    position: relative;
+  }
+  .section-plain::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    background-image: radial-gradient(circle at 1px 1px, rgba(195, 74, 44, 0.045) 1px, transparent 0);
+    background-size: 30px 30px;
+  }
+
+  /* Band 4 — golden om background photo under a warm veil + white veil.
+     Gives some sections a real image background while keeping text crisp. */
+  .section-photo {
+    position: relative;
+    overflow: hidden;
+    background-image:
+      linear-gradient(180deg, rgba(255, 249, 232, 0.90) 0%, rgba(255, 243, 209, 0.82) 100%),
+      linear-gradient(135deg, rgba(255, 236, 186, 0.75) 0%, rgba(253, 238, 229, 0.85) 100%),
+      url('/images/om-background.png');
+    background-size: cover;
+    background-position: center;
+    background-attachment: fixed;
+  }
+  @media (max-width: 767px) {
+    .section-photo {
+      background-attachment: scroll; /* fixed attachment janks on mobile */
+    }
+  }
+
+  /* Section header eyebrow — small caps label above the title */
+  .section-eyebrow {
+    @apply inline-flex items-center gap-2 text-sm font-bold uppercase tracking-[0.18em] text-saffron-600 mb-3;
+  }
+
+  /* Decorative ring behind section titles */
+  .title-badge {
+    @apply w-14 h-14 rounded-2xl bg-gradient-to-br from-saffron-500 to-gold-500 text-white flex items-center justify-center text-2xl shadow-[0_10px_24px_rgba(195,74,44,0.25)];
+  }
+
+  /* Icon tile for card content */
+  .icon-badge {
+    @apply w-12 h-12 rounded-xl bg-white border border-saffron-100 flex items-center justify-center text-xl flex-shrink-0 shadow-[0_4px_12px_rgba(195,74,44,0.08)];
+  }
+
+  /* Note/callout box used inside sections */
+  .callout {
+    @apply p-4 rounded-xl bg-white/80 border border-saffron-100 shadow-[0_2px_10px_rgba(195,74,44,0.05)];
+  }
+
   /* Premium section divider */
   .section-divider {
     @apply relative py-16 md:py-20;
@@ -161,13 +230,19 @@ body {
   width: 100%;
 }
 
+/* ═══════════════════════════════════════════════════════════════
+   BOOTSTRAP 5 CONTAINERS
+   All three container classes share Bootstrap 5's exact behavior:
+   100% below 576px, then 540 / 720 / 960 / 1140 / 1320 max-widths
+   at sm / md / lg / xl / xxl, with Bootstrap's 0.75rem side padding.
+   ═══════════════════════════════════════════════════════════════ */
+
 /* Responsive navigation container */
-/* Same Bootstrap-style max-widths as .page-container */
 .boxed-nav-container {
   width: 100%;
   max-width: 540px;
   margin: 0 auto;
-  padding: 0 1rem;
+  padding: 0 0.75rem;
 }
 
 @media (min-width: 768px) {
@@ -184,24 +259,22 @@ body {
 
 @media (min-width: 1200px) {
   .boxed-nav-container {
-    max-width: 1320px;
+    max-width: 1140px;
   }
 }
 
 @media (min-width: 1400px) {
   .boxed-nav-container {
-    max-width: 1600px;
+    max-width: 1320px;
   }
 }
 
 /* Responsive page content container */
-/* Bootstrap-style fixed max-widths per breakpoint so sections stay readable
-   on very wide screens instead of stretching edge to edge. */
 .page-container {
   width: 100%;
   max-width: 540px;
   margin: 0 auto;
-  padding: 0 1rem;
+  padding: 0 0.75rem;
 }
 
 @media (min-width: 768px) {
@@ -218,13 +291,13 @@ body {
 
 @media (min-width: 1200px) {
   .page-container {
-    max-width: 1320px;
+    max-width: 1140px;
   }
 }
 
 @media (min-width: 1400px) {
   .page-container {
-    max-width: 1600px;
+    max-width: 1320px;
   }
 }
 
@@ -233,7 +306,7 @@ body {
   width: 100%;
   max-width: 540px;
   margin: 0 auto;
-  padding: 0 1rem;
+  padding: 0 0.75rem;
 }
 
 @media (min-width: 768px) {
@@ -250,13 +323,13 @@ body {
 
 @media (min-width: 1200px) {
   .boxed-footer-container {
-    max-width: 1320px;
+    max-width: 1140px;
   }
 }
 
 @media (min-width: 1400px) {
   .boxed-footer-container {
-    max-width: 1600px;
+    max-width: 1320px;
   }
 }
 

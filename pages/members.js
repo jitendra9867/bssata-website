@@ -1,6 +1,5 @@
 import { useState, useEffect, useMemo } from 'react';
 import Head from 'next/head';
-import Link from 'next/link';
 import Image from 'next/image';
 
 const GOTRAM_OPTIONS = [
@@ -154,7 +153,7 @@ export default function Members() {
         </div>
       </section>
 
-      <section className="py-10 md:py-14 bg-cream-50">
+      <section className="py-10 md:py-14 section-tint">
         <div className="page-container">
 
           {/* Filters & Search */}
@@ -185,12 +184,12 @@ export default function Members() {
                   ))}
                 </select>
               </div>
-              <div className="text-sm text-gray-500 whitespace-nowrap px-2">
+              <div className="text-sm text-gray-600 whitespace-nowrap px-2">
                 {loading ? (
                   <span className="flex items-center gap-2"><span className="animate-spin inline-block">⏳</span> Loading…</span>
                 ) : (
                   <span>
-                    <strong className="text-saffron-500">{filteredMembers.length}</strong> member{filteredMembers.length !== 1 ? 's' : ''}
+                    <strong className="text-saffron-600">{filteredMembers.length}</strong> member{filteredMembers.length !== 1 ? 's' : ''}
                   </span>
                 )}
               </div>
@@ -207,7 +206,7 @@ export default function Members() {
                   className={`px-3.5 py-1.5 rounded-full text-sm font-medium transition-all duration-200 ${
                     gotramFilter === gotram
                       ? 'bg-saffron-500 text-white shadow-md shadow-saffron-300/40'
-                      : 'bg-white text-gray-600 hover:bg-cream-100 border border-cream-300 hover:border-saffron-300'
+                      : 'bg-white text-gray-700 hover:bg-cream-100 border border-cream-300 hover:border-saffron-300'
                   }`}
                 >
                   {gotram} <span className="ml-1 opacity-70">({count})</span>
@@ -280,7 +279,7 @@ export default function Members() {
                               {member.gotram}
                             </span>
                           </td>
-                          <td className="px-5 py-3.5 text-gray-500 hidden lg:table-cell max-w-[220px]">
+                          <td className="px-5 py-3.5 text-gray-600 hidden lg:table-cell max-w-[220px]">
                             <span className="truncate block">{member.address}</span>
                           </td>
                           <td className="px-5 py-3.5">
@@ -314,7 +313,7 @@ export default function Members() {
               >
                 ← Prev
               </button>
-              <span className="text-sm text-gray-500 px-3 font-medium">
+              <span className="text-sm text-gray-600 px-3 font-medium">
                 Page <span className="text-saffron-500 font-bold">{page}</span> of <span className="font-bold">{totalPages}</span>
               </span>
               <button
@@ -326,26 +325,6 @@ export default function Members() {
               </button>
             </div>
           )}
-
-          {/* Enrollment CTA */}
-          <div className="mt-14 text-center card p-10 md:p-14 bg-gradient-to-br from-white via-cream-50 to-saffron-50 border border-saffron-200/60 shadow-lg rounded-2xl">
-            <div className="w-16 h-16 mx-auto rounded-full bg-saffron-100 flex items-center justify-center text-3xl mb-5">
-              🙏
-            </div>
-            <h2 className="text-xl md:text-2xl font-serif font-bold text-gray-800 mb-3">Become a Life Member</h2>
-            <p className="text-gray-500 mb-7 max-w-lg mx-auto leading-relaxed">
-              Join our community with a contribution of <strong className="text-saffron-600">₹10,000 and above</strong> to
-              receive permanent life membership with access to all welfare schemes and community programs.
-            </p>
-            <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
-              <a href="mailto:brahmanaseva.ata97@gmail.com?subject=Life%20Membership%20Enquiry" className="btn-primary px-6 py-3 rounded-xl font-semibold shadow-md hover:shadow-lg transition-all">
-                ✉ Enquire About Membership
-              </a>
-              <Link href="/contact" className="btn-secondary px-6 py-3 rounded-xl font-semibold border border-cream-300 hover:bg-cream-100 transition-all">
-                Bank Details & Donations
-              </Link>
-            </div>
-          </div>
         </div>
       </section>
     </>

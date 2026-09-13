@@ -10,11 +10,6 @@ const WHATSAPP_URL = `https://wa.me/91${CONTACT_PHONE}`;
 
 const navLinks = [
   { 
-    href: '/', 
-    label: 'Home',
-    children: []
-  },
-  { 
     href: '/about', 
     label: 'About Us',
     children: [
@@ -169,15 +164,15 @@ export default function Header() {
           <div className="flex items-center justify-between gap-4 py-2.5">
             {/* Logo left */}
             <Link href="/" className="flex items-center gap-4 group">
-              <div className="relative w-16 h-16 md:w-20 md:h-20 2xl:w-24 2xl:h-24 flex-shrink-0">
+              <div className="relative w-[100px] h-[100px] flex-shrink-0">
                 {/* Golden ring border */}
                 <div className="absolute inset-0 rounded-full bg-gradient-to-br from-yellow-400 via-yellow-500 to-amber-600 p-[3px] shadow-lg">
                   <div className="w-full h-full rounded-full overflow-hidden bg-white p-[2px]">
                     <Image
                       src="/images/newlogo.png"
                       alt="Brahmana Seva Samiti Logo"
-                      width={80}
-                      height={80}
+                      width={100}
+                      height={100}
                       className="object-contain w-full h-full"
                       priority
                     />
@@ -256,7 +251,8 @@ export default function Header() {
                 >
                   <Link
                     href={link.href}
-                    className={`relative px-2 xl:px-3.5 py-2.5 rounded-lg text-sm font-normal transition-all duration-200 flex items-center gap-1 ${
+                    style={{ paddingLeft: '12px', paddingRight: '12px' }}
+                    className={`relative py-2.5 rounded-lg text-sm font-normal transition-all duration-200 flex items-center gap-1 ${
                       openDropdown === link.label
                         ? 'text-white bg-white/20'
                         : active
@@ -333,8 +329,8 @@ export default function Header() {
       </div>
 
       {/* Mobile menu */}
-      <div className={`lg:hidden sticky top-[84px] md:top-[100px] z-40 overflow-hidden transition-all duration-300 ease-in-out ${mobileOpen ? 'max-h-[85vh] opacity-100' : 'max-h-0 opacity-0'}`}>
-        <div className="bg-white border-t border-cream-200/60 shadow-xl max-h-[80vh] overflow-y-auto">
+      <div className={`lg:hidden sticky top-[120px] z-40 overflow-hidden transition-all duration-300 ease-in-out ${mobileOpen ? 'max-h-[85vh] opacity-100' : 'max-h-0 opacity-0'}`}>
+        <div className="bg-white border-t makeborder-cream-200/60 shadow-xl max-h-[80vh] overflow-y-auto">
           <div className="boxed-nav-container py-3 space-y-0.5">
             {/* Calendar + Donate buttons - at top of mobile menu */}
             <div className="pt-3 px-4 flex flex-col gap-2">

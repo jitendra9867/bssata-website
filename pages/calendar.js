@@ -1,5 +1,4 @@
 import Head from 'next/head';
-import Link from 'next/link';
 import Image from 'next/image';
 
 const calendars = [
@@ -59,7 +58,7 @@ export default function Calendar() {
                 <span className="text-2xl">{stat.icon}</span>
                 <div className="text-center">
                   <div className="text-white font-bold text-xl leading-none">{stat.value}</div>
-                  <div className="text-white/50 text-sm mt-1 uppercase tracking-wider">{stat.label}</div>
+                  <div className="text-white/80 text-sm mt-1 uppercase tracking-wider">{stat.label}</div>
                 </div>
               </div>
             ))}
@@ -68,12 +67,12 @@ export default function Calendar() {
       </section>
 
       {/* Calendar Downloads */}
-      <section className="py-16 md:py-20 bg-cream-50">
+      <section className="py-16 md:py-20 section-tint">
         <div className="page-container">
           <div className="text-center mb-12">
             <h2 className="text-2xl md:text-3xl lg:text-4xl font-serif font-black text-gray-800 mb-3">Our Sampradaya Calendars</h2>
             <div className="ornament-line mb-5" />
-            <p className="text-gray-500 max-w-2xl mx-auto leading-relaxed">
+            <p className="text-gray-700 max-w-2xl mx-auto leading-relaxed">
               Click any calendar below to download the PDF. Published free of cost and distributed across the state and abroad.
             </p>
           </div>
@@ -104,8 +103,8 @@ export default function Calendar() {
                   <h3 className="text-xl md:text-2xl font-serif font-black text-gray-800 mb-2">Sampradaya Calendar {cal.year}</h3>
                   <p className="text-gray-600 text-sm leading-relaxed mb-4">{cal.description}</p>
                   <div className="flex items-center gap-4">
-                    <div className="flex items-center gap-2 text-sm text-gray-400">
-                      <span className="px-2 py-0.5 bg-cream-100 rounded-full font-medium">{cal.count} copies</span>
+                <div className="flex items-center gap-2 text-sm text-gray-600">
+                  <span className="px-2 py-0.5 bg-cream-100 rounded-full font-medium">{cal.count} copies</span>
                       <span className="px-2 py-0.5 bg-cream-100 rounded-full font-medium">Free Download</span>
                     </div>
                   </div>
@@ -141,8 +140,8 @@ export default function Calendar() {
                       </div>
                     </div>
                     <div>
-                      <h3 className="font-serif font-bold text-gray-800 text-sm">Calendar {cal.year}</h3>
-                      <p className="text-sm text-gray-400">{cal.samvat} Nama Samvatsara</p>
+                      <h3 className="font-serif font-bold text-gray-900 text-sm">Calendar {cal.year}</h3>
+                      <p className="text-sm text-gray-600">{cal.samvat} Nama Samvatsara</p>
                     </div>
                   </div>
                   <div className="w-9 h-9 rounded-xl bg-cream-100 text-gray-400 flex items-center justify-center group-hover:bg-saffron-50 group-hover:text-saffron-500 transition-all duration-300">
@@ -152,7 +151,7 @@ export default function Calendar() {
                   </div>
                 </div>
                 <div className="p-5">
-                  <p className="text-sm text-gray-500 leading-relaxed line-clamp-2">{cal.description}</p>
+                  <p className="text-sm text-gray-700 leading-relaxed line-clamp-2">{cal.description}</p>
                 </div>
               </a>
             ))}
@@ -161,7 +160,7 @@ export default function Calendar() {
       </section>
 
       {/* Features */}
-      <section className="py-16 md:py-20 bg-white">
+      <section className="py-16 md:py-20 section-photo border-y border-cream-200">
         <div className="page-container">
           <div className="text-center mb-12">
             <h2 className="text-2xl md:text-3xl font-serif font-black text-gray-800 mb-3">Calendar Features</h2>
@@ -170,12 +169,12 @@ export default function Calendar() {
 
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5 max-w-5xl mx-auto">
             {features.map((feature, idx) => (
-              <div key={feature.title} className="group text-center p-6 rounded-2xl bg-white border border-cream-200/60 hover:border-saffron-200 transition-all duration-400 hover:-translate-y-1 hover:shadow-[0_16px_40px_rgba(195,74,44,0.08)]">
+              <div key={feature.title} className="group text-center p-6 rounded-2xl bg-white/95 backdrop-blur-sm border border-cream-200 shadow-[0_2px_12px_rgba(195,74,44,0.06)] hover:border-saffron-200 hover:-translate-y-1 hover:shadow-[0_16px_40px_rgba(195,74,44,0.12)] transition-all duration-400">
                 <div className={`w-16 h-16 mx-auto rounded-2xl bg-gradient-to-br ${feature.color} flex items-center justify-center text-2xl mb-4 shadow-lg group-hover:scale-110 transition-transform duration-300`}>
                   {feature.icon}
                 </div>
                 <h3 className="font-serif font-bold text-gray-800 text-base mb-2">{feature.title}</h3>
-                <p className="text-sm text-gray-500 leading-relaxed">{feature.description}</p>
+                <p className="text-sm text-gray-700 leading-relaxed">{feature.description}</p>
               </div>
             ))}
           </div>
@@ -183,7 +182,7 @@ export default function Calendar() {
       </section>
 
       {/* How to Get */}
-      <section className="py-16 md:py-20 bg-cream-50">
+      <section className="py-16 md:py-20 section-warm">
         <div className="page-container">
           <div className="max-w-4xl mx-auto">
             <div className="text-center mb-12">
@@ -202,42 +201,9 @@ export default function Calendar() {
                     {item.icon}
                   </div>
                   <h4 className="font-serif font-bold text-gray-800 text-base mb-2">{item.title}</h4>
-                  <p className="text-sm text-gray-500 leading-relaxed">{item.desc}</p>
+                  <p className="text-sm text-gray-700 leading-relaxed">{item.desc}</p>
                 </div>
               ))}
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* Distribution CTA */}
-      <section className="py-16 md:py-20 relative overflow-hidden">
-        <div className="absolute inset-0 bg-gradient-to-br from-saffron-600 via-saffron-700 to-gray-900" />
-        <div className="absolute top-0 right-0 w-[400px] h-[400px] bg-gold-400/8 rounded-full blur-3xl" />
-        <div className="absolute bottom-0 left-0 w-[300px] h-[300px] bg-white/5 rounded-full blur-3xl" />
-
-        <div className="relative page-container">
-          <div className="max-w-3xl mx-auto text-center">
-            <div className="w-16 h-16 mx-auto rounded-2xl bg-white/10 border border-white/10 backdrop-blur-sm flex items-center justify-center text-3xl mb-6">
-              📮
-            </div>
-            <h2 className="text-2xl md:text-3xl font-serif font-black text-white mb-4">Want a Calendar by Post?</h2>
-            <div className="ornament-line mb-5" />
-            <p className="text-white/70 mb-8 max-w-xl mx-auto leading-relaxed">
-              We distribute calendars free of cost across Andhra Pradesh, other states, and abroad.
-              If you haven&apos;t received yours, write to us and we&apos;ll send one to your address.
-            </p>
-            <div className="flex flex-col sm:flex-row items-center justify-center gap-3">
-              <a
-                href="mailto:brahmanaseva.ata97@gmail.com?subject=Sampradaya%20Calendar%20Request"
-                className="w-full sm:w-auto px-7 py-3 bg-white text-saffron-700 font-semibold rounded-xl hover:bg-cream-100 transition-all duration-300 shadow-xl text-center text-sm hover:-translate-y-0.5 inline-flex items-center justify-center gap-2"
-              >
-                <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" /></svg>
-                Request Calendar
-              </a>
-              <Link href="/contact" className="w-full sm:w-auto px-7 py-3 border-2 border-white/20 text-white font-semibold rounded-xl hover:bg-white/10 transition-all duration-300 text-center text-sm">
-                Contact Us
-              </Link>
             </div>
           </div>
         </div>

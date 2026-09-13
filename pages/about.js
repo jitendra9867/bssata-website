@@ -34,6 +34,17 @@ const timeline = [
   { year: '2026', date: 'August 9', event: 'Sri Vidyanidhi Scholarships disbursed to 4 B.Tech students — ₹1,97,000 total. Chief Guests: Puipati Mallikharjuna Prasad & BVH Kameswara Sastry.', icon: '🎓' },
 ];
 
+/* Timeline grouped by year — all events of the same year share one card */
+const timelineYears = timeline.reduce((acc, item) => {
+  const last = acc[acc.length - 1];
+  if (last && last.year === item.year) {
+    last.items.push(item);
+  } else {
+    acc.push({ year: item.year, items: [item] });
+  }
+  return acc;
+}, []);
+
 const welfareActivities = [
   { title: 'Karthika Samaradhana', description: 'Annual community feast during the holy month of Karthika — attended by 800+ people in 2025 with music programmes.', icon: '🪔' },
   { title: 'Sampradaya Calendar', description: 'Publication and distribution of traditional Sampradaya Calendars to 3000+ households across the state and abroad.', icon: '📅' },
@@ -122,55 +133,50 @@ export default function About() {
         </div>
       </section>
 
-      {/* Mission & Objective */}
-      <section className="py-16 md:py-20 bg-cream-50">
+      {/* Mission & Objective — text + related image */}
+      <section className="py-16 md:py-20 section-tint">
         <div className="page-container">
-          <div className="max-w-4xl mx-auto">
-            <div className="grid md:grid-cols-2 gap-8 lg:gap-12 items-start">
-              <div>
-                <h2 className="text-2xl md:text-3xl font-serif font-bold text-gray-800 mb-4">
-                  Rooted in Dharma,<br />Serving with Devotion
-                </h2>
-                <div className="ornament-line mb-6 !mx-0" />
-                <blockquote className="text-gray-600 leading-relaxed italic border-l-4 border-gold-400 pl-4 py-2 bg-cream-50 rounded-r-lg mb-4 text-sm">
-                  &ldquo;To help Brahmin community in their livelihood, continue their customs and cultural identity. Stand away from politics.&rdquo;
-                </blockquote>
-                <p className="text-gray-600 leading-relaxed mb-4">
-                  Brahmana Seva Sangham was started on the Telugu New Year of <strong>Bhava</strong> (1994) at the house of
-                  Shri P.V. Ramanaiah, A.T. Agraharam, Guntur. It was later registered as <strong>Society No. 48/1997</strong> on
-                  January 25, 1997.
-                </p>
-                <p className="text-gray-600 leading-relaxed">
-                  Started as an extension of Brahmana Seva Samithi, Brodipet, it grew to cater to the needs of
-                  Brahmins across entire Guntur and beyond, with services extending to those staying outside
-                  Andhra Pradesh and abroad.
-                </p>
-              </div>
+          <div className="max-w-6xl mx-auto grid lg:grid-cols-2 gap-10 lg:gap-14 items-center">
+            <div>
+              <span className="section-eyebrow">Our Mission</span>
+              <h2 className="text-2xl md:text-3xl font-serif font-bold text-gray-900 mb-4">
+                Rooted in Dharma,<br />Serving with Devotion
+              </h2>
+              <div className="ornament-line mb-6 !mx-0" />
+              <blockquote className="text-gray-700 leading-relaxed italic border-l-4 border-gold-400 pl-4 py-2 bg-white/80 rounded-r-lg mb-4">
+                &ldquo;To help Brahmin community in their livelihood, continue their customs and cultural identity. Stand away from politics.&rdquo;
+              </blockquote>
+              <p className="text-gray-700 leading-relaxed mb-4">
+                Brahmana Seva Sangham was started on the Telugu New Year of <strong>Bhava</strong> (1994) at the house of
+                Shri P.V. Ramanaiah, A.T. Agraharam, Guntur. It was later registered as <strong>Society No. 48/1997</strong> on
+                January 25, 1997.
+              </p>
+              <p className="text-gray-700 leading-relaxed">
+                Started as an extension of Brahmana Seva Samithi, Brodipet, it grew to cater to the needs of
+                Brahmins across entire Guntur and beyond, with services extending to those staying outside
+                Andhra Pradesh and abroad.
+              </p>
+            </div>
 
-              <div className="card p-6">
-                <h3 className="font-serif font-bold text-xl text-saffron-500 mb-4 text-center">
-                  Governing Body
-                </h3>
-                <div className="space-y-3">
-                  {governingBody.map((member) => (
-                    <div key={member.name} className="flex items-start gap-3 py-2 border-b border-cream-200 last:border-0">
-                      <div className="w-8 h-8 rounded-full bg-saffron-50 flex items-center justify-center text-sm font-bold text-saffron-500 flex-shrink-0 mt-0.5">
-                        {member.name.split(' ').pop()[0]}
-                      </div>
-                      <div className="flex-1 min-w-0">
-                        <p className="text-sm font-semibold text-gray-800 truncate">{member.name}</p>
-                        <p className="text-sm text-saffron-500">{member.role}</p>
-                      </div>
-                      <a href={`tel:${member.phone}`} className="text-sm text-gray-400 hover:text-saffron-500 flex-shrink-0">
-                        {member.phone}
-                      </a>
-                    </div>
-                  ))}
-                </div>
-                <div className="text-center mt-4">
-                  <Link href="/committee" className="text-sm text-saffron-500 hover:text-saffron-600 font-medium">
-                    View Full Committee →
-                  </Link>
+            {/* Related image with frame + floating badge */}
+            <div className="relative max-w-md lg:max-w-none mx-auto w-full pt-4 pb-8">
+              <div className="absolute -top-1 -right-3 w-28 h-28 rounded-2xl pattern-dots" aria-hidden="true" />
+              <div className="relative rounded-3xl overflow-hidden border-4 border-white shadow-[0_20px_50px_rgba(195,74,44,0.18)]">
+                <Image
+                  src="/images/slider/banner-1.png"
+                  alt="Brahmana Seva Samiti community gathering"
+                  width={800}
+                  height={600}
+                  className="object-cover w-full h-auto"
+                  sizes="(max-width: 1024px) 100vw, 50vw"
+                />
+                <div className="absolute inset-0 bg-gradient-to-t from-black/25 via-transparent to-transparent" />
+              </div>
+              <div className="absolute -bottom-1 left-5 bg-white rounded-2xl shadow-lg border border-cream-200 px-5 py-3 flex items-center gap-3">
+                <span className="text-2xl">🛕</span>
+                <div>
+                  <p className="text-base font-black text-saffron-600 leading-none">Since 1994</p>
+                  <p className="text-sm text-gray-600 mt-1">Serving Guntur &amp; beyond</p>
                 </div>
               </div>
             </div>
@@ -178,32 +184,96 @@ export default function About() {
         </div>
       </section>
 
-      {/* 12 Welfare Activities */}
-      <section id="welfare" className="py-16 md:py-20 bg-white scroll-mt-28 lg:scroll-mt-14">
+      {/* Governing Body — separate section on photo background */}
+      <section className="py-16 md:py-20 section-photo border-y border-cream-200">
         <div className="page-container">
           <div className="text-center mb-12">
-            <h2 className="section-title text-center text-3xl md:text-4xl">
+            <span className="section-eyebrow">Leadership</span>
+            <h2 className="section-title text-center text-3xl md:text-4xl !text-gray-900">
+              Governing Body
+            </h2>
+            <div className="ornament-line mb-4" />
+            <p className="text-gray-700 max-w-2xl mx-auto">
+              The elected office bearers who guide the Sangham — leading with
+              tradition, transparency and tireless seva.
+            </p>
+          </div>
+
+          <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-4 max-w-5xl mx-auto">
+            {governingBody.map((member) => (
+              <div
+                key={member.name}
+                className="card p-5 bg-white/95 backdrop-blur-sm flex items-center gap-4 hover:-translate-y-1 hover:shadow-[0_14px_30px_rgba(195,74,44,0.14)] transition-all duration-300"
+              >
+                <div className="w-12 h-12 rounded-full bg-gradient-to-br from-saffron-500 to-gold-500 flex items-center justify-center text-lg font-bold text-white flex-shrink-0 shadow-md">
+                  {member.name.split(' ').pop()[0]}
+                </div>
+                <div className="flex-1 min-w-0">
+                  <p className="text-sm font-bold text-gray-900 truncate">{member.name}</p>
+                  <p className="text-sm text-saffron-700 font-semibold">{member.role}</p>
+                  <a
+                    href={`tel:${member.phone}`}
+                    className="inline-flex items-center gap-1.5 text-sm text-gray-600 hover:text-saffron-600 transition-colors mt-0.5"
+                  >
+                    <svg className="w-3 h-3" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z" />
+                    </svg>
+                    {member.phone}
+                  </a>
+                </div>
+              </div>
+            ))}
+          </div>
+
+          <div className="text-center mt-9">
+            <Link
+              href="/committee"
+              className="inline-flex items-center gap-2 px-6 py-2.5 rounded-xl text-sm font-semibold text-white bg-gradient-to-r from-saffron-500 to-saffron-600 hover:from-saffron-600 hover:to-saffron-700 shadow-[0_8px_20px_rgba(195,74,44,0.28)] hover:-translate-y-0.5 transition-all duration-300"
+            >
+              View Full Committee
+              <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M17 8l4 4m0 0l-4 4m4-4H3" /></svg>
+            </Link>
+          </div>
+        </div>
+      </section>
+
+      {/* Welfare Activities — redesigned grid */}
+      <section id="welfare" className="py-16 md:py-20 section-plain scroll-mt-28 lg:scroll-mt-14">
+        <div className="page-container">
+          <div className="text-center mb-12">
+            <span className="section-eyebrow">What We Do</span>
+            <h2 className="section-title text-center text-3xl md:text-4xl !text-gray-900">
               Our Welfare Activities
             </h2>
             <div className="ornament-line mb-4" />
-            <p className="text-gray-500 max-w-2xl mx-auto">
+            <p className="text-gray-700 max-w-2xl mx-auto">
               A comprehensive suite of welfare schemes and cultural programs designed to serve
               every member of our community across all stages of life.
             </p>
           </div>
 
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5 max-w-6xl mx-auto">
             {welfareActivities.map((activity, idx) => (
-              <div key={idx} className="card group hover:scale-[1.02] transition-all duration-300">
+              <div
+                key={idx}
+                className="group relative bg-white rounded-2xl border border-cream-200 shadow-[0_2px_14px_rgba(195,74,44,0.06)] overflow-hidden hover:shadow-[0_18px_44px_rgba(195,74,44,0.14)] hover:-translate-y-1.5 transition-all duration-300"
+              >
+                {/* Gradient top strip */}
+                <div className="h-1.5 w-full bg-gradient-to-r from-saffron-400 via-gold-400 to-saffron-500 opacity-70 group-hover:opacity-100 transition-opacity" />
+
                 <div className="p-6">
-                  <div className="flex items-center justify-between mb-4">
-                    <span className="text-3xl group-hover:scale-110 transition-transform">{activity.icon}</span>
-                    <span className="text-sm font-bold text-gray-400 bg-cream-50 px-2 py-1 rounded">
+                  <div className="flex items-start justify-between mb-5">
+                    <span className="title-badge !rounded-xl group-hover:scale-110 group-hover:-rotate-3 transition-transform duration-300">
+                      {activity.icon}
+                    </span>
+                    <span className="text-sm font-bold text-gray-500 bg-cream-50 border border-cream-200 px-2.5 py-1 rounded-full">
                       #{String(idx + 1).padStart(2, '0')}
                     </span>
                   </div>
-                  <h3 className="text-lg font-serif font-bold text-gray-800 mb-2">{activity.title}</h3>
-                  <p className="text-sm text-gray-600 leading-relaxed">{activity.description}</p>
+                  <h3 className="text-lg font-serif font-bold text-gray-900 mb-2 group-hover:text-saffron-600 transition-colors">
+                    {activity.title}
+                  </h3>
+                  <p className="text-sm text-gray-700 leading-relaxed">{activity.description}</p>
                 </div>
               </div>
             ))}
@@ -211,59 +281,101 @@ export default function About() {
         </div>
       </section>
 
-      {/* History Timeline */}
-      <section id="history" className="py-16 md:py-20 bg-cream-50 scroll-mt-28 lg:scroll-mt-14">
+      {/* History Timeline — grouped by year, one card per year */}
+      <section id="history" className="py-16 md:py-20 section-tint scroll-mt-28 lg:scroll-mt-14">
         <div className="page-container">
           <div className="text-center mb-12">
-            <h2 className="section-title text-center text-3xl md:text-4xl">
+            <span className="section-eyebrow">Our Journey</span>
+            <h2 className="section-title text-center text-3xl md:text-4xl !text-gray-900">
               Our History
             </h2>
             <div className="ornament-line mb-4" />
-            <p className="text-gray-500 max-w-2xl mx-auto">
+            <p className="text-gray-700 max-w-2xl mx-auto">
               From a small gathering in 1994 to a registered society serving 760+ members —
               three decades of unwavering community service.
             </p>
           </div>
 
-          <div className="max-w-3xl mx-auto">
-            <div className="relative">
-              {/* Vertical line */}
-              <div className="absolute left-6 md:left-1/2 top-0 bottom-0 w-0.5 bg-cream-300 -translate-x-1/2" />
+          <div className="max-w-4xl mx-auto relative">
+            {/* Vertical line */}
+            <div className="absolute left-[22px] md:left-[27px] top-2 bottom-2 w-0.5 bg-gradient-to-b from-saffron-200 via-cream-300 to-gold-200" aria-hidden="true" />
 
-              <div className="space-y-8">
-                {timeline.map((item, idx) => (
-                  <div key={idx} className={`relative flex items-start gap-4 ${idx % 2 === 0 ? 'md:flex-row' : 'md:flex-row-reverse'}`}>
-                    {/* Dot */}
-                    <div className="absolute left-6 md:left-1/2 w-3 h-3 bg-saffron-500 rounded-full -translate-x-1/2 mt-2 z-10 ring-4 ring-white" />
+            <div className="space-y-7">
+              {timelineYears.map((group) => {
+                const isCurrentYear = group.year === String(new Date().getFullYear());
+                return (
+                  <div key={group.year} className="relative flex items-start gap-4 md:gap-6">
+                    {/* Year node on the line */}
+                    <div
+                      className={`relative z-10 w-11 h-11 md:w-14 md:h-14 rounded-2xl flex items-center justify-center flex-shrink-0 font-black shadow-lg ${
+                        isCurrentYear
+                          ? 'bg-gradient-to-br from-gold-400 to-saffron-600 text-white text-sm md:text-base ring-4 ring-gold-200'
+                          : 'bg-white border-2 border-saffron-200 text-saffron-700 text-sm md:text-base'
+                      }`}
+                    >
+                      {group.year}
+                    </div>
 
-                    {/* Content */}
-                    <div className={`ml-12 md:ml-0 md:w-1/2 ${idx % 2 === 0 ? 'md:pr-8 md:text-right' : 'md:pl-8'}`}>
-                      <div className="card p-4">
-                        <div className="flex items-center gap-2 mb-1">
-                          <span className="text-lg">{item.icon}</span>
-                          <span className="text-sm font-bold text-saffron-500">{item.year}</span>
-                          <span className="text-sm text-gray-400">— {item.date}</span>
-                        </div>
-                        <p className="text-sm text-gray-600 leading-relaxed">{item.event}</p>
+                    {/* One card = all events of this year */}
+                    <div
+                      className={`flex-1 min-w-0 rounded-2xl p-5 md:p-6 ${
+                        isCurrentYear
+                          ? 'bg-gradient-to-br from-gold-50 to-saffron-50 border-2 border-gold-300 shadow-[0_16px_40px_rgba(218,165,32,0.22)]'
+                          : 'bg-white border border-cream-200 shadow-[0_2px_14px_rgba(195,74,44,0.06)]'
+                      }`}
+                    >
+                      <div className="flex items-center justify-between gap-3 mb-4">
+                        <h3 className={`text-lg md:text-xl font-serif font-black ${isCurrentYear ? 'text-saffron-800' : 'text-gray-900'}`}>
+                          {group.year}
+                        </h3>
+                        {isCurrentYear ? (
+                          <span className="inline-flex items-center gap-1.5 text-sm font-bold text-white bg-gradient-to-r from-gold-400 to-saffron-500 px-3 py-1 rounded-full flex-shrink-0">
+                            <span className="w-1.5 h-1.5 rounded-full bg-white animate-pulse" />
+                            Current Year
+                          </span>
+                        ) : (
+                          <span className="text-sm font-bold text-gray-500 bg-cream-50 border border-cream-200 px-2.5 py-0.5 rounded-full flex-shrink-0">
+                            {group.items.length} {group.items.length === 1 ? 'milestone' : 'milestones'}
+                          </span>
+                        )}
+                      </div>
+
+                      <div className={`gap-4 ${group.items.length > 1 ? 'grid md:grid-cols-2' : 'grid'}`}>
+                        {group.items.map((item, idx) => (
+                          <div
+                            key={idx}
+                            className={`flex items-start gap-3 p-3.5 rounded-xl ${
+                              isCurrentYear
+                                ? 'bg-white/85 border border-gold-200'
+                                : 'bg-cream-50/80 border border-cream-200/70'
+                            }`}
+                          >
+                            <span className="icon-badge !w-9 !h-9 !text-base">{item.icon}</span>
+                            <div className="min-w-0">
+                              <p className="text-sm font-bold text-saffron-700 mb-0.5">{item.date}</p>
+                              <p className="text-sm text-gray-700 leading-relaxed">{item.event}</p>
+                            </div>
+                          </div>
+                        ))}
                       </div>
                     </div>
                   </div>
-                ))}
-              </div>
+                );
+              })}
             </div>
           </div>
         </div>
       </section>
 
       {/* Visista Vyakthulu — Distinguished Persons */}
-      <section id="visista" className="py-16 md:py-20 bg-white scroll-mt-28 lg:scroll-mt-14">
+      <section id="visista" className="py-16 md:py-20 section-warm scroll-mt-28 lg:scroll-mt-14">
         <div className="page-container">
           <div className="text-center mb-12">
-            <h2 className="section-title text-center text-3xl md:text-4xl">
+            <h2 className="section-title text-center text-3xl md:text-4xl !text-gray-900">
               Visista Vyakthulu
             </h2>
             <div className="ornament-line mb-4" />
-            <p className="text-gray-500 max-w-2xl mx-auto">
+            <p className="text-gray-700 max-w-2xl mx-auto">
               Every year, the Sangham honors a distinguished member of the Brahmin community
               for their exceptional contributions to society and dharma.
             </p>
@@ -272,11 +384,11 @@ export default function About() {
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 max-w-5xl mx-auto">
             {visistaVyakthulu.map((item, idx) => (
               <div key={idx} className="card p-4 flex items-center gap-4 hover:scale-[1.02] transition-all duration-300">
-                <div className="w-12 h-12 rounded-full bg-gradient-to-br from-saffron-400 to-gold-500 flex items-center justify-center text-white font-bold text-sm flex-shrink-0 shadow">
+                <div className="w-12 h-12 rounded-full bg-gradient-to-br from-saffron-500 to-gold-500 flex items-center justify-center text-white font-bold text-sm flex-shrink-0 shadow-md">
                   {item.year}
                 </div>
                 <div className="min-w-0">
-                  <p className="text-sm font-serif font-bold text-gray-800 leading-snug">{item.name}</p>
+                  <p className="text-sm font-serif font-bold text-gray-900 leading-snug">{item.name}</p>
                 </div>
               </div>
             ))}
@@ -285,14 +397,14 @@ export default function About() {
       </section>
 
       {/* Visista Datalu — Distinguished Donors */}
-      <section id="datalu" className="py-16 md:py-20 bg-cream-50 scroll-mt-28 lg:scroll-mt-14">
+      <section id="datalu" className="py-16 md:py-20 section-tint scroll-mt-28 lg:scroll-mt-14">
         <div className="page-container">
           <div className="text-center mb-12">
-            <h2 className="section-title text-center text-3xl md:text-4xl">
+            <h2 className="section-title text-center text-3xl md:text-4xl !text-gray-900">
               Visista Datalu
             </h2>
             <div className="ornament-line mb-4" />
-            <p className="text-gray-500 max-w-2xl mx-auto">
+            <p className="text-gray-700 max-w-2xl mx-auto">
               The Sangham recognizes major donors whose generous contributions have
               helped build our Arama Kshetram and sustain our welfare activities.
             </p>
@@ -306,8 +418,8 @@ export default function About() {
                     {item.year}
                   </div>
                   <div>
-                    <p className="text-base font-serif font-bold text-gray-800">{item.name}</p>
-                    <p className="text-sm text-saffron-600 font-medium mt-1">{item.contribution}</p>
+                  <p className="text-base font-serif font-bold text-gray-900">{item.name}</p>
+                  <p className="text-sm text-saffron-800 font-medium mt-1">{item.contribution}</p>
                   </div>
                 </div>
               </div>
@@ -317,14 +429,14 @@ export default function About() {
       </section>
 
       {/* Community Highlights — full lists moved to /community page */}
-      <section id="community-links" className="py-16 md:py-20 bg-white">
+      <section id="community-links" className="py-16 md:py-20 section-plain">
         <div className="page-container">
           <div className="text-center mb-12">
-            <h2 className="section-title text-center text-3xl md:text-4xl">
+            <h2 className="section-title text-center text-3xl md:text-4xl !text-gray-900">
               Bala Goseva &amp; Jandhyala Centers
             </h2>
             <div className="ornament-line mb-4" />
-            <p className="text-gray-500 max-w-2xl mx-auto">
+            <p className="text-gray-600 max-w-2xl mx-auto">
               The full contributor lists and all 46 distribution centers are now on a
               dedicated page to keep this one easy to browse.
             </p>
@@ -336,12 +448,12 @@ export default function About() {
               className="card group p-8 flex flex-col items-center text-center hover:scale-[1.02] transition-all duration-300"
             >
               <span className="text-5xl mb-4 group-hover:scale-110 transition-transform">🐄</span>
-              <h3 className="text-xl font-serif font-bold text-gray-800 mb-2">Bala Goseva Contributors</h3>
-              <p className="text-sm text-gray-600 leading-relaxed mb-4">
+              <h3 className="text-xl font-serif font-bold text-gray-900 mb-2">Bala Goseva Contributors</h3>
+              <p className="text-sm text-gray-700 leading-relaxed mb-4">
                 Our youngest donors — children who contribute through Cow Kiddy Banks.
                 ₹27,428 collected from 41 children in 2025.
               </p>
-              <span className="text-sm font-semibold text-saffron-500 group-hover:text-saffron-600">
+              <span className="text-sm font-semibold text-saffron-600 group-hover:text-saffron-700">
                 View All Contributors →
               </span>
             </Link>
@@ -351,12 +463,12 @@ export default function About() {
               className="card group p-8 flex flex-col items-center text-center hover:scale-[1.02] transition-all duration-300"
             >
               <span className="text-5xl mb-4 group-hover:scale-110 transition-transform">🧵</span>
-              <h3 className="text-xl font-serif font-bold text-gray-800 mb-2">Jandhyala Distribution Centers</h3>
-              <p className="text-sm text-gray-600 leading-relaxed mb-4">
+              <h3 className="text-xl font-serif font-bold text-gray-900 mb-2">Jandhyala Distribution Centers</h3>
+              <p className="text-sm text-gray-700 leading-relaxed mb-4">
                 Free Yagnopaveethams distributed annually through 46 centers across
                 Guntur, Hyderabad, London and beyond.
               </p>
-              <span className="text-sm font-semibold text-saffron-500 group-hover:text-saffron-600">
+              <span className="text-sm font-semibold text-saffron-600 group-hover:text-saffron-700">
                 Find a Center Near You →
               </span>
             </Link>
@@ -364,27 +476,6 @@ export default function About() {
         </div>
       </section>
 
-      {/* Contact CTA */}
-      <section className="py-16 md:py-20 bg-gradient-to-br from-saffron-600 via-saffron-700 to-gray-900 text-white overflow-hidden">
-        <div className="page-container">
-          <div className="max-w-3xl mx-auto text-center">
-            <h2 className="text-2xl md:text-3xl font-serif font-black mb-4">Be Part of Our Legacy</h2>
-            <div className="ornament-line mb-5" />
-            <p className="text-white/70 mb-8 max-w-xl mx-auto leading-relaxed">
-              Join us in our mission to serve the community. Whether through membership, donations,
-              or volunteering — every contribution strengthens our bonds.
-            </p>
-            <div className="flex flex-col sm:flex-row items-center justify-center gap-3">
-              <Link href="/contact" className="px-7 py-3 bg-white text-saffron-700 font-semibold rounded-xl hover:bg-cream-100 transition-all duration-300 shadow-xl text-center text-sm hover:-translate-y-0.5">
-                Contact & Donate
-              </Link>
-              <Link href="/members" className="px-7 py-3 border-2 border-white/20 text-white font-semibold rounded-xl hover:bg-white/10 transition-all duration-300 text-center text-sm">
-                View Members
-              </Link>
-            </div>
-          </div>
-        </div>
-      </section>
     </>
   );
 }

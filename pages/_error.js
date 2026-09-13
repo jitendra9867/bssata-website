@@ -1,6 +1,6 @@
 function Error({ statusCode }) {
   return (
-    <div className="min-h-[60vh] flex items-center justify-center">
+    <div className="min-h-[60vh] flex items-center justify-center section-photo">
       <div className="text-center">
         <div className="text-6xl mb-4">🙏</div>
         <h1 className="text-4xl font-banner font-bold text-saffron-500 mb-2">

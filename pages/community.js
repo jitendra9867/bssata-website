@@ -133,14 +133,14 @@ export default function Community() {
       </div>
 
       {/* Bala Goseva Donors */}
-      <section id="bala-goseva" className="py-16 md:py-20 bg-cream-50 scroll-mt-28 lg:scroll-mt-14">
+      <section id="bala-goseva" className="py-16 md:py-20 section-tint scroll-mt-28 lg:scroll-mt-14">
         <div className="page-container">
           <div className="text-center mb-12">
-            <h2 className="section-title text-center text-3xl md:text-4xl">
+            <h2 className="section-title text-center text-3xl md:text-4xl !text-gray-900">
               Bala Goseva Contributors
             </h2>
             <div className="ornament-line mb-4" />
-            <p className="text-gray-500 max-w-2xl mx-auto">
+            <p className="text-gray-700 max-w-2xl mx-auto">
               Our youngest contributors — children who lovingly donate through Cow Kiddy Banks
               to support cow welfare and Goseva. Total collected in 2025: <strong className="text-saffron-500">₹27,428</strong> from <strong className="text-saffron-500">41 children</strong>.
             </p>
@@ -149,14 +149,14 @@ export default function Community() {
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-3 max-w-6xl mx-auto">
             {balaGosevaDonors.map((item, idx) => (
               <div key={idx} className="card p-3 flex items-center gap-3 hover:scale-[1.02] transition-all duration-300">
-                <div className="w-9 h-9 rounded-full bg-cream-100 flex items-center justify-center text-sm font-bold text-saffron-500 flex-shrink-0">
+                <div className="w-9 h-9 rounded-full bg-saffron-100 border border-saffron-200 flex items-center justify-center text-sm font-bold text-saffron-700 flex-shrink-0">
                   {idx + 1}
                 </div>
                 <div className="min-w-0 flex-1">
-                  <p className="text-sm font-semibold text-gray-800 truncate">{item.name}</p>
-                  <p className="text-sm text-gray-400 truncate">{item.class}</p>
+                  <p className="text-sm font-semibold text-gray-900 truncate">{item.name}</p>
+                  <p className="text-sm text-gray-500 truncate">{item.class}</p>
                 </div>
-                <span className="text-sm font-bold text-saffron-500 flex-shrink-0">₹{item.amount}</span>
+                <span className="text-sm font-bold text-saffron-700 flex-shrink-0">₹{item.amount}</span>
               </div>
             ))}
           </div>
@@ -164,15 +164,15 @@ export default function Community() {
       </section>
 
       {/* Jandhyala Pournami Distribution Centers */}
-      <section id="jandhyala-centers" className="py-16 md:py-20 bg-white scroll-mt-28 lg:scroll-mt-14">
+      <section id="jandhyala-centers" className="py-16 md:py-20 section-photo border-y border-cream-200 scroll-mt-28 lg:scroll-mt-14">
         <div className="page-container">
           <div className="text-center mb-12">
-            <h2 className="section-title text-center text-3xl md:text-4xl">
+            <h2 className="section-title text-center text-3xl md:text-4xl !text-gray-900">
               Jandhyala Pournami Distribution Centers
             </h2>
             <div className="ornament-line mb-4" />
-            <p className="text-gray-500 max-w-2xl mx-auto">
-              Free Yagnopaveethams are distributed annually through <strong className="text-saffron-500">46 centers</strong>
+            <p className="text-gray-700 max-w-2xl mx-auto">
+              Free Yagnopaveethams are distributed annually through <strong className="text-saffron-700">46 centers</strong>
               {' '}across Guntur, abroad, and other parts of the country. Pick up your sacred thread
               from the center nearest to you before Jandhyala Pournami.
             </p>
@@ -180,17 +180,17 @@ export default function Community() {
 
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 max-w-6xl mx-auto">
             {jandhyalaCenters.map((center) => (
-              <div key={center.id} className="card p-4 hover:scale-[1.02] transition-all duration-300">
+              <div key={center.id} className="card p-4 bg-white/95 backdrop-blur-sm hover:-translate-y-1 hover:shadow-[0_14px_30px_rgba(195,74,44,0.12)] transition-all duration-300">
                 <div className="flex items-start gap-3">
-                  <div className="w-8 h-8 rounded-full bg-saffron-100 flex items-center justify-center text-sm font-bold text-saffron-600 flex-shrink-0 mt-0.5">
+                  <div className="w-8 h-8 rounded-full bg-saffron-100 border border-saffron-200 flex items-center justify-center text-sm font-bold text-saffron-700 flex-shrink-0 mt-0.5">
                     {center.id}
                   </div>
                   <div className="min-w-0 flex-1">
-                    <p className="text-sm font-semibold text-gray-800 leading-snug mb-1">{center.location}</p>
-                    <p className="text-sm text-gray-500 mb-1.5">{center.contact}</p>
+                    <p className="text-sm font-semibold text-gray-900 leading-snug mb-1">{center.location}</p>
+                    <p className="text-sm text-gray-600 mb-1.5">{center.contact}</p>
                     <div className="flex items-center gap-3 flex-wrap">
                       {center.phone && (
-                        <a href={`tel:${center.phone}`} className="inline-flex items-center gap-1 text-sm text-saffron-500 hover:text-saffron-600">
+                        <a href={`tel:${center.phone}`} className="inline-flex items-center gap-1 text-sm text-saffron-600 hover:text-saffron-700">
                           <svg className="w-3 h-3" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z" />
                           </svg>
@@ -210,32 +210,13 @@ export default function Community() {
           </div>
 
           <div className="mt-8 text-center">
-            <p className="text-sm text-gray-400">
-              For bulk distribution or queries, contact the Secretary at <a href="tel:7893961234" className="text-saffron-500 font-medium">78939 61234</a>
+            <p className="text-sm text-gray-600">
+              For bulk distribution or queries, contact the Secretary at <a href="tel:7893961234" className="text-saffron-700 font-semibold hover:text-saffron-800">78939 61234</a>
             </p>
           </div>
         </div>
       </section>
 
-      {/* Back to About CTA */}
-      <section className="py-14 md:py-16 bg-gradient-to-br from-saffron-600 via-saffron-700 to-gray-900 text-white overflow-hidden">
-        <div className="page-container text-center">
-          <h2 className="text-2xl md:text-3xl font-serif font-black mb-4">Want to Contribute?</h2>
-          <div className="ornament-line mb-5" />
-          <p className="text-white/70 mb-8 max-w-xl mx-auto leading-relaxed">
-            Pick up a Cow Kiddy Bank for your child, or volunteer as a distribution
-            center for Jandhyala Pournami next year.
-          </p>
-          <div className="flex flex-col sm:flex-row items-center justify-center gap-3">
-            <Link href="/contact" className="px-7 py-3 bg-white text-saffron-700 font-semibold rounded-xl hover:bg-cream-100 transition-all duration-300 shadow-xl text-sm hover:-translate-y-0.5">
-              Contact Us
-            </Link>
-            <Link href="/about" className="px-7 py-3 border-2 border-white/20 text-white font-semibold rounded-xl hover:bg-white/10 transition-all duration-300 text-sm">
-              Back to About Us
-            </Link>
-          </div>
-        </div>
-      </section>
     </>
   );
 }

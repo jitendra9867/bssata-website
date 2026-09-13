@@ -52,6 +52,13 @@ module.exports = {
           900: '#372808',
         },
       },
+      /* Site-wide minimum readable sizes: text-xs is never below 14px,
+         text-sm (the workhorse body size on inner pages) renders at 15px. */
+      fontSize: {
+        'xs': ['0.875rem', { lineHeight: '1.55' }],
+        'sm': ['0.9375rem', { lineHeight: '1.65' }],
+        'base': ['1rem', { lineHeight: '1.7' }],
+      },
       fontFamily: {
         sans: ['"Droid Sans"', 'Arial', 'system-ui', 'sans-serif'],
         serif: ['Raleway', '"Droid Sans"', 'Arial', 'sans-serif'],

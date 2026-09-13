@@ -40,7 +40,7 @@ export default function Register() {
       </section>
 
       {/* Registration Form */}
-      <section className="py-16 md:py-20 bg-cream-50">
+      <section className="py-16 md:py-20 section-tint">
         <div className="page-container">
           <div className="max-w-4xl mx-auto">
             <div className="grid md:grid-cols-2 gap-8 lg:gap-12">
@@ -180,7 +180,7 @@ export default function Register() {
 
                 <div className="bg-gradient-to-br from-saffron-50 to-cream-100 rounded-2xl p-6 border border-saffron-200">
                   <h3 className="text-lg font-serif font-bold text-saffron-800 mb-3">Membership Fee</h3>
-                  <div className="text-4xl font-bold text-saffron-600 mb-2">₹10,000</div>
+                  <div className="text-4xl font-bold text-saffron-700 mb-2">₹10,000</div>
                   <p className="text-sm text-saffron-700">and above for life membership</p>
                 </div>
 
