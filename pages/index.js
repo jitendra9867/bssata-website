@@ -427,7 +427,7 @@ export default function Home() {
       <TestimonialsCarousel />
 
       {/* ─── Join CTA — deep gold gradient, text left / buttons right ─── */}
-      <section className="relative py-10 md:py-12 overflow-hidden text-white bg-gradient-to-br from-[#8a5f00] via-[#cd8901] to-[#8a5f00]">
+      <section className="relative py-10 md:py-12 overflow-hidden text-white bg-gradient-to-br from-[#8a5f00] via-[#8b2500] to-[#6e1d00]">
         <div
           className="absolute inset-0 pointer-events-none opacity-[0.07]"
           style={{ backgroundImage: 'radial-gradient(circle at 1px 1px, #ffffff 1px, transparent 0)', backgroundSize: '28px 28px' }}

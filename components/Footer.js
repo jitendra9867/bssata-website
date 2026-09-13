@@ -272,7 +272,7 @@ export default function Footer() {
 
       {/* Bottom bar */}
       <div className="relative border-t border-white/10 bg-black/[0.18]">
-        <div className="boxed-footer-container flex flex-col sm:flex-row justify-between items-center gap-4" style={{ paddingTop: '20px', paddingBottom: '20px' }}>
+        <div className="boxed-footer-container flex flex-col sm:flex-row justify-between items-center gap-4" style={{ paddingTop: '5px', paddingBottom: '5px' }}>
           <p className="text-sm text-cream-100/60 text-center sm:text-left">
             &copy; {new Date().getFullYear()} Brahmana Seva Samiti · Regd No: 48/97. All rights
             reserved.
