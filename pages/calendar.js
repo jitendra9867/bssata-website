@@ -33,7 +33,7 @@ export default function Calendar() {
 
       {/* Hero */}
       <section className="relative text-white py-16 md:py-24 overflow-hidden">
-        <Image src="/images/om-banner.png" alt="" fill className="object-cover" sizes="100vw" style={{ backgroundColor: '#1a0a00', opacity: 0.2 }} />
+        <Image src="/images/om-banner.png" alt="" fill className="object-cover object-center" sizes="100vw" priority />
         <div className="absolute inset-0 hero-om-overlay" />
         <div className="absolute top-0 right-0 w-[500px] h-[500px] bg-gold-400/8 rounded-full blur-3xl" />
         <div className="absolute bottom-0 left-0 w-[400px] h-[400px] bg-saffron-400/8 rounded-full blur-3xl" />

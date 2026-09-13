@@ -13,20 +13,20 @@
   }
 
   body {
-    font-family: 'DM Sans', system-ui, -apple-system, sans-serif;
+    font-family: 'Droid Sans', Arial, system-ui, sans-serif;
     line-height: 1.65;
     letter-spacing: 0.005em;
   }
 
   h1, h2, h3, h4, h5, h6 {
-    font-family: 'Playfair Display', 'DM Sans', serif;
-    letter-spacing: -0.005em;
-    line-height: 1.18;
+    font-family: 'Raleway', 'Droid Sans', Arial, sans-serif;
+    letter-spacing: -0.01em;
+    line-height: 1.2;
   }
 
-  /* Banners, hero titles & logo — Raleway bold, same as bssata.org */
+  /* Banners, hero titles & logo — Raleway, same as bssata.org */
   .font-banner, header h1 {
-    font-family: 'Raleway', 'DM Sans', sans-serif;
+    font-family: 'Raleway', 'Droid Sans', Arial, sans-serif;
     letter-spacing: -0.01em;
   }
 
@@ -43,11 +43,11 @@
   }
 
   p, li, span, td, th, label, input, textarea, select {
-    font-family: 'DM Sans', system-ui, -apple-system, sans-serif;
+    font-family: 'Droid Sans', Arial, system-ui, sans-serif;
   }
 
   blockquote, .font-serif, h2, h3, h4, h5, h6 {
-    font-family: 'Playfair Display', 'DM Sans', serif;
+    font-family: 'Raleway', 'Droid Sans', Arial, sans-serif;
   }
 
   ::selection {

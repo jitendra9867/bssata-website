@@ -53,9 +53,9 @@ module.exports = {
         },
       },
       fontFamily: {
-        sans: ['"DM Sans"', 'system-ui', '-apple-system', 'sans-serif'],
-        serif: ['"Playfair Display"', 'Georgia', 'serif'],
-        banner: ['Raleway', '"DM Sans"', 'sans-serif'],
+        sans: ['"Droid Sans"', 'Arial', 'system-ui', 'sans-serif'],
+        serif: ['Raleway', '"Droid Sans"', 'Arial', 'sans-serif'],
+        banner: ['Raleway', '"Droid Sans"', 'Arial', 'sans-serif'],
       },
       animation: {
         'marquee': 'marquee 25s linear infinite',

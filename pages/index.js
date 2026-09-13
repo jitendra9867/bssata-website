@@ -321,7 +321,7 @@ export default function Home() {
 
       {/* ─── Executive Committee ─── */}
       <section className="relative py-[50px] overflow-hidden">
-        <Image src="/images/om-banner.png" alt="" fill className="object-cover" sizes="100vw" style={{ backgroundColor: '#1a0a00' }} />
+        <Image src="/images/om-banner.png" alt="" fill className="object-cover object-center" sizes="100vw" priority />
         <div className="absolute inset-0 bg-gradient-to-br from-[#b47a20]/85 via-[#94591a]/80 to-[#5f3a0c]/92" />
         <div className="absolute top-0 right-0 w-96 h-96 bg-gold-300/20 rounded-full blur-3xl" />
         <div className="absolute bottom-0 left-0 w-80 h-80 bg-amber-400/15 rounded-full blur-3xl" />

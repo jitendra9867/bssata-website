@@ -241,7 +241,7 @@ export default function ProgramPage({ program }) {
 
       {/* Hero */}
       <section className="relative text-white py-12 md:py-16 overflow-hidden">
-        <Image src="/images/om-banner.png" alt="" fill className="object-cover" sizes="100vw" style={{ backgroundColor: '#1a0a00' }} />
+        <Image src="/images/om-banner.png" alt="" fill className="object-cover object-center" sizes="100vw" priority />
         <div className="absolute inset-0 hero-om-overlay" />
         <div className="absolute top-0 right-0 w-[400px] h-[400px] bg-gold-400/10 rounded-full blur-3xl" />
         <div className="relative page-container text-center">
