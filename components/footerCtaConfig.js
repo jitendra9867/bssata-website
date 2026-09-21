@@ -17,7 +17,7 @@ export const FOOTER_CTA = {
     eyebrow: 'Be Part of Our Legacy',
     title: 'Join Three Decades of Seva',
     text: 'Since 1994 the Sangham has served the community through Upanayanams, scholarships and Annadanam. Join us — through membership, donations or volunteering.',
-    primary: { label: 'Become a Member', href: '/register' },
+    primary: { label: 'Become a Member', href: '/members#enrollment' },
     secondary: { label: 'View Members', href: '/members' },
   },
   committee: {
@@ -45,15 +45,8 @@ export const FOOTER_CTA = {
     eyebrow: 'Join the Directory',
     title: 'Become a Life Member',
     text: 'Contribute ₹10,000 or above for permanent life membership — with access to all welfare schemes, scholarships and community programs.',
-    primary: { label: 'Register Now', href: '/register' },
+    primary: { label: 'View Life Members', href: '/members#enrollment' },
     secondary: { label: 'Bank Details & Donations', href: '/contact' },
-  },
-  register: {
-    eyebrow: 'Almost There',
-    title: 'Complete Your Enrollment',
-    text: 'Submit the registration form and reach out to the Secretary to complete your life membership — benefits start immediately.',
-    primary: { label: 'Call 78939 61234', href: 'tel:7893961234' },
-    secondary: { label: 'View Members', href: '/members' },
   },
   calendar: {
     eyebrow: 'Free Sampradaya Calendar',
@@ -66,7 +59,7 @@ export const FOOTER_CTA = {
     eyebrow: 'Join Our Mission',
     title: 'Support a Welfare Scheme',
     text: 'From scholarships to Goseva, every scheme is powered by donors. Sponsor a scheme fully or partially — or register as a life member today.',
-    primary: { label: 'Register Now', href: '/register' },
+    primary: { label: 'View Life Members', href: '/members#enrollment' },
     secondary: { label: 'Donate Now', href: '/contact#donate' },
   },
 };

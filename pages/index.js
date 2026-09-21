@@ -59,8 +59,8 @@ function HeroSlider() {
   }, [isAutoPlaying, nextSlide]);
 
   return (
-    <section className="relative w-full aspect-[1900/700] bg-white overflow-hidden" onMouseEnter={() => setIsAutoPlaying(false)} onMouseLeave={() => setIsAutoPlaying(true)}>
-      {/* Slides — the box matches the banner's 1900×700 shape, so each banner shows in full with no cropping and no empty space */}
+    <section className="relative w-full aspect-[8/3] sm:aspect-[1900/700] bg-white overflow-hidden" onMouseEnter={() => setIsAutoPlaying(false)} onMouseLeave={() => setIsAutoPlaying(true)}>
+      {/* Mobile: 8/3 ratio box; sm+: full 1900/700 banner shape (desktop look unchanged). object-contain = full image always visible, no cropping */}
       {sliderSlides.map((slide, i) => (
         <div key={i} className={`absolute inset-0 transition-opacity duration-[1200ms] ease-in-out ${i === current ? 'opacity-100' : 'opacity-0'}`}>
           <Image src={slide.image} alt={slide.title} fill className="object-contain object-center" priority={i === 0} sizes="100vw" />
@@ -71,39 +71,25 @@ function HeroSlider() {
       <div className="absolute inset-0 bg-black/45 pointer-events-none" />
       <div className="absolute inset-0 bg-gradient-to-b from-black/30 via-transparent to-black/40 pointer-events-none" />
 
-      {/* Centered content over the banner */}
+      {/* Centered content over the banner — title + subtitle only, no CTA button */}
       <div className="absolute inset-0 flex items-center justify-center">
-        <div key={current} className="text-center px-6 animate-fade-in-up">
-          <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-banner font-black text-white drop-shadow-[0_2px_12px_rgba(0,0,0,0.7)] leading-tight mb-3 md:mb-4">
+        <div key={current} className="text-center px-12 sm:px-6 animate-fade-in-up">
+          <h1 className="text-lg min-[420px]:text-xl sm:text-3xl md:text-4xl lg:text-5xl font-banner font-black text-white drop-shadow-[0_2px_12px_rgba(0,0,0,0.7)] leading-tight mb-2 sm:mb-3 md:mb-4">
             {sliderSlides[current].title}
           </h1>
-          <p className="text-sm sm:text-base md:text-lg lg:text-xl text-cream-100/95 max-w-2xl mx-auto leading-relaxed drop-shadow-[0_1px_8px_rgba(0,0,0,0.7)] mb-5 md:mb-7">
+          <p className="hidden sm:block text-sm sm:text-base md:text-lg lg:text-xl text-cream-100/95 max-w-2xl mx-auto leading-relaxed drop-shadow-[0_1px_8px_rgba(0,0,0,0.7)]">
             {sliderSlides[current].subtitle}
           </p>
-          <Link
-            href={sliderSlides[current].cta.href}
-            className="inline-flex items-center gap-2 px-6 md:px-8 py-2.5 md:py-3 rounded-full text-sm md:text-base font-bold text-[#3a0f04] bg-gradient-to-r from-gold-400 to-amber-500 hover:from-yellow-300 hover:to-gold-400 shadow-lg hover:shadow-xl hover:-translate-y-0.5 transition-all duration-300"
-          >
-            {sliderSlides[current].cta.label}
-            <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M17 8l4 4m0 0l-4 4m4-4H3" /></svg>
-          </Link>
         </div>
       </div>
 
-      {/* Arrows */}
-      <button onClick={prevSlide} className="absolute left-4 md:left-6 top-1/2 -translate-y-1/2 w-10 h-10 md:w-11 md:h-11 rounded-full bg-black/35 backdrop-blur-md text-white flex items-center justify-center hover:bg-black/60 transition-all duration-300 border border-white/25 shadow-lg" aria-label="Previous">
-        <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" /></svg>
+      {/* Arrows — smaller on phones and tucked closer to the edges */}
+      <button onClick={prevSlide} className="absolute left-2 sm:left-4 md:left-6 top-1/2 -translate-y-1/2 w-9 h-9 sm:w-10 sm:h-10 md:w-11 md:h-11 rounded-full bg-black/35 backdrop-blur-md text-white flex items-center justify-center hover:bg-black/60 transition-all duration-300 border border-white/25 shadow-lg" aria-label="Previous">
+        <svg className="w-4 h-4 sm:w-5 sm:h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" /></svg>
       </button>
-      <button onClick={nextSlide} className="absolute right-4 md:right-6 top-1/2 -translate-y-1/2 w-10 h-10 md:w-11 md:h-11 rounded-full bg-black/35 backdrop-blur-md text-white flex items-center justify-center hover:bg-black/60 transition-all duration-300 border border-white/25 shadow-lg" aria-label="Next">
-        <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" /></svg>
+      <button onClick={nextSlide} className="absolute right-2 sm:right-4 md:right-6 top-1/2 -translate-y-1/2 w-9 h-9 sm:w-10 sm:h-10 md:w-11 md:h-11 rounded-full bg-black/35 backdrop-blur-md text-white flex items-center justify-center hover:bg-black/60 transition-all duration-300 border border-white/25 shadow-lg" aria-label="Next">
+        <svg className="w-4 h-4 sm:w-5 sm:h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" /></svg>
       </button>
-
-      {/* Dots */}
-      <div className="absolute bottom-5 left-1/2 -translate-x-1/2 flex items-center gap-2.5 rounded-full bg-black/35 backdrop-blur-md px-3.5 py-2">
-        {sliderSlides.map((_, i) => (
-          <button key={i} onClick={() => setCurrent(i)} className={`transition-all duration-400 rounded-full ${i === current ? 'w-7 h-1.5 bg-white' : 'w-1.5 h-1.5 bg-white/50 hover:bg-white/80'}`} aria-label={`Slide ${i + 1}`} />
-        ))}
-      </div>
     </section>
   );
 }
@@ -166,7 +152,7 @@ function TestimonialsCarousel() {
         </div>
 
         <div className="flex items-center justify-center gap-3">
-          <button onClick={prevPage} className="w-9 h-9 rounded-full bg-white text-saffron-600 flex items-center justify-center hover:bg-saffron-50 transition-all border border-cream-200 shadow-sm" aria-label="Previous">
+          <button onClick={prevPage} className="w-10 h-10 sm:w-9 sm:h-9 rounded-full bg-white text-saffron-600 flex items-center justify-center hover:bg-saffron-50 transition-all border border-cream-200 shadow-sm" aria-label="Previous">
             <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" /></svg>
           </button>
           <div className="flex items-center gap-2">
@@ -174,7 +160,7 @@ function TestimonialsCarousel() {
               <button key={i} onClick={() => setPage(i)} className={`transition-all duration-300 rounded-full ${i === page ? 'w-6 h-1.5 bg-saffron-500' : 'w-1.5 h-1.5 bg-cream-300 hover:bg-saffron-300'}`} aria-label={`Page ${i + 1}`} />
             ))}
           </div>
-          <button onClick={nextPage} className="w-9 h-9 rounded-full bg-white text-saffron-600 flex items-center justify-center hover:bg-saffron-50 transition-all border border-cream-200 shadow-sm" aria-label="Next">
+          <button onClick={nextPage} className="w-10 h-10 sm:w-9 sm:h-9 rounded-full bg-white text-saffron-600 flex items-center justify-center hover:bg-saffron-50 transition-all border border-cream-200 shadow-sm" aria-label="Next">
             <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" /></svg>
           </button>
         </div>
@@ -253,7 +239,7 @@ export default function Home() {
             </div>
 
             {/* Photo with golden frame */}
-            <div className="relative">
+            <div className="relative mt-4 lg:mt-0">
               <div className="rounded-[28px] bg-gradient-to-br from-gold-300 via-gold-400 to-amber-600 p-[3px] shadow-[0_24px_60px_rgba(205,137,1,0.25)]">
                 <div className="relative rounded-[25px] overflow-hidden">
                   <Image

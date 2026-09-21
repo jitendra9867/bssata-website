@@ -92,7 +92,7 @@ const schemes = [
     icon: '👤',
     category: 'Membership',
     status: 'Active',
-    href: '/register',
+    href: '/members#enrollment',
   },
   {
     id: 11,

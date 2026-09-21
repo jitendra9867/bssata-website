@@ -154,9 +154,9 @@ export default function Header() {
       <div className={`bg-[#8B2500] transition-shadow duration-300 ${scrolled ? 'shadow-lg' : ''}`}>
         <div className="boxed-nav-container">
           <div className="flex items-center justify-between gap-4 py-2.5">
-            {/* Logo left */}
-            <Link href="/" className="flex items-center gap-4 group">
-              <div className="relative w-[100px] h-[100px] flex-shrink-0">
+            {/* Logo left — larger logo + both text lines visible on all screens */}
+            <Link href="/" className="flex items-center gap-2.5 sm:gap-4 group min-w-0">
+              <div className="relative w-16 h-16 sm:w-20 sm:h-20 lg:w-[100px] lg:h-[100px] flex-shrink-0">
                 {/* Golden ring border */}
                 <div className="absolute inset-0 rounded-full bg-gradient-to-br from-yellow-400 via-yellow-500 to-amber-600 p-[3px] shadow-lg">
                   <div className="w-full h-full rounded-full overflow-hidden bg-white p-[2px]">
@@ -171,11 +171,11 @@ export default function Header() {
                   </div>
                 </div>
               </div>
-              <div className="leading-tight">
-                <h1 className="text-lg lg:text-xl 2xl:text-[22px] font-bold text-white font-banner tracking-wide leading-tight uppercase">
+              <div className="leading-tight min-w-0">
+                <h1 className="text-sm min-[400px]:text-base sm:text-lg lg:text-xl 2xl:text-[22px] font-bold text-white font-banner tracking-wide leading-tight uppercase">
                   Brahmana Seva Sangham
                 </h1>
-                <p className="text-sm md:text-sm text-gold-400 font-semibold tracking-wider uppercase mt-0.5">
+                <p className="text-[10px] min-[400px]:text-[11px] sm:text-sm text-gold-400 font-semibold tracking-wider uppercase mt-0.5">
                   Regd No: 48/97 • Guntur
                 </p>
               </div>
@@ -212,9 +212,9 @@ export default function Header() {
                 aria-label="Toggle navigation"
               >
                 <div className="w-5 h-4 relative flex flex-col justify-between">
-                  <span className={`block h-0.5 bg-white rounded-full transition-all duration-300 origin-center ${mobileOpen ? 'rotate-45 translate-[7px]' : ''}`} />
+                  <span className={`block h-0.5 bg-white rounded-full transition-all duration-300 origin-center ${mobileOpen ? 'rotate-45 translate-y-[7px]' : ''}`} />
                   <span className={`block h-0.5 bg-white rounded-full transition-all duration-300 ${mobileOpen ? 'opacity-0 scale-0' : ''}`} />
-                  <span className={`block h-0.5 bg-white rounded-full transition-all duration-300 origin-center ${mobileOpen ? '-rotate-45 -translate-[7px]' : ''}`} />
+                  <span className={`block h-0.5 bg-white rounded-full transition-all duration-300 origin-center ${mobileOpen ? '-rotate-45 -translate-y-[7px]' : ''}`} />
                 </div>
               </button>
             </div>
@@ -320,9 +320,9 @@ export default function Header() {
         </div>
       </div>
 
-      {/* Mobile menu */}
-      <div className={`lg:hidden sticky top-[120px] z-40 overflow-hidden transition-all duration-300 ease-in-out ${mobileOpen ? 'max-h-[85vh] opacity-100' : 'max-h-0 opacity-0'}`}>
-        <div className="bg-white border-t makeborder-cream-200/60 shadow-xl max-h-[80vh] overflow-y-auto">
+      {/* Mobile menu — offset matches the responsive logo-bar height (84px on phones, 100px on sm) */}
+      <div className={`lg:hidden sticky top-[84px] sm:top-[100px] z-40 overflow-hidden transition-all duration-300 ease-in-out ${mobileOpen ? 'max-h-[85vh] opacity-100' : 'max-h-0 opacity-0'}`}>
+        <div className="bg-white border-t border-cream-200/60 shadow-xl max-h-[80vh] overflow-y-auto">
           <div className="boxed-nav-container py-3 space-y-0.5">
             {/* Calendar + Donate buttons - at top of mobile menu */}
             <div className="pt-3 px-4 flex flex-col gap-2">

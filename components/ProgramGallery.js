@@ -56,7 +56,7 @@ function Lightbox({ images, index, onClose, onNavigate }) {
       {/* ─── Main image ─── */}
       <div
         key={index}
-        className="relative z-10 max-w-5xl w-full animate-scale-in"
+        className="relative z-10 max-w-5xl w-full max-w-[calc(100vw-1.5rem)] md:max-w-[calc(100vw-7rem)] animate-scale-in"
         onClick={(e) => e.stopPropagation()}
         onTouchStart={(e) => { touchStartX.current = e.touches[0].clientX; }}
         onTouchEnd={(e) => {
@@ -78,9 +78,9 @@ function Lightbox({ images, index, onClose, onNavigate }) {
           />
         </div>
 
-        {/* Caption bar under the image */}
+        {/* Caption bar under the image — year pill shown separately on phones so the caption never wraps awkwardly */}
         {(current.alt || current.year) && (
-          <div className="mt-3 text-center">
+          <div className="mt-3 text-center px-10">
             {current.year && (
               <span className="inline-block px-3 py-0.5 rounded-full bg-gold-400/15 border border-gold-400/40 text-gold-300 text-sm font-bold tracking-wider uppercase mr-2">
                 {current.year}
@@ -101,14 +101,14 @@ function Lightbox({ images, index, onClose, onNavigate }) {
             <button
               onClick={goPrev}
               aria-label="Previous photo"
-              className="absolute left-2 md:-left-14 top-1/2 -translate-y-1/2 w-11 h-11 md:w-12 md:h-12 rounded-full bg-black/45 backdrop-blur-md text-white flex items-center justify-center hover:bg-gold-400 hover:text-[#3a0f04] transition-all duration-300 border border-white/20 shadow-xl"
+              className="absolute left-1 md:-left-16 top-1/2 -translate-y-1/2 w-11 h-11 md:w-12 md:h-12 rounded-full bg-black/45 backdrop-blur-md text-white flex items-center justify-center hover:bg-gold-400 hover:text-[#3a0f04] transition-all duration-300 border border-white/20 shadow-xl"
             >
               <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M15 19l-7-7 7-7" /></svg>
             </button>
             <button
               onClick={goNext}
               aria-label="Next photo"
-              className="absolute right-2 md:-right-14 top-1/2 -translate-y-1/2 w-11 h-11 md:w-12 md:h-12 rounded-full bg-black/45 backdrop-blur-md text-white flex items-center justify-center hover:bg-gold-400 hover:text-[#3a0f04] transition-all duration-300 border border-white/20 shadow-xl"
+              className="absolute right-1 md:-right-16 top-1/2 -translate-y-1/2 w-11 h-11 md:w-12 md:h-12 rounded-full bg-black/45 backdrop-blur-md text-white flex items-center justify-center hover:bg-gold-400 hover:text-[#3a0f04] transition-all duration-300 border border-white/20 shadow-xl"
             >
               <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M9 5l7 7-7 7" /></svg>
             </button>

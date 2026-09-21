@@ -10,7 +10,6 @@ const quickLinks = [
   { href: '/committee', label: 'Executive Committee' },
   { href: '/members', label: 'Life Members' },
   { href: '/programs/ugadi', label: 'Photo Gallery' },
-  { href: '/register', label: 'Registration' },
   { href: '/contact', label: 'Contact & Donations' },
 ];
 
@@ -145,8 +144,8 @@ export default function Footer() {
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-12 gap-10 lg:gap-8">
           {/* Brand */}
           <div className="lg:col-span-4">
-            <div className="flex items-center gap-3.5 mb-5">
-              <div className="relative w-[100px] h-[100px] flex-shrink-0">
+            <div className="flex items-center gap-3 sm:gap-3.5 mb-5">
+              <div className="relative w-16 h-16 sm:w-[100px] sm:h-[100px] flex-shrink-0">
                 <div className="absolute inset-0 rounded-full bg-gradient-to-br from-yellow-400 via-yellow-500 to-amber-600 p-[3px] shadow-lg">
                   <div className="w-full h-full rounded-full overflow-hidden bg-white p-[2px]">
                     <Image
@@ -159,11 +158,11 @@ export default function Footer() {
                   </div>
                 </div>
               </div>
-              <div>
-                <h3 className="font-banner font-bold text-[22px] leading-tight text-white">
+              <div className="min-w-0">
+                <h3 className="font-banner font-bold text-lg sm:text-[22px] leading-tight text-white">
                   Brahmana Seva Sangham
                 </h3>
-                <p className="text-[12px] text-gold-300 uppercase tracking-[0.18em] mt-1 font-semibold">
+                <p className="text-[11px] sm:text-[12px] text-gold-300 uppercase tracking-[0.18em] mt-1 font-semibold">
                   Regd No: 48/97 • Guntur
                 </p>
               </div>
@@ -332,7 +331,7 @@ export default function Footer() {
 
       {/* Bottom bar */}
       <div className="relative border-t border-white/10 bg-black/[0.18]">
-        <div className="boxed-footer-container flex flex-col sm:flex-row justify-between items-center gap-4" style={{ paddingTop: '5px', paddingBottom: '5px' }}>
+        <div className="boxed-footer-container flex flex-col sm:flex-row justify-between items-center gap-3" style={{ paddingTop: '12px', paddingBottom: '12px' }}>
           <p className="text-sm text-cream-100/60 text-center sm:text-left">
             &copy; {new Date().getFullYear()} Brahmana Seva Samiti · Regd No: 48/97. All rights
             reserved.

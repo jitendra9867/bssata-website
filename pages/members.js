@@ -171,13 +171,13 @@ export default function Members() {
                   className="w-full pl-11 pr-4 py-3 rounded-xl border border-cream-300 bg-white text-gray-700 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-saffron-300 focus:border-saffron-400 transition-all text-sm"
                 />
               </div>
-              <div className="flex items-center gap-3">
+              <div className="flex items-center gap-3 flex-wrap">
                 <label htmlFor="gotram-filter" className="text-sm font-medium text-gray-600 whitespace-nowrap">Gotram:</label>
                 <select
                   id="gotram-filter"
                   value={gotramFilter}
                   onChange={(e) => setGotramFilter(e.target.value)}
-                  className="px-4 py-3 rounded-xl border border-cream-300 bg-white text-gray-700 focus:outline-none focus:ring-2 focus:ring-saffron-300 focus:border-saffron-400 transition-all text-sm min-w-[160px]"
+                  className="px-4 py-3 rounded-xl border border-cream-300 bg-white text-gray-700 focus:outline-none focus:ring-2 focus:ring-saffron-300 focus:border-saffron-400 transition-all text-sm w-full sm:w-auto sm:min-w-[160px]"
                 >
                   {GOTRAM_OPTIONS.map((g) => (
                     <option key={g} value={g}>{g === 'all' ? 'All Gotrams' : g}</option>
@@ -215,8 +215,52 @@ export default function Members() {
             </div>
           )}
 
-          {/* Table Card */}
-          <div className="card overflow-hidden shadow-lg border border-cream-200/80">
+          {/* Mobile card list — phones only (table hidden below md) */}
+          <div className="md:hidden space-y-3">
+            {paginatedMembers.length === 0 && (
+              <div className="card p-10 text-center text-gray-500">
+                <div className="text-5xl mb-4">🔍</div>
+                <p className="font-semibold text-gray-700 text-base">No members found</p>
+                <p className="text-sm text-gray-400 mt-1">Try adjusting your search or filter criteria.</p>
+              </div>
+            )}
+            {paginatedMembers.map((member, idx) => (
+              <div key={member.r_no || idx} className="card p-4">
+                <div className="flex items-start justify-between gap-3 mb-2">
+                  <span className="px-2.5 py-1 text-sm font-bold rounded-full bg-saffron-50 text-saffron-600 border border-saffron-200/80 uppercase tracking-wide">
+                    {member.gotram}
+                  </span>
+                  <span className="font-mono font-bold text-saffron-600 text-sm">#{member.r_no}</span>
+                </div>
+                <p className="font-medium text-gray-800 mb-2 break-words">
+                  {isInvalidName(member.fullname) ? (
+                    <span className="text-gray-400 italic">Name not available</span>
+                  ) : (
+                    member.fullname
+                  )}
+                </p>
+                {member.address && (
+                  <p className="text-sm text-gray-500 mb-2 break-words">{member.address}</p>
+                )}
+                {member.phone_no ? (
+                  <a
+                    href={`tel:${(member.phone_no || '').replace(/\s/g, '')}`}
+                    className="inline-flex items-center gap-1.5 text-sm font-semibold text-saffron-600"
+                  >
+                    <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z" />
+                    </svg>
+                    {member.phone_no}
+                  </a>
+                ) : (
+                  <span className="text-sm text-gray-300">—</span>
+                )}
+              </div>
+            ))}
+          </div>
+
+          {/* Table Card — hidden on phones, card list above is shown instead */}
+          <div className="card overflow-hidden shadow-lg border border-cream-200/80 hidden md:block">
             <div className="overflow-x-auto">
               <table className="w-full text-sm">
                 <thead>

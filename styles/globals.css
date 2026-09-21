@@ -444,3 +444,52 @@ section {
 .bg-gradient-subtle {
   background: linear-gradient(135deg, rgba(255,253,247,0.8) 0%, rgba(255,249,232,0.6) 50%, rgba(254,247,243,0.8) 100%);
 }
+
+/* ═══════════════════════════════════════════════════════════
+   MOBILE RESPONSIVENESS SAFETY NET
+   Global guards so no page overflows on small screens.
+   ═══════════════════════════════════════════════════════════ */
+
+/* Long names, emails, account numbers and URLs must wrap — never push width */
+h1, h2, h3, h4, p, a, span, li, td, th, dt, dd {
+  overflow-wrap: break-word;
+  word-wrap: break-word;
+}
+
+/* Headings break long Telugu/English titles gracefully */
+h1, h2, h3 {
+  text-wrap: balance;
+}
+
+/* Comfortable tap targets on touch devices (Apple 44px guideline) */
+@media (pointer: coarse) {
+  a[href^="tel:"],
+  button {
+    min-height: 44px;
+    min-width: 44px;
+  }
+  /* But keep inline text links and small pills at natural size */
+  p a, li a, td a, .btn-primary, .btn-secondary {
+    min-height: 0;
+    min-width: 0;
+  }
+}
+
+/* Reduce heavy decorative blurs on small screens — they cost scroll performance */
+@media (max-width: 640px) {
+  .blur-3xl {
+    filter: blur(40px);
+  }
+}
+
+/* iOS Safari: stop auto-zoom when focusing form inputs (font-size < 16px triggers zoom) */
+@media (max-width: 768px) {
+  input[type="text"],
+  input[type="tel"],
+  input[type="email"],
+  input[type="search"],
+  select,
+  textarea {
+    font-size: 16px !important;
+  }
+}

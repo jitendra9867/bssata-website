@@ -195,17 +195,17 @@ export default function Contact() {
                     <h3 className="text-base font-bold text-saffron-700 uppercase tracking-wide">{account.bank}</h3>
                   </div>
                   <dl className="space-y-3">
-                    <div className="flex items-center justify-between gap-3 py-2.5 px-3.5 rounded-xl bg-cream-50 border border-cream-200">
+                    <div className="flex flex-wrap items-center justify-between gap-x-3 gap-y-1 py-2.5 px-3.5 rounded-xl bg-cream-50 border border-cream-200">
                       <dt className="text-sm font-semibold text-gray-500">A/C No</dt>
-                      <dd className="text-sm font-mono font-bold text-gray-900 tracking-wider">{account.account}</dd>
+                      <dd className="text-sm font-mono font-bold text-gray-900 tracking-wider break-all">{account.account}</dd>
                     </div>
-                    <div className="flex items-center justify-between gap-3 py-2.5 px-3.5 rounded-xl bg-cream-50 border border-cream-200">
+                    <div className="flex flex-wrap items-center justify-between gap-x-3 gap-y-1 py-2.5 px-3.5 rounded-xl bg-cream-50 border border-cream-200">
                       <dt className="text-sm font-semibold text-gray-500">IFSC</dt>
                       <dd className="text-sm font-mono font-bold text-gray-900 tracking-wider">{account.ifsc}</dd>
                     </div>
-                    <div className="flex items-center justify-between gap-3 py-2.5 px-3.5 rounded-xl bg-cream-50 border border-cream-200">
+                    <div className="flex flex-wrap items-center justify-between gap-x-3 gap-y-1 py-2.5 px-3.5 rounded-xl bg-cream-50 border border-cream-200">
                       <dt className="text-sm font-semibold text-gray-500">Branch</dt>
-                      <dd className="text-sm text-gray-800">A.T. Agraharam, Guntur – 522004</dd>
+                      <dd className="text-sm text-gray-800 text-right">A.T. Agraharam, Guntur – 522004</dd>
                     </div>
                   </dl>
                 </div>
@@ -215,7 +215,7 @@ export default function Contact() {
 
           {/* Account name note */}
           <div className="max-w-xl mx-auto mt-6 text-center">
-            <p className="inline-block px-5 py-2.5 rounded-full bg-white border border-saffron-200 shadow-[0_2px_10px_rgba(195,74,44,0.06)] text-sm font-semibold text-gray-800">
+            <p className="inline-block px-5 py-2.5 rounded-2xl bg-white border border-saffron-200 shadow-[0_2px_10px_rgba(195,74,44,0.06)] text-sm font-semibold text-gray-800">
               Account Name: <span className="text-saffron-700">BRAHMANA SEVA SANGHAM</span>, A.T. Agraharam, Guntur
             </p>
           </div>

@@ -52,7 +52,7 @@ export default function Committee() {
           <p className="text-white/85 max-w-xl mx-auto leading-relaxed">22 dedicated members working together to serve the Brahmin community. Elected unanimously on 18 April 2025.</p>
 
           {/* Hero stats */}
-          <div className="grid grid-cols-3 gap-3 max-w-lg mx-auto mt-9">
+          <div className="grid grid-cols-3 gap-2 sm:gap-3 max-w-lg mx-auto mt-9">
             {[
               { value: '22', label: 'Members', icon: '👥' },
               { value: '5', label: 'Groups', icon: '🏷️' },
@@ -104,7 +104,7 @@ export default function Committee() {
                           {member.name.split(' ').pop()[0]}
                         </div>
                         <div className="flex-1 min-w-0">
-                          <h3 className="font-serif font-bold text-gray-900 text-sm mb-0.5">{member.name}</h3>
+                          <h3 className="font-serif font-bold text-gray-900 text-sm mb-0.5 break-words">{member.name}</h3>
                           <p className={`text-sm font-semibold ${cat.textColor} mb-2.5`}>{member.designation}</p>
                           <a
                             href={`tel:${member.phone}`}

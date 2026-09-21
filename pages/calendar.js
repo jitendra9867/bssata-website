@@ -88,7 +88,7 @@ export default function Calendar() {
               <div className="absolute top-0 left-0 w-full h-px bg-gradient-to-r from-transparent via-gold-400 to-transparent" />
               <div className="flex flex-col md:flex-row items-stretch">
                 {/* Left - Year visual */}
-                <div className="bg-gradient-to-br from-saffron-500 via-saffron-600 to-gold-500 p-8 md:p-10 flex flex-col items-center justify-center md:w-48 flex-shrink-0">
+                <div className="bg-gradient-to-br from-saffron-500 via-saffron-600 to-gold-500 p-6 md:p-10 flex flex-col items-center justify-center md:w-48 flex-shrink-0">
                   <div className="text-5xl md:text-6xl font-serif font-black text-white leading-none mb-2">{cal.year}</div>
                   <div className="text-white/70 text-sm font-medium uppercase tracking-wider">{cal.samvat} Nama Samvatsara</div>
                   <div className="mt-4 px-3 py-1 rounded-full bg-white/20 backdrop-blur-sm">
@@ -100,7 +100,7 @@ export default function Calendar() {
                 </div>
                 {/* Right - Content */}
                 <div className="flex-1 p-6 md:p-8 flex flex-col justify-center">
-                  <h3 className="text-xl md:text-2xl font-serif font-black text-gray-800 mb-2">Sampradaya Calendar {cal.year}</h3>
+                  <h3 className="text-xl md:text-2xl font-serif font-black text-gray-800 mb-2 break-words">Sampradaya Calendar {cal.year}</h3>
                   <p className="text-gray-600 text-sm leading-relaxed mb-4">{cal.description}</p>
                   <div className="flex items-center gap-4">
                 <div className="flex items-center gap-2 text-sm text-gray-600">
