@@ -9,7 +9,7 @@ const quickLinks = [
   { href: '/about#visista', label: 'Visista Datalu' },
   { href: '/committee', label: 'Executive Committee' },
   { href: '/members', label: 'Life Members' },
-  { href: '/gallery', label: 'Gallery' },
+  { href: '/programs/ugadi', label: 'Photo Gallery' },
   { href: '/register', label: 'Registration' },
   { href: '/contact', label: 'Contact & Donations' },
 ];

@@ -1,6 +1,8 @@
 import Head from 'next/head';
 import Image from 'next/image';
 import Link from 'next/link';
+import ProgramGallery from './ProgramGallery';
+import { getProgramGallery } from './programGalleries';
 
 /* ═══════════════════════════════════════════════════════════════
    PROGRAM METADATA — 10 core programs of the Sangham
@@ -231,6 +233,7 @@ export default function ProgramPage({ program }) {
   if (!program) return null;
 
   const others = PROGRAMS.filter((p) => p.slug !== program.slug);
+  const galleryImages = getProgramGallery(program.slug);
 
   return (
     <>
@@ -311,6 +314,9 @@ export default function ProgramPage({ program }) {
           </div>
         </div>
       </section>
+
+      {/* Program photo gallery — renders only when photos exist for this slug */}
+      <ProgramGallery images={galleryImages} />
 
       {/* Other programs */}
       <section className="py-14 md:py-16 section-photo border-y border-cream-200">

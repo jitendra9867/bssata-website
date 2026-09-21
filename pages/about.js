@@ -99,10 +99,10 @@ const visistaDatalu = [
 ];
 
 const governingBody = [
-  { name: 'Sri Peesapati Lakshmi Kantharao', role: 'Distinguished Advisor', phone: '9347259787' },
-  { name: 'Sri Ambadipudi Shyam Sundar', role: 'President', phone: '9440235340' },
-  { name: 'Sri Vankamamidi Venkataramayya', role: 'Executive President', phone: '9866337559' },
+  /* Ordered designation-wise — highest designation first (matches committee.js) */
+  { name: 'Sri Peesapati Lakshmi Kantharao', role: 'President', phone: '9347259787' },
   { name: 'Sri Dendukuri Narayana Murthy', role: 'Honorable President', phone: '9849311140' },
+  { name: 'Sri Vankamamidi Venkataramayya', role: 'Executive President', phone: '9866337559' },
   { name: 'Sri Pamidighantam V. Satyanarayana', role: 'Secretary', phone: '7893961234' },
   { name: 'Sri Susarla Venkata Ramana', role: 'Treasurer', phone: '9290515564' },
   { name: 'Sri Jammalamadaka Sita Ramanjaneeya Sharma', role: 'Vice President', phone: '9491337464' },

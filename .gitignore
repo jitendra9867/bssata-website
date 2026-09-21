@@ -37,3 +37,4 @@ Thumbs.db
 # Archive files
 *.tar.gz
 *.zip
+.next-verify/

@@ -41,13 +41,6 @@ export const FOOTER_CTA = {
     primary: { label: 'Call 78939 61234', href: 'tel:7893961234' },
     secondary: { label: 'View Bank Details', href: '#bank-details' },
   },
-  gallery: {
-    eyebrow: 'Share Your Moments',
-    title: 'Feature Your Photos',
-    text: 'Have photos from Sangham events? Share them with us and help build a visual memory of three decades of community life.',
-    primary: { label: 'Email Your Photos', href: 'mailto:brahmanaseva.ata97@gmail.com?subject=Gallery%20Photo%20Submission' },
-    secondary: { label: 'View Welfare Schemes', href: '/schemes' },
-  },
   members: {
     eyebrow: 'Join the Directory',
     title: 'Become a Life Member',

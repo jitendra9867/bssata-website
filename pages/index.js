@@ -3,13 +3,14 @@ import Head from 'next/head';
 import Link from 'next/link';
 import Image from 'next/image';
 
+/* Ordered by designation seniority — highest designation first (see committee.js for the full list) */
 const executiveMembers = [
-  { designation: 'Distinguished Advisor', name: 'Sri Peesapati Lakshmi Kantharao', phone: '9347259787', initials: 'PL', gradient: 'from-amber-400 to-orange-600' },
-  { designation: 'President', name: 'Sri Ambadipudi Shyam Sundar', phone: '9440235340', initials: 'AS', gradient: 'from-yellow-400 to-amber-600' },
-  { designation: 'Executive President', name: 'Sri Vankamamidi Venkataramayya', phone: '9866337559', initials: 'VV', gradient: 'from-orange-400 to-red-600' },
+  { designation: 'President', name: 'Sri Peesapati Lakshmi Kantharao', phone: '9347259787', initials: 'PL', gradient: 'from-amber-400 to-orange-600' },
   { designation: 'Honorable President', name: 'Sri Dendukuri Narayana Murthy', phone: '9849311140', initials: 'DN', gradient: 'from-amber-500 to-orange-700' },
+  { designation: 'Executive President', name: 'Sri Vankamamidi Venkataramayya', phone: '9866337559', initials: 'VV', gradient: 'from-orange-400 to-red-600' },
   { designation: 'Secretary', name: 'Sri Pamidighantam V. Satyanarayana', phone: '7893961234', initials: 'PV', gradient: 'from-orange-500 to-rose-600' },
   { designation: 'Treasurer', name: 'Sri Susarla Venkata Ramana', phone: '9290515564', initials: 'SR', gradient: 'from-yellow-500 to-orange-600' },
+  { designation: 'Vice President', name: 'Sri Jammalamadaka Sita Ramanjaneeya Sharma', phone: '9491337464', initials: 'JS', gradient: 'from-yellow-400 to-amber-600' },
 ];
 
 const recentHighlights = [

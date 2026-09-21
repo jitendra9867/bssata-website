@@ -48,14 +48,6 @@ const navLinks = [
     ]
   },
   { 
-    href: '/gallery', 
-    label: 'Gallery',
-    children: [
-      { href: '/gallery#events', label: 'Event Photos' },
-      { href: '/gallery#celebrations', label: 'Celebrations' },
-    ]
-  },
-  { 
     href: '/contact', 
     label: 'Contact',
     children: [
@@ -251,7 +243,7 @@ export default function Header() {
                 >
                   <Link
                     href={link.href}
-                    style={{ paddingLeft: '12px', paddingRight: '12px' }}
+                    style={{ paddingLeft: '15px', paddingRight: '15px' }}
                     className={`relative py-2.5 rounded-lg text-sm font-normal transition-all duration-200 flex items-center gap-1 ${
                       openDropdown === link.label
                         ? 'text-white bg-white/20'

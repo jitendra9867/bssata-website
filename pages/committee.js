@@ -3,10 +3,10 @@ import Link from 'next/link';
 import Image from 'next/image';
 
 const executiveCommittee = [
-  { name: 'Sri Peesapati Lakshmi Kantharao', designation: 'Distinguished Advisor', phone: '9347259787', category: 'leadership' },
-  { name: 'Sri Ambadipudi Shyam Sundar', designation: 'President', phone: '9440235340', category: 'leadership' },
-  { name: 'Sri Vankamamidi Venkataramayya', designation: 'Executive President', phone: '9866337559', category: 'leadership' },
+  /* Ordered designation-wise — highest designation first (per client request) */
+  { name: 'Sri Peesapati Lakshmi Kantharao', designation: 'President', phone: '9347259787', category: 'leadership' },
   { name: 'Sri Dendukuri Narayana Murthy', designation: 'Honorable President', phone: '9849311140', category: 'leadership' },
+  { name: 'Sri Vankamamidi Venkataramayya', designation: 'Executive President', phone: '9866337559', category: 'leadership' },
   { name: 'Sri Pamidighantam V. Satyanarayana', designation: 'Secretary', phone: '7893961234', category: 'leadership' },
   { name: 'Sri Susarla Venkata Ramana', designation: 'Treasurer', phone: '9290515564', category: 'leadership' },
   { name: 'Sri Jammalamadaka Sita Ramanjaneeya Sharma', designation: 'Vice President', phone: '9491337464', category: 'executive' },
