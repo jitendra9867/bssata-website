@@ -39,7 +39,7 @@ const jandhyalaEvents = [
 const karthikaEvents = [
   { year: '2023', date: 'November 19', detail: 'Karthika Samaradhana at Central Public School attended by 650 people. First floor donors felicitated.' },
   { year: '2024', date: 'November 3', detail: 'Karthika Samaradhana attended by 750+ people. 3000 Sampradaya Calendars published for 2025.' },
-  { year: '2025', detail: 'Karthika Samaradhana attended by 800+ people, with music programmes.' },
+  { year: '2025', detail: 'Karthika Samaradhana attended by around 1000 people, with music programmes.' },
 ];
 
 const masikamEvents = [
@@ -280,7 +280,7 @@ export default function Programs() {
               </p>
               <div className="p-3.5 rounded-xl bg-white border border-saffron-100 shadow-[0_2px_12px_rgba(195,74,44,0.06)]">
                 <p className="text-sm text-gray-600 leading-relaxed">
-                  <strong>Attendance growing every year:</strong> 650 (2023) → 750+ (2024) → 800+ (2025).
+                  <strong>Attendance growing every year:</strong> 650 (2023) → 750+ (2024) → 1000 (2025).
                   Donors are felicitated at the event.
                 </p>
               </div>

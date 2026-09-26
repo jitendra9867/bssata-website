@@ -46,7 +46,7 @@ const timelineYears = timeline.reduce((acc, item) => {
 }, []);
 
 const welfareActivities = [
-  { title: 'Karthika Samaradhana', description: 'Annual community feast during the holy month of Karthika — attended by 800+ people in 2025 with music programmes.', icon: '🪔' },
+  { title: 'Karthika Samaradhana', description: 'Annual community feast during the holy month of Karthika — attended by around 1000 people in 2025 with music programmes.', icon: '🪔' },
   { title: 'Sampradaya Calendar', description: 'Publication and distribution of traditional Sampradaya Calendars to 3000+ households across the state and abroad.', icon: '📅' },
   { title: 'Free Mass Upanayanams', description: 'Sacred thread ceremonies conducted free of cost for underprivileged youth — 10 Vatuvus initiated in Feb 2025.', icon: '🙏' },
   { title: 'Aabdheekam Services', description: 'Ancestral rites preservation services for Brahmin families, including those staying outside AP and abroad via coordination.', icon: '🕉️' },

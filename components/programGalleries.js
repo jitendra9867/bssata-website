@@ -37,6 +37,11 @@ export const PROGRAM_GALLERIES = {
     })),
   ],
 
+  'karthika-samaradhana': [
+    ...yearPhotos('karthika-samaradhana', '2025', 25, 'Karthika Samaradhana 2025 — rituals, music programmes and community lunch'),
+    ...yearPhotos('karthika-samaradhana', '2024', 25, 'Karthika Samaradhana 2024 — rituals, music programmes and community lunch'),
+  ],
+
   'pura-pramukhulu': [
     ...range(1, 16).map((n) => ({
       src: `/images/gallery/pura-pramukhulu/${n}.jpg`,

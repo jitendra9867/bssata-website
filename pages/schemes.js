@@ -7,7 +7,7 @@ const schemes = [
   {
     id: 1,
     title: 'Karthika Samaradhana',
-    description: 'Annual community feast during the holy month of Karthika — attended by 800+ people in 2025 with music programmes.',
+    description: 'Annual community feast during the holy month of Karthika — attended by around 1000 people in 2025 with music programmes.',
     icon: '🪔',
     category: 'Cultural',
     status: 'Active',

@@ -148,11 +148,37 @@ function Lightbox({ images, index, onClose, onNavigate }) {
 export default function ProgramGallery({ title, images }) {
   const [lightboxIndex, setLightboxIndex] = useState(null);
 
-  if (!images || images.length === 0) return null;
+  /* Empty state — keeps a gallery section on every program page until photos exist */
+  if (!images || images.length === 0) {
+    return (
+      <section className="py-14 md:py-16 section-plain border-t border-cream-200">
+        <div className="page-container">
+          <div className="max-w-6xl mx-auto">
+            <div className="text-center mb-8">
+              <span className="section-eyebrow">📸 Photo Gallery</span>
+              <h2 className="text-2xl md:text-3xl font-serif font-bold text-gray-900 mb-2">
+                {title || 'Moments from this Program'}
+              </h2>
+              <div className="ornament-line mb-4" />
+            </div>
+            <div className="max-w-2xl mx-auto text-center p-8 md:p-10 rounded-2xl bg-white border border-cream-200 shadow-[0_2px_12px_rgba(195,74,44,0.06)]">
+              <span className="text-4xl mb-3 block" aria-hidden="true">📷</span>
+              <p className="text-base text-gray-700 leading-relaxed">
+                Photos from this program will appear here soon.
+              </p>
+              <p className="text-sm text-gray-500 mt-2">
+                Have photographs to share? Send them to the Secretary and we will add them to this gallery.
+              </p>
+            </div>
+          </div>
+        </div>
+      </section>
+    );
+  }
 
   /* Group photos by year (desc), keeping each group in its given order */
   const years = [...new Set(images.map((img) => img.year || 'Photos'))];
-  const visibleYears = years.slice(0, 2); // show at most 2 year groups inline
+  const visibleYears = years; // show every year group inline
 
   return (
     <section className="py-14 md:py-16 section-plain border-t border-cream-200">

@@ -38,3 +38,7 @@ Thumbs.db
 *.tar.gz
 *.zip
 .next-verify/
+
+# Uploaded source media (raw photos/docs — only optimized gallery output is committed)
+karthika samaradhana/
+.tmp-whatsapp/

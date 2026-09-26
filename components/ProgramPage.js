@@ -135,9 +135,35 @@ export const PROGRAMS = [
     icon: '🪔',
     tagline: 'The flagship annual community feast',
     description:
-      'Karthika Samaradhana is the largest gathering of the Sangham year — a grand community feast during the holy month of Karthika, with cultural and music programmes, donor felicitations and publication of the year\'s Sampradaya Calendar. Attendance has grown from 650 in 2023 to 800+ in 2025.',
+      'Karthika Samaradhana is the largest gathering of the Sangham year — a grand community feast during the holy month of Karthika, with cultural and music programmes, donor felicitations and publication of the year\'s Sampradaya Calendar. Attendance has grown from 650 in 2023 to around 1000 Brahmins in recent years.',
+    overview: {
+      eyebrow: 'Since 1996',
+      title: 'A Tradition of Devotion & Community Feast',
+      paragraphs: [
+        'Since 1996, Karthika Samaradhana has been held every year with traditional gaiety. It is one of the most anticipated events in the community calendar and draws the attention of Brahmins in general and the entire community in particular.',
+        'The programme spans a full day of sacred rituals and cultural performances, culminating in a traditional lunch served to all the Brahmins (around 1000 in number).',
+      ],
+      rituals: [
+        { icon: '🔱', name: 'Siva Abhishekam' },
+        { icon: '🐄', name: 'Gopuja' },
+        { icon: '🌿', name: 'Tulasi Puja' },
+        { icon: '📖', name: 'Vishnu Sahasranama Parayanam' },
+        { icon: '🕉️', name: 'Lalitha Sahasranama Parayanam' },
+        { icon: '🎵', name: 'Music Programmes for Adults & Children' },
+      ],
+      facts: [
+        { icon: '📅', title: 'Karthika Masam, 1st Sunday', text: 'Held every year in the holy month of Karthika, on the first Sunday.' },
+        { icon: '🍽️', title: 'Lunch for ~1000 Brahmins', text: 'A traditional lunch (Annadanam) is served to all attending Brahmins.' },
+        { icon: '🏅', title: 'Visista Data Sanmanam', text: 'A donor who contributed the highest amount from the last Samaradhana to the present one is honoured.' },
+      ],
+      venue: {
+        label: 'Venue for the last several years',
+        name: 'Central Public School',
+        address: '4th Line, near Mahatma Gandhi College, A.T. Agraharam, Guntur.',
+      },
+    },
     highlights: [
-      { icon: '🍽️', title: '800+ Dine Together', text: 'The biggest Annadanam of the year, growing every single year.' },
+      { icon: '🍽️', title: '~1,000 Dine Together', text: 'Around 1000 Brahmins are served the traditional lunch — the biggest Annadanam of the year.' },
       { icon: '🎵', title: 'Music Programmes', text: 'Cultural and classical music performances by community artists.' },
       { icon: '📅', title: 'Calendar Release', text: '3000 Sampradaya Calendars published and released at the event.' },
       { icon: '🏅', title: 'Donor Felicitation', text: 'Donors to Sangham projects are felicitated on stage.' },
@@ -258,6 +284,78 @@ export default function ProgramPage({ program }) {
           </p>
         </div>
       </section>
+
+      {/* Program overview — renders only for programs that define `overview` */}
+      {program.overview && (
+        <section className="py-14 md:py-16 bg-white border-b border-cream-200">
+          <div className="page-container">
+            <div className="max-w-6xl mx-auto">
+              <div className="text-center mb-10">
+                <span className="section-eyebrow">{program.overview.eyebrow}</span>
+                <h2 className="text-2xl md:text-3xl font-serif font-bold text-gray-900 mb-3">
+                  {program.overview.title}
+                </h2>
+                <div className="ornament-line" />
+              </div>
+
+              <div className="grid lg:grid-cols-5 gap-8 items-start">
+                {/* Narrative */}
+                <div className="lg:col-span-3 space-y-4">
+                  {program.overview.paragraphs.map((para, i) => (
+                    <p key={i} className="text-base text-gray-700 leading-relaxed">
+                      {para}
+                    </p>
+                  ))}
+
+                  <div className="pt-2">
+                    <h3 className="text-lg font-serif font-bold text-gray-900 mb-3">
+                      Programme Includes
+                    </h3>
+                    <div className="flex flex-wrap gap-2">
+                      {program.overview.rituals.map((r) => (
+                        <span
+                          key={r.name}
+                          className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-cream-50 border border-cream-200 text-sm font-medium text-gray-700"
+                        >
+                          <span aria-hidden="true">{r.icon}</span>
+                          {r.name}
+                        </span>
+                      ))}
+                    </div>
+                  </div>
+                </div>
+
+                {/* Facts + venue */}
+                <div className="lg:col-span-2 space-y-4">
+                  {program.overview.facts.map((f) => (
+                    <div
+                      key={f.title}
+                      className="p-5 rounded-xl bg-white border border-cream-200 shadow-[0_2px_12px_rgba(195,74,44,0.06)]"
+                    >
+                      <span className="icon-badge mb-3">{f.icon}</span>
+                      <h4 className="text-base font-bold text-gray-900 mb-1">{f.title}</h4>
+                      <p className="text-sm text-gray-600 leading-relaxed">{f.text}</p>
+                    </div>
+                  ))}
+
+                  {program.overview.venue && (
+                    <div className="callout border-saffron-200/80 bg-white">
+                      <p className="text-xs font-semibold uppercase tracking-wide text-saffron-600 mb-1">
+                        {program.overview.venue.label}
+                      </p>
+                      <p className="text-sm text-saffron-800 leading-relaxed">
+                        <strong>{program.overview.venue.name}</strong>
+                        <br />
+                        {program.overview.venue.address}
+                      </p>
+                    </div>
+                  )}
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+      )}
 
       {/* About + Highlights */}
       <section className="py-14 md:py-16 section-tint">
