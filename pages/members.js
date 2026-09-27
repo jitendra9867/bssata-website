@@ -1,13 +1,8 @@
 import { useState, useEffect, useMemo } from 'react';
 import Head from 'next/head';
 import Image from 'next/image';
-
-const GOTRAM_OPTIONS = [
-  'all', 'PARASARA', 'KOUNDINYASA', 'KASYAPASA', 'SYALAVATHASA',
-  'LOHITHASA', 'BHARGAVASA', 'KAPISA', 'VADHULASA', 'KUSTASA',
-  'SANDILYASA', 'SANKHYANASA', 'SRIVATSASA', 'GOWTHAMASA',
-  'BARADWAJASA', 'KANVASA', 'VASISTA', 'SATAMARSHANA',
-];
+import { getLifeMembers, getSiteSettings } from '../lib/wordpress';
+import { GOTRAMS_FALLBACK } from '../lib/fallback-community';
 
 /** Returns true if a fullname is purely numeric (bad data). */
 function isInvalidName(name) {
@@ -22,9 +17,9 @@ function displayName(member) {
   return member.fullname || '—';
 }
 
-export default function Members() {
-  const [members, setMembers] = useState([]);
-  const [loading, setLoading] = useState(true);
+export default function Members({ initialMembers = [], gotramOptions = [] }) {
+  const [members, setMembers] = useState(initialMembers);
+  const [loading, setLoading] = useState(false);
   const [gotramFilter, setGotramFilter] = useState('all');
   const [searchTerm, setSearchTerm] = useState('');
   const [sortField, setSortField] = useState('r_no');
@@ -61,7 +56,7 @@ export default function Members() {
           setMembers(data);
         }
       } catch {
-        setMembers([]);
+        /* keep server-provided data on failure */
       }
       setLoading(false);
     }
@@ -179,7 +174,7 @@ export default function Members() {
                   onChange={(e) => setGotramFilter(e.target.value)}
                   className="px-4 py-3 rounded-xl border border-cream-300 bg-white text-gray-700 focus:outline-none focus:ring-2 focus:ring-saffron-300 focus:border-saffron-400 transition-all text-sm w-full sm:w-auto sm:min-w-[160px]"
                 >
-                  {GOTRAM_OPTIONS.map((g) => (
+                  {gotramOptions.map((g) => (
                     <option key={g} value={g}>{g === 'all' ? 'All Gotrams' : g}</option>
                   ))}
                 </select>
@@ -373,4 +368,28 @@ export default function Members() {
       </section>
     </>
   );
+}
+
+/* ISR: members + gotram filter options from headless WordPress,
+   refreshed every 60s; the bundled members.json is the fallback. */
+export async function getStaticProps() {
+  const fs = require('fs');
+  const path = require('path');
+  let bundled = [];
+  try {
+    bundled = JSON.parse(
+      fs.readFileSync(path.join(process.cwd(), 'public', 'data', 'members.json'), 'utf8')
+    );
+  } catch { /* ignore */ }
+
+  const [wpMembers, wpSettings] = await Promise.all([getLifeMembers(), getSiteSettings()]);
+  const gotrams = wpSettings?.gotrams?.length ? wpSettings.gotrams : GOTRAMS_FALLBACK;
+
+  return {
+    props: {
+      initialMembers: wpMembers || bundled,
+      gotramOptions: ['all', ...gotrams],
+    },
+    revalidate: 60,
+  };
 }

@@ -3,6 +3,7 @@ import Image from 'next/image';
 import Link from 'next/link';
 import ProgramGallery from './ProgramGallery';
 import { getProgramGallery } from './programGalleries';
+import { getProgramBySlug, getAllPrograms } from '../lib/wordpress';
 
 /* ═══════════════════════════════════════════════════════════════
    PROGRAM METADATA — 10 core programs of the Sangham
@@ -255,11 +256,13 @@ export function getProgram(slug) {
   return PROGRAMS.find((p) => p.slug === slug);
 }
 
-export default function ProgramPage({ program }) {
+export default function ProgramPage({ program, programs, galleryImages }) {
+  /* Bundled metadata + local gallery images are the offline fallback */
+  const programList = programs || PROGRAMS;
+  const gallery = galleryImages || getProgramGallery(program?.slug);
   if (!program) return null;
 
-  const others = PROGRAMS.filter((p) => p.slug !== program.slug);
-  const galleryImages = getProgramGallery(program.slug);
+  const others = programList.filter((p) => p.slug !== program.slug);
 
   return (
     <>
@@ -414,7 +417,7 @@ export default function ProgramPage({ program }) {
       </section>
 
       {/* Program photo gallery — renders only when photos exist for this slug */}
-      <ProgramGallery images={galleryImages} />
+      <ProgramGallery images={gallery} />
 
       {/* Other programs */}
       <section className="py-14 md:py-16 section-photo border-y border-cream-200">
@@ -453,4 +456,20 @@ export default function ProgramPage({ program }) {
 
     </>
   );
+}
+
+/* Data from headless WordPress; bundled fallback keeps the page
+   alive when the API is unreachable. Called from each program
+   page's getStaticProps. */
+export async function getStaticData(slug) {
+  const [wpProgram, wpPrograms] = await Promise.all([
+    getProgramBySlug(slug),
+    getAllPrograms(),
+  ]);
+  const program = wpProgram || getProgram(slug);
+  return {
+    program,
+    programs: wpPrograms || PROGRAMS,
+    galleryImages: wpProgram ? wpProgram.gallery : undefined, /* undefined → local fallback in component */
+  };
 }

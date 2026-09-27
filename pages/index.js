@@ -2,47 +2,17 @@ import { useState, useEffect, useCallback } from 'react';
 import Head from 'next/head';
 import Link from 'next/link';
 import Image from 'next/image';
-
-/* Ordered by designation seniority — highest designation first (see committee.js for the full list) */
-const executiveMembers = [
-  { designation: 'President', name: 'Sri Peesapati Lakshmi Kantharao', phone: '9347259787', initials: 'PL', gradient: 'from-amber-400 to-orange-600' },
-  { designation: 'Honorable President', name: 'Sri Dendukuri Narayana Murthy', phone: '9849311140', initials: 'DN', gradient: 'from-amber-500 to-orange-700' },
-  { designation: 'Executive President', name: 'Sri Vankamamidi Venkataramayya', phone: '9866337559', initials: 'VV', gradient: 'from-orange-400 to-red-600' },
-  { designation: 'Secretary', name: 'Sri Pamidighantam V. Satyanarayana', phone: '7893961234', initials: 'PV', gradient: 'from-orange-500 to-rose-600' },
-  { designation: 'Treasurer', name: 'Sri Susarla Venkata Ramana', phone: '9290515564', initials: 'SR', gradient: 'from-yellow-500 to-orange-600' },
-  { designation: 'Vice President', name: 'Sri Jammalamadaka Sita Ramanjaneeya Sharma', phone: '9491337464', initials: 'JS', gradient: 'from-yellow-400 to-amber-600' },
-];
-
-const recentHighlights = [
-  { year: '2026', event: 'Scholarships of ₹1,97,000 disbursed to 4 B.Tech students', category: 'Scholarships', icon: '🎓' },
-  { year: '2026', event: 'Ugadi celebrated — clothes to 45 Vedic students, sarees to 50 poor ladies', category: 'Celebrations', icon: '🎉' },
-  { year: '2026', event: 'Free Upanayanams for 8 Vatuvus at Santoshimata Temple', category: 'Upanayanams', icon: '🙏' },
-  { year: '2026', event: 'New 100 sq. yards site purchased behind Arama Kshetram for ₹8.5 Lakhs', category: 'Infrastructure', icon: '🏗️' },
-  { year: '2025', event: 'Karthika Samaradhana attended by around 1000 people with music programme', category: 'Events', icon: '🪔' },
-  { year: '2025', event: 'Scholarships of ₹1,70,000 disbursed to 4 B.Tech students', category: 'Scholarships', icon: '🎓' },
-  { year: '2024', event: 'First Floor of Arama Kshetram inaugurated formally', category: 'Infrastructure', icon: '🏗️' },
-  { year: '2024', event: '2000 Yagnopaveethams distributed on Jandhyala Pournami', category: 'Traditions', icon: '🧵' },
-];
-
-const sliderSlides = [
-  { image: '/images/slider/banner-1.png', title: 'Brahmana Seva Samiti', subtitle: 'Serving the Community with Devotion and Seva Since 1994', cta: { label: 'About Us', href: '/about' } },
-  { image: '/images/slider/banner-2.png', title: 'Jandhyala Pournami', subtitle: '2000 Yagnopaveethams Distributed Across 34 Places', cta: { label: 'Learn More', href: '/programs/jandhyala-pournami' } },
-  { image: '/images/slider/banner-3.png', title: 'Ugadi Celebrations', subtitle: 'Clothes to Vedic Students and Sarees to the Needy', cta: { label: 'Learn More', href: '/programs/ugadi' } },
-  { image: '/images/slider/banner-4.png', title: 'Karthika Samaradhana', subtitle: '1,000 Devotees Gather in Devotion Every Year', cta: { label: 'Learn More', href: '/programs/karthika-samaradhana' } },
-  { image: '/images/slider/banner-5.png', title: 'Scholarships That Change Lives', subtitle: 'Over ₹30 Lakhs Awarded to Meritorious Students', cta: { label: 'Our Schemes', href: '/schemes' } },
-  { image: '/images/slider/banner-6.png', title: 'Free Upanayanams', subtitle: 'Vedic Initiation for Vatuvus at Santoshimata Temple', cta: { label: 'Learn More', href: '/programs/uchita-upanayanamulu' } },
-  { image: '/images/slider/banner-7.png', title: 'Arama Kshetram', subtitle: 'A Home for Our Community’s Cultural and Welfare Activities', cta: { label: 'Learn More', href: '/programs/arama-kshetramu' } },
-  { image: '/images/slider/banner-8.png', title: 'Become a Life Member', subtitle: 'Join Us with a Contribution of ₹10,000 and Above', cta: { label: 'Life Members', href: '/members' } },
-];
-
-const testimonials = [
-  { name: 'Sri Kota Jayashankaram', role: 'Panchanga Pravachana Kartā', quote: 'Brahmana Seva Samiti has been a pillar of our community. Their Ugadi celebrations and Karthika Samaradhana bring together hundreds of families in devotion and togetherness.', icon: '🙏' },
-  { name: 'Sri G.V.L.N. Sanjeeva Rao', role: 'Visista Vyakthi 2023', quote: 'The work BSS has done for the community is truly commendable — from free Upanayanams to scholarships. The Arama Kshetram is a blessing for all of us.', icon: '✨' },
-  { name: 'Smt P. Mahalakshmamma & Sons', role: 'Visista Datalu 2023 — ₹18,00,000 Donors', quote: 'We are proud to contribute to the First Floor of Arama Kshetram in memory of late Sri P.V. Ramanaiah, our founder secretary.', icon: '❤️' },
-  { name: 'Sri Medicharla Prabhakar Rao', role: 'Retd. Judge — Legal Cell Member', quote: 'The Legal Cell formed by BSS provides affordable legal advice to Brahmin families. A unique initiative reflecting the Sangham\'s commitment to holistic welfare.', icon: '⚖️' },
-  { name: 'Sri Velavarthipati Panduranga Vithal', role: 'National Secretary, AIBF', quote: 'BSSATA is one of the most active Brahmana Sanghams in AP. Their Sampradaya Calendars are distributed across the state and abroad.', icon: '🏛️' },
-  { name: 'Scholarship Beneficiary', role: 'B.Tech Final Year Student', quote: 'The scholarship helped me complete my engineering education without financial burden. I am grateful for the support and will always remember this kindness.', icon: '🎓' },
-];
+import {
+  getCommitteeMembers,
+  getSiteHighlights,
+  getTestimonials,
+} from '../lib/wordpress';
+import {
+  SLIDER_SLIDES as sliderSlides,
+  HOME_EXECUTIVE_FALLBACK,
+  HIGHLIGHTS_FALLBACK,
+  TESTIMONIALS_FALLBACK,
+} from '../lib/fallback-content';
 
 /* ─── Hero Slider ─── */
 function HeroSlider() {
@@ -95,7 +65,7 @@ function HeroSlider() {
 }
 
 /* ─── Testimonials ─── */
-function TestimonialsCarousel() {
+function TestimonialsCarousel({ testimonials }) {
   const [page, setPage] = useState(0);
   const itemsPerPage = 3;
   const totalPages = Math.ceil(testimonials.length / itemsPerPage);
@@ -185,7 +155,7 @@ const highlightStyles = [
 ];
 
 /* ─── Main Page ─── */
-export default function Home() {
+export default function Home({ executive, highlights, testimonials }) {
   return (
     <>
       <Head>
@@ -320,7 +290,7 @@ export default function Home() {
           </div>
 
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5 lg:gap-6 max-w-5xl mx-auto">
-            {executiveMembers.map((m) => (
+            {executive.map((m) => (
               <div key={m.designation} className="group relative bg-[#241300]/80 backdrop-blur-md rounded-2xl border border-gold-400/30 overflow-hidden transition-all duration-400 hover:-translate-y-1.5 hover:bg-[#1a0d00]/90 hover:border-gold-400/60 hover:shadow-[0_20px_50px_rgba(0,0,0,0.45)]">
                 {/* Left gold edge */}
                 <div className="absolute left-0 top-0 bottom-0 w-1 bg-gradient-to-b from-gold-400 via-amber-500 to-gold-400 opacity-70 group-hover:opacity-100 transition-opacity duration-300" />
@@ -377,7 +347,7 @@ export default function Home() {
           </div>
 
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5 max-w-6xl mx-auto">
-            {recentHighlights.map((item, idx) => {
+            {highlights.map((item, idx) => {
               const s = highlightStyles[idx % highlightStyles.length];
               return (
                 <div key={idx} className={`group relative ${s.card} rounded-2xl p-6 overflow-hidden transition-all duration-400 hover:-translate-y-1.5 hover:shadow-[0_20px_50px_rgba(195,74,44,0.16)]`}>
@@ -411,7 +381,7 @@ export default function Home() {
         </div>
       </section>
 
-      <TestimonialsCarousel />
+      <TestimonialsCarousel testimonials={testimonials} />
 
       {/* ─── Join CTA — deep gold gradient, text left / buttons right ─── */}
       <section className="relative py-10 md:py-12 overflow-hidden text-white bg-gradient-to-br from-[#8a5f00] via-[#8b2500] to-[#6e1d00]">
@@ -447,4 +417,55 @@ export default function Home() {
       </section>
     </>
   );
+}
+
+/* ISR: homepage dynamic sections from headless WP, refreshed every
+   60s; bundled fallbacks render when the API is unreachable. */
+export async function getStaticProps() {
+  const [wpCommittee, wpHighlights, wpTestimonials] = await Promise.all([
+    getCommitteeMembers(),
+    getSiteHighlights(),
+    getTestimonials(),
+  ]);
+
+  /* Executive strip: 6 designations with avatar styling config */
+  const GRADIENT_BY_DESIGNATION = {
+    'President': 'from-amber-400 to-orange-600',
+    'Honorable President': 'from-amber-500 to-orange-700',
+    'Executive President': 'from-orange-400 to-red-600',
+    'Secretary': 'from-orange-500 to-rose-600',
+    'Treasurer': 'from-yellow-500 to-orange-600',
+    'Vice President': 'from-yellow-400 to-amber-600',
+  };
+  const desiredOrder = ['President', 'Honorable President', 'Executive President', 'Secretary', 'Treasurer', 'Vice President'];
+  const initialsOf = (name) =>
+    name.replace(/^(Sri|Smt|Dr)\s+/, '').split(/\s+/).map((w) => w[0]).slice(0, 2).join('').toUpperCase();
+
+  let executive;
+  if (wpCommittee) {
+    executive = desiredOrder
+      .map((designation) => {
+        const m = wpCommittee.find((c) => c.designation === designation);
+        if (!m) return null;
+        return {
+          designation,
+          name: m.name,
+          phone: m.phone,
+          initials: initialsOf(m.name),
+          gradient: GRADIENT_BY_DESIGNATION[designation],
+        };
+      })
+      .filter(Boolean);
+  } else {
+    executive = HOME_EXECUTIVE_FALLBACK;
+  }
+
+  return {
+    props: {
+      executive,
+      highlights: wpHighlights || HIGHLIGHTS_FALLBACK,
+      testimonials: wpTestimonials || TESTIMONIALS_FALLBACK,
+    },
+    revalidate: 60,
+  };
 }

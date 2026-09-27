@@ -1,82 +1,18 @@
 import Head from 'next/head';
 import Image from 'next/image';
+import { getSiteSettings } from '../lib/wordpress';
+import { SITE_SETTINGS_FALLBACK, KEY_PEOPLE_FALLBACK } from '../lib/fallback-content';
 
-const contactChannels = [
-  {
-    icon: '🏛️',
-    label: 'Office Address',
-    content: (
-      <>
-        Door No. 26-32-35, 6th Line,<br />
-        Ananda Theertha Agraharam,<br />
-        Guntur – 522 004, Andhra Pradesh
-      </>
-    ),
-  },
-  {
-    icon: '🏗️',
-    label: 'Arama Kshetram (Office & Operations)',
-    content: (
-      <>
-        Near Visalakshi Cold Storage,<br />
-        Guntur – Chilakaluripet Highway,<br />
-        Guntur – 522 004
-      </>
-    ),
-    note: 'ℹ️ Office shifted here from Aug 2025',
-  },
-  {
-    icon: '✉️',
-    label: 'Email',
-    content: (
-      <a href="mailto:brahmanaseva.ata97@gmail.com" className="text-saffron-600 hover:text-saffron-700 font-medium break-all">
-        brahmanaseva.ata97@gmail.com
-      </a>
-    ),
-  },
-  {
-    icon: '🌐',
-    label: 'Website',
-    content: (
-      <a href="https://www.bssata.org" target="_blank" rel="noopener noreferrer" className="text-saffron-600 hover:text-saffron-700 font-medium">
-        www.bssata.org
-      </a>
-    ),
-  },
+/* UI copy for fixed contact channels (icons/labels) — address, email
+   and website values come from WP siteSettings */
+const CONTACT_CHANNEL_UI = [
+  { icon: '🏛️', label: 'Office Address', field: 'address' },
+  { icon: '🏗️', label: 'Arama Kshetram (Office & Operations)', field: 'officeAddress', note: 'ℹ️ Office shifted here from Aug 2025' },
+  { icon: '✉️', label: 'Email', field: 'email', type: 'email' },
+  { icon: '🌐', label: 'Website', field: 'website', type: 'url' },
 ];
 
-const keyPeople = [
-  {
-    role: 'Secretary',
-    icon: '📞',
-    name: 'Sri Pamidighantam Venkata Satyanarayana',
-    phone: '7893961234',
-    phoneDisplay: '78939 61234',
-  },
-  {
-    role: 'Auditor',
-    icon: '⚖️',
-    name: 'Ketharaju Subba Rao & Co.',
-    phone: '7702700117',
-    phoneDisplay: '77027 00117',
-    sub: '2/12, Brodipet, Guntur · Rep. by Ketharaju Subhash',
-  },
-];
-
-const bankAccounts = [
-  {
-    bank: 'Union Bank of India',
-    account: '156910100019148',
-    ifsc: 'UBIN0815691',
-  },
-  {
-    bank: 'State Bank of India',
-    account: '52112775646',
-    ifsc: 'SBIN0020715',
-  },
-];
-
-export default function Contact() {
+export default function Contact({ settings, keyPeople }) {
   return (
     <>
       <Head>
@@ -126,23 +62,38 @@ export default function Contact() {
 
           {/* Contact channel cards */}
           <div className="grid sm:grid-cols-2 gap-5 max-w-4xl mx-auto">
-            {contactChannels.map((channel) => (
-              <div
-                key={channel.label}
-                className="bg-white rounded-2xl p-6 border border-cream-200 shadow-[0_2px_14px_rgba(195,74,44,0.06)] hover:-translate-y-1 hover:shadow-[0_16px_34px_rgba(195,74,44,0.12)] transition-all duration-300"
-              >
-                <div className="flex items-start gap-4">
-                  <span className="icon-badge">{channel.icon}</span>
-                  <div className="min-w-0">
-                    <h3 className="text-base font-bold text-gray-900 mb-1.5 leading-snug">{channel.label}</h3>
-                    <p className="text-sm text-gray-700 leading-relaxed">{channel.content}</p>
-                    {channel.note && (
-                      <p className="text-sm text-saffron-700 mt-2 font-medium">{channel.note}</p>
-                    )}
+            {CONTACT_CHANNEL_UI.map((channel) => {
+              const value = settings[channel.field] || '';
+              return (
+                <div
+                  key={channel.label}
+                  className="bg-white rounded-2xl p-6 border border-cream-200 shadow-[0_2px_14px_rgba(195,74,44,0.06)] hover:-translate-y-1 hover:shadow-[0_16px_34px_rgba(195,74,44,0.12)] transition-all duration-300"
+                >
+                  <div className="flex items-start gap-4">
+                    <span className="icon-badge">{channel.icon}</span>
+                    <div className="min-w-0">
+                      <h3 className="text-base font-bold text-gray-900 mb-1.5 leading-snug">{channel.label}</h3>
+                      {channel.type === 'email' && (
+                        <a href={`mailto:${value}`} className="text-saffron-600 hover:text-saffron-700 font-medium break-all">
+                          {value}
+                        </a>
+                      )}
+                      {channel.type === 'url' && (
+                        <a href={value} target="_blank" rel="noopener noreferrer" className="text-saffron-600 hover:text-saffron-700 font-medium">
+                          {value.replace(/^https?:\/\//, '')}
+                        </a>
+                      )}
+                      {!channel.type && (
+                        <p className="text-sm text-gray-700 leading-relaxed whitespace-pre-line">{value}</p>
+                      )}
+                      {channel.note && (
+                        <p className="text-sm text-saffron-700 mt-2 font-medium">{channel.note}</p>
+                      )}
+                    </div>
                   </div>
                 </div>
-              </div>
-            ))}
+              );
+            })}
           </div>
 
           {/* Key people */}
@@ -186,26 +137,26 @@ export default function Contact() {
 
           {/* Bank account cards */}
           <div className="grid md:grid-cols-2 gap-5 max-w-4xl mx-auto">
-            {bankAccounts.map((account) => (
-              <div key={account.bank} className="bg-white rounded-2xl overflow-hidden border border-cream-200 shadow-[0_2px_14px_rgba(195,74,44,0.08)] hover:-translate-y-1 hover:shadow-[0_16px_34px_rgba(195,74,44,0.14)] transition-all duration-300">
+            {settings.bankAccounts.map((account) => (
+              <div key={account.bankName} className="bg-white rounded-2xl overflow-hidden border border-cream-200 shadow-[0_2px_14px_rgba(195,74,44,0.08)] hover:-translate-y-1 hover:shadow-[0_16px_34px_rgba(195,74,44,0.14)] transition-all duration-300">
                 <div className="h-1.5 bg-gradient-to-r from-saffron-400 via-gold-400 to-saffron-500" />
                 <div className="p-6">
                   <div className="flex items-center gap-3 mb-5">
                     <span className="icon-badge">🏦</span>
-                    <h3 className="text-base font-bold text-saffron-700 uppercase tracking-wide">{account.bank}</h3>
+                    <h3 className="text-base font-bold text-saffron-700 uppercase tracking-wide">{account.bankName}</h3>
                   </div>
                   <dl className="space-y-3">
                     <div className="flex flex-wrap items-center justify-between gap-x-3 gap-y-1 py-2.5 px-3.5 rounded-xl bg-cream-50 border border-cream-200">
                       <dt className="text-sm font-semibold text-gray-500">A/C No</dt>
-                      <dd className="text-sm font-mono font-bold text-gray-900 tracking-wider break-all">{account.account}</dd>
+                      <dd className="text-sm font-mono font-bold text-gray-900 tracking-wider break-all">{account.accountNumber}</dd>
                     </div>
                     <div className="flex flex-wrap items-center justify-between gap-x-3 gap-y-1 py-2.5 px-3.5 rounded-xl bg-cream-50 border border-cream-200">
                       <dt className="text-sm font-semibold text-gray-500">IFSC</dt>
-                      <dd className="text-sm font-mono font-bold text-gray-900 tracking-wider">{account.ifsc}</dd>
+                      <dd className="text-sm font-mono font-bold text-gray-900 tracking-wider">{account.ifscCode}</dd>
                     </div>
                     <div className="flex flex-wrap items-center justify-between gap-x-3 gap-y-1 py-2.5 px-3.5 rounded-xl bg-cream-50 border border-cream-200">
                       <dt className="text-sm font-semibold text-gray-500">Branch</dt>
-                      <dd className="text-sm text-gray-800 text-right">A.T. Agraharam, Guntur – 522004</dd>
+                      <dd className="text-sm text-gray-800 text-right">{account.branch || 'A.T. Agraharam, Guntur – 522004'}</dd>
                     </div>
                   </dl>
                 </div>
@@ -227,8 +178,7 @@ export default function Contact() {
               <div>
                 <h3 className="text-lg font-serif font-bold text-gray-900 mb-2">12A Tax Exemption</h3>
                 <p className="text-sm text-gray-700 leading-relaxed">
-                  BSS has been granted <strong>12A exemption</strong> by the Income Tax Department, valid from
-                  FY 2025-26 to 2030-31. All donations to BSS are eligible for tax benefits.
+                  {settings.twelveACertificateText}
                 </p>
                 <p className="text-sm text-gray-700 mt-2">
                   Registered on the <strong>Darpan Portal</strong> (RBI compliance) — verified and up to date.
@@ -240,4 +190,17 @@ export default function Contact() {
       </section>
     </>
   );
+}
+
+/* ISR: site settings (bank details, address, contacts, 12A text) from
+   headless WP, refreshed every 60s. */
+export async function getStaticProps() {
+  const wpSettings = await getSiteSettings();
+  return {
+    props: {
+      settings: wpSettings || SITE_SETTINGS_FALLBACK,
+      keyPeople: KEY_PEOPLE_FALLBACK,
+    },
+    revalidate: 60,
+  };
 }

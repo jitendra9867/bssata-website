@@ -1,114 +1,36 @@
 import Head from 'next/head';
 import Link from 'next/link';
 import Image from 'next/image';
-
-const timeline = [
-  { year: '1994', date: 'Telugu New Year Bhava', event: 'Brahmana Seva Sangham started at the house of Shri P.V. Ramanaiah, A.T. Agraharam, Guntur with Shri Nallapati Venkatrao as President and Shri Pamidighantam Venkata Ramanaiah as Secretary.', icon: '🏗️' },
-  { year: '1994', date: 'July', event: 'Mantrapushpam classes started at Gayatri Ammavari Mandiram by Sagi Subrahmanyam Garu.', icon: '📖' },
-  { year: '1995', date: 'March', event: 'First Samuhika Uchita Upanayanams conducted for 12 Vatuvus at Gayatri Mata Mandiram.', icon: '🙏' },
-  { year: '1997', date: 'January 25', event: 'Brahmana Seva Sangham registered as Society No. 48/1997 under Societies Registration Act, XXI of 1860.', icon: '📜' },
-  { year: '2010', date: 'March', event: 'Major decision to construct Arama Kshetram by purchasing own site. Nearly ₹1.5 Lakh donations announced on the spot.', icon: '💡' },
-  { year: '2011', date: 'February', event: '400 sq. yards plot procured near Visalakshi Cold Storage on Guntur–Chilakaluripet Highway.', icon: '🏗️' },
-  { year: '2012', date: 'November', event: 'Foundation laid for construction of Arama Kshetram at the purchased site.', icon: '🪔' },
-  { year: '2015', date: 'March', event: 'Grand Gruhapravesam of Arama Kshetram celebrated.', icon: '🎉' },
-  { year: '2021', date: 'August 29', event: 'Website bssata.org developed and opened by Dr. Sri KVV Nagasanthosh Kumar Garu.', icon: '🌐' },
-  { year: '2023', date: 'May 28', event: 'General Body meeting — New body elected unanimously. President: Sri P.L. Kantharao, Secretary: P.V. Satyanarayana, Treasurer: Sri S.V. Ramana.', icon: '🗳️' },
-  { year: '2023', date: 'August 31', event: 'Jandhyala Pournami — 1000 Yagnopaveethams distributed across city through temples and Vedapathasalas.', icon: '🧵' },
-  { year: '2023', date: 'November 19', event: 'Karthika Samaradhana at Central Public School attended by 650 people. First floor donors felicitated.', icon: '🪔' },
-  { year: '2023', date: 'December 6', event: 'Arama Kshetram First Floor inaugurated formally with all rituals, attended by 150 people.', icon: '🏗️' },
-  { year: '2024', date: 'February 29', event: 'Free Samuhika Upanayanams for 9 Vatuvus at Santoshimata Temple after 27 years. 150 people dined.', icon: '🙏' },
-  { year: '2024', date: 'April 9', event: 'Krodhi Nama Ugadi — Panchanga Sravanam, 150 Panchangams distributed, 49 Vedic students honored, 55 poor ladies presented sarees.', icon: '🎉' },
-  { year: '2024', date: 'August 19', event: 'Jandhyala Pournami — 2000 Yagnopaveethams distributed at 34 places in Guntur and abroad at London.', icon: '🧵' },
-  { year: '2024', date: 'November 3', event: 'Karthika Samaradhana attended by 750+ people. 3000 Sampradaya Calendars published for 2025.', icon: '🪔' },
-  { year: '2025', date: 'January 18', event: '12A Provisional Registration obtained for income tax exemption.', icon: '📋' },
-  { year: '2025', date: 'February 15', event: 'Uchita Upanayanams for 10 Vatuvus at Santoshimata Temple. 250 people dined.', icon: '🙏' },
-  { year: '2025', date: 'June 12', event: 'Sangham purchased 100 sq. yards of site on cement road behind Arama Kshetram.', icon: '🏗️' },
-  { year: '2025', date: 'August 10', event: 'Sri Vidyanidhi — ₹1,70,000 scholarships disbursed to 4 B.Tech students.', icon: '🎓' },
-  { year: '2025', date: 'November 20', event: 'Income Tax Dept granted 12A exemption to BSS valid from 2025-26 to 2030-31.', icon: '✅' },
-  { year: '2026', date: 'February 20', event: 'Free Upanayanams for 8 Vatuvus at Santoshimata Temple. 250 people dined. Sri Gabbita Sivaram Krishna Prasad assured venue free.', icon: '🙏' },
-  { year: '2026', date: 'March 3', event: 'Sri Rudravarapu Bharadwaj felicitated on his election as Chairman, Guntur Chapter of ICAI.', icon: '🏆' },
-  { year: '2026', date: 'March 19', event: 'Parabhava Nama Samvatsara Ugadi celebrated at Anjaneya Swamy Temple. Clothes to 45 Vedic students, 5 Upadhyayulu, sarees to 50 poor ladies.', icon: '🎉' },
-  { year: '2026', date: 'April 2', event: 'Sri Velavarthipati Panduranga Vithal honored on his nomination as National Secretary of All India Brahmana Federation.', icon: '🎖️' },
-  { year: '2026', date: 'April 26', event: 'Started collecting donations for Bhudanam of 200 sq. yards of site on north side of Arama Kshetram at ₹17,000/- per sq. yd.', icon: '🏗️' },
-  { year: '2026', date: 'June 23', event: 'Agreement signed for purchase of 100 sq. yards of site behind Arama Kshetram for ₹8,50,000/- from Smt Yerubandi Lakshmikantam.', icon: '📋' },
-  { year: '2026', date: 'August 9', event: 'Sri Vidyanidhi Scholarships disbursed to 4 B.Tech students — ₹1,97,000 total. Chief Guests: Puipati Mallikharjuna Prasad & BVH Kameswara Sastry.', icon: '🎓' },
-];
+import {
+  getHistoryHighlights,
+  getWelfareSchemes,
+  getDonorHonors,
+  getCommitteeMembers,
+} from '../lib/wordpress';
+import {
+  TIMELINE_FALLBACK,
+  WELFARE_FALLBACK,
+  VISISTA_VYAKTHULU_FALLBACK,
+  VISISTA_DATALU_FALLBACK,
+  COMMITTEE_FALLBACK,
+} from '../lib/fallback-content';
 
 /* Timeline grouped by year — all events of the same year share one card */
-const timelineYears = timeline.reduce((acc, item) => {
-  const last = acc[acc.length - 1];
-  if (last && last.year === item.year) {
-    last.items.push(item);
-  } else {
-    acc.push({ year: item.year, items: [item] });
-  }
-  return acc;
-}, []);
+function groupTimelineByYear(events) {
+  return events.reduce((acc, item) => {
+    const last = acc[acc.length - 1];
+    if (last && last.year === item.year) {
+      last.items.push(item);
+    } else {
+      acc.push({ year: item.year, items: [item] });
+    }
+    return acc;
+  }, []);
+}
 
-const welfareActivities = [
-  { title: 'Karthika Samaradhana', description: 'Annual community feast during the holy month of Karthika — attended by around 1000 people in 2025 with music programmes.', icon: '🪔' },
-  { title: 'Sampradaya Calendar', description: 'Publication and distribution of traditional Sampradaya Calendars to 3000+ households across the state and abroad.', icon: '📅' },
-  { title: 'Free Mass Upanayanams', description: 'Sacred thread ceremonies conducted free of cost for underprivileged youth — 10 Vatuvus initiated in Feb 2025.', icon: '🙏' },
-  { title: 'Aabdheekam Services', description: 'Ancestral rites preservation services for Brahmin families, including those staying outside AP and abroad via coordination.', icon: '🕉️' },
-  { title: 'Vedic Classes', description: 'Structured classes for Sandhyavandanam, Mantra Pushpam, Mahamantra Pushpam and Rudram for all age groups.', icon: '📖' },
-  { title: 'Jandhyala Pournami', description: 'Distribution of Yagnopaveethams on the auspicious occasion — 2000 distributed at 34 places in 2024.', icon: '🧵' },
-  { title: 'Life Certificate Desk', description: 'Issuance of Life Certificates for Central and State pensioners (Jan, Feb, Nov, Dec) with face reading method.', icon: '📋' },
-  { title: 'Legal Cell', description: 'Low-cost legal advice by Retd. Judge Sri Medicharla Prabhakar Rao and Advocate Dendukuri Narayana Murthy.', icon: '⚖️' },
-  { title: 'Sri Vidyanidhi Scholarships', description: 'Educational financial assistance — ₹1,70,000 disbursed to 4 B.Tech final year students in 2025.', icon: '🎓' },
-  { title: 'Life Membership', description: 'Life Membership Enrollment Scheme — donors contributing ₹10,000 and above receive permanent membership.', icon: '👤' },
-  { title: 'Arama Kshetram', description: 'Comprehensive infrastructure for final rites management — First floor inaugurated in Dec 2023. New site purchased in 2025-2026 for expansion.', icon: '🏗️' },
-  { title: 'Ugadi Celebrations', description: 'Panchanga Sravanam, Visista Vyakthi honors, clothes to Vedic students, sarees to poor ladies.', icon: '🎉' },
-  { title: 'Bala Goseva', description: 'Children\'s cow service initiative — Cow Kiddy Banks distributed to children. ₹27,428 contributed by 41 children in 2025.', icon: '🐄' },
-  { title: 'Mahalaya Pitrupakshalu', description: 'First time free Mahalaya Pitrupakshalu conducted at Arama Kshetram. 12+ people offered Tila Tarpanams in 2025.', icon: '🕉️' },
-];
+export default function About({ timeline, welfareActivities, visistaVyakthulu, visistaDatalu, governingBody }) {
+  const timelineYears = groupTimelineByYear(timeline);
 
-const visistaVyakthulu = [
-  { year: '1996', name: 'Shri Moguluri Narasimha Rao' },
-  { year: '1997', name: 'Shri Ambatipudi Satyanarayana Avadhani' },
-  { year: '1998', name: 'Shri Vemu Bhavannarayana' },
-  { year: '1999', name: 'Shri Chintalapati Perayya Sastry' },
-  { year: '2000', name: 'Shri Petluri Mallikarjuna Rao' },
-  { year: '2003', name: 'Shri Ghantasala Satyanarayana' },
-  { year: '2006', name: 'Smt K.V. Ranganayakamma' },
-  { year: '2007', name: 'Shri Yadavalli Srihari Rao' },
-  { year: '2008', name: 'Shri Malladi Srihari Sastry' },
-  { year: '2010', name: 'Shri Valluri Suryanarayana Murthy' },
-  { year: '2012', name: 'Shri Burra Seetharama Sastry' },
-  { year: '2013', name: 'Shri Ketaraju Narasimha Rao' },
-  { year: '2014', name: 'Shri Machiraju Sitapathi Rao' },
-  { year: '2015', name: 'Shri Jannabhatla Veereswara Sastry' },
-  { year: '2016', name: 'Shri Pathuri Venkatrama Sastry' },
-  { year: '2017', name: 'Shri Dendukuri Sambamurthy' },
-  { year: '2018', name: 'Shri Pamidighantam Venkata Ramanaiah' },
-  { year: '2019', name: 'Shri Valluri Suryanarayana Murthy' },
-  { year: '2020', name: 'Shri Nethi Visweswara Rao' },
-  { year: '2021', name: 'Shri Neti Visweswara Rao' },
-  { year: '2022', name: 'Shri Kota Jayasankaram' },
-  { year: '2023', name: 'Shri Goparaju V.L.N. Sanjeeva Rao' },
-  { year: '2024', name: 'Shri Ambadipudi Syamsundara Rao' },
-  { year: '2025', name: 'Shri Turumella Umakantha Rao' },
-  { year: '2026', name: 'Shri Peesapati Lakshmi Kantha Rao' },
-  { year: '2026', name: 'Shri Jammalamadaka Seetharamanjaneeya Sarma' },
-];
-
-const visistaDatalu = [
-  { year: '2023', name: 'Smt P. Mahalakshmamma & Sons — P.V. Subbarao, P.V. Satyanarayana & P. Vasudevarao', contribution: '₹18,00,000 — First Floor of Arama Kshetram named in memory of late Sri P.V. Ramanaiah, Founder Secretary' },
-  { year: '2024', name: 'Sri Kalluri Venkateswara Rao', contribution: 'Major donor for Sangham activities during the year' },
-  { year: '2025', name: 'Shri Ganapavarapu Venkata Anjaneya Sastry', contribution: 'Distinguished donor for community welfare' },
-  { year: '2025', name: 'Shri Sarraju Balachandar', contribution: 'Distinguished donor for community welfare' },
-];
-
-const governingBody = [
-  /* Ordered designation-wise — highest designation first (matches committee.js) */
-  { name: 'Sri Peesapati Lakshmi Kantharao', role: 'President', phone: '9347259787' },
-  { name: 'Sri Dendukuri Narayana Murthy', role: 'Honorable President', phone: '9849311140' },
-  { name: 'Sri Vankamamidi Venkataramayya', role: 'Executive President', phone: '9866337559' },
-  { name: 'Sri Pamidighantam V. Satyanarayana', role: 'Secretary', phone: '7893961234' },
-  { name: 'Sri Susarla Venkata Ramana', role: 'Treasurer', phone: '9290515564' },
-  { name: 'Sri Jammalamadaka Sita Ramanjaneeya Sharma', role: 'Vice President', phone: '9491337464' },
-];
-
-export default function About() {
   return (
     <>
       <Head>
@@ -478,4 +400,40 @@ export default function About() {
 
     </>
   );
+}
+
+/* ISR: timeline, welfare activities and honor rolls from headless WP,
+   refreshed every 60s; bundled fallbacks keep the page alive offline. */
+export async function getStaticProps() {
+  const [wpTimeline, wpSchemes, wpHonors, wpCommittee] = await Promise.all([
+    getHistoryHighlights(),
+    getWelfareSchemes(),
+    getDonorHonors(),
+    getCommitteeMembers(),
+  ]);
+
+  const timeline = wpTimeline
+    ? wpTimeline.map((t) => ({ year: t.year, date: t.date, event: t.description, icon: t.impactTag || '•' }))
+    : TIMELINE_FALLBACK;
+
+  const welfareActivities = wpSchemes
+    ? wpSchemes.map((s) => ({ title: s.title, description: s.description, icon: s.icon }))
+    : WELFARE_FALLBACK;
+
+  const honors = wpHonors || null;
+  const visistaVyakthulu = honors
+    ? honors.filter((h) => h.honorType === 'visista-vyakthi').map((h) => ({ year: h.year, name: h.name }))
+    : VISISTA_VYAKTHULU_FALLBACK;
+  const visistaDatalu = honors
+    ? honors.filter((h) => h.honorType === 'visista-data').map((h) => ({ year: h.year, name: h.name, contribution: h.contribution }))
+    : VISISTA_DATALU_FALLBACK;
+
+  const governingBody = wpCommittee
+    ? wpCommittee.filter((c) => c.category === 'leadership').map((c) => ({ name: c.name, role: c.designation, phone: c.phone }))
+    : COMMITTEE_FALLBACK.filter((c) => c.category === 'leadership').map((c) => ({ name: c.name, role: c.designation, phone: c.phone }));
+
+  return {
+    props: { timeline, welfareActivities, visistaVyakthulu, visistaDatalu, governingBody },
+    revalidate: 60,
+  };
 }

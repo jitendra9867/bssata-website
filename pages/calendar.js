@@ -1,12 +1,7 @@
 import Head from 'next/head';
 import Image from 'next/image';
-
-const calendars = [
-  { year: '2026', pdf: '/images/calendars/cal 2026.pdf', description: 'Parabhava Nama Samvatsara — Current year calendar with auspicious dates, festivals, and muhurthams.', samvat: 'पराभव', latest: true, count: '3000+' },
-  { year: '2025', pdf: '/images/calendars/cal 2025.pdf', description: 'Plava Nama Samvatsara — Last year calendar with complete festival schedule.', samvat: 'प्लव', latest: false, count: '3000+' },
-  { year: '2024', pdf: '/images/calendars/cal 2024.pdf', description: 'Shobhakruth Nama Samvatsara — Calendar with traditional festivals and events.', samvat: 'शोभकृत्', latest: false, count: '3000+' },
-  { year: '2023', pdf: '/images/calendars/cal 2023.pdf', description: 'Shubhakruth Nama Samvatsara — Calendar with traditional festivals and events.', samvat: 'शुभकृत्', latest: false, count: '3000+' },
-];
+import { getSampradayaCalendars } from '../lib/wordpress';
+import { CALENDARS_FALLBACK } from '../lib/fallback-community';
 
 const features = [
   { icon: '📅', title: 'Traditional Dates', description: 'Complete Hindu calendar with Tithis, Nakshatras, and Yogas for every day of the year.', color: 'from-saffron-500 to-saffron-600', bg: 'bg-saffron-50' },
@@ -22,7 +17,7 @@ const stats = [
   { value: '2026', label: 'Latest Edition', icon: '✨' },
 ];
 
-export default function Calendar() {
+export default function Calendar({ calendars }) {
   return (
     <>
       <Head>
@@ -193,7 +188,7 @@ export default function Calendar() {
             <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
               {[
                 { icon: '📥', title: 'Download PDF', desc: 'Click any calendar above to download instantly. Free for everyone, anywhere in the world.', color: 'from-saffron-500 to-saffron-600' },
-                { icon: '📮', title: 'Request by Post', desc: 'Write to us and we\'ll send a printed calendar to your address across AP or abroad.', color: 'from-gold-500 to-gold-600' },
+                { icon: '📮', title: 'Request by Post', desc: "Write to us and we'll send a printed calendar to your address across AP or abroad.", color: 'from-gold-500 to-gold-600' },
                 { icon: '🏛️', title: 'Pick Up Locally', desc: 'Collect from our office at A.T. Agraharam, Guntur or any of our 46 distribution centers.', color: 'from-maroon-500 to-saffron-500' },
               ].map((item) => (
                 <div key={item.title} className="bg-white rounded-2xl p-6 border border-cream-200/60 hover:border-saffron-200 transition-all duration-400 hover:-translate-y-1 hover:shadow-[0_12px_40px_rgba(195,74,44,0.08)] text-center">
@@ -210,4 +205,13 @@ export default function Calendar() {
       </section>
     </>
   );
+}
+
+/* ISR: calendar editions (PDFs from WP media library), 60s refresh. */
+export async function getStaticProps() {
+  const wpCalendars = await getSampradayaCalendars();
+  return {
+    props: { calendars: wpCalendars || CALENDARS_FALLBACK },
+    revalidate: 60,
+  };
 }

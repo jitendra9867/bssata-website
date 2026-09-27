@@ -1,6 +1,8 @@
 import Head from 'next/head';
 import Link from 'next/link';
 import Image from 'next/image';
+import { getProgramEvents } from '../../lib/wordpress';
+import { PROGRAM_EVENTS_FALLBACK } from '../../lib/fallback-community';
 
 /* ═══════════════════════════════════════════════════════════════
    ANNUAL PROGRAMS & EVENTS — 10 core programs of the Sangham
@@ -78,7 +80,17 @@ function EventList({ events }) {
   );
 }
 
-export default function Programs() {
+export default function Programs({ eventsBySlug }) {
+  /* Per-slug event lists resolved from WP (or bundled fallback) */
+  const mahalayaEvents2 = eventsBySlug['mahalaya-pakshalu'] || [];
+  const upanayanamEvents = eventsBySlug['uchita-upanayanamulu'] || [];
+  const ugadiEvents = eventsBySlug['ugadi'] || [];
+  const generalBodyEvents = eventsBySlug['general-body-meeting'] || [];
+  const vidyanidhiEvents = eventsBySlug['sri-vidyanidhi'] || [];
+  const jandhyalaEvents = eventsBySlug['jandhyala-pournami'] || [];
+  const karthikaEvents = eventsBySlug['karthika-samaradhana'] || [];
+  const masikamEvents = eventsBySlug['masikamulu-abdikamulu'] || [];
+  const aramaEvents = eventsBySlug['arama-kshetramu'] || [];
   return (
     <>
       <Head>
@@ -428,4 +440,12 @@ export default function Programs() {
 
     </>
   );
+}
+
+export async function getStaticProps() {
+  const eventsBySlug = (await getProgramEvents()) || PROGRAM_EVENTS_FALLBACK;
+  return {
+    props: { eventsBySlug },
+    revalidate: 60,
+  };
 }

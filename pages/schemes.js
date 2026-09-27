@@ -2,161 +2,21 @@ import { useState } from 'react';
 import Head from 'next/head';
 import Link from 'next/link';
 import Image from 'next/image';
+import { getWelfareSchemes } from '../lib/wordpress';
+import {
+  SCHEMES_FALLBACK as fallbackSchemes,
+  SCHEME_CATEGORIES as categories,
+  IMPACT_STATS as impactStats,
+} from '../lib/fallback-content';
 
-const schemes = [
-  {
-    id: 1,
-    title: 'Karthika Samaradhana',
-    description: 'Annual community feast during the holy month of Karthika — attended by around 1000 people in 2025 with music programmes.',
-    icon: '🪔',
-    category: 'Cultural',
-    status: 'Active',
-    href: '/programs/karthika-samaradhana',
-  },
-  {
-    id: 2,
-    title: 'Sampradaya Calendar',
-    description: 'Publication and distribution of traditional Sampradaya Calendars to 3000+ households across the state and abroad.',
-    icon: '📅',
-    category: 'Distribution',
-    status: 'Active',
-    href: '/calendar',
-  },
-  {
-    id: 3,
-    title: 'Free Mass Upanayanams',
-    description: 'Sacred thread ceremonies conducted free of cost for underprivileged youth — 10 Vatuvus initiated in Feb 2025.',
-    icon: '🙏',
-    category: 'Religious',
-    status: 'Active',
-    href: '/programs/uchita-upanayanamulu',
-  },
-  {
-    id: 4,
-    title: 'Aabdheekam Services',
-    description: 'Ancestral rites preservation services for Brahmin families, including those staying outside AP and abroad via coordination.',
-    icon: '🕉️',
-    category: 'Religious',
-    status: 'Active',
-    href: '/programs/masikamulu-abdikamulu',
-  },
-  {
-    id: 5,
-    title: 'Vedic Classes',
-    description: 'Structured classes for Sandhyavandanam, Mantra Pushpam, Mahamantra Pushpam and Rudram for all age groups.',
-    icon: '📖',
-    category: 'Education',
-    status: 'Active',
-    href: null,
-  },
-  {
-    id: 6,
-    title: 'Jandhyala Pournami',
-    description: 'Distribution of Yagnopaveethams on the auspicious occasion — 2000 distributed at 34 places in 2024.',
-    icon: '🧵',
-    category: 'Distribution',
-    status: 'Active',
-    href: '/programs/jandhyala-pournami',
-  },
-  {
-    id: 7,
-    title: 'Life Certificate Desk',
-    description: 'Issuance of Life Certificates for Central and State pensioners (Jan, Feb, Nov, Dec) with face reading method.',
-    icon: '📋',
-    category: 'Service',
-    status: 'Active',
-    href: null,
-  },
-  {
-    id: 8,
-    title: 'Legal Cell',
-    description: 'Low-cost legal advice by Retd. Judge Sri Medicharla Prabhakar Rao and Advocate Dendukuri Narayana Murthy.',
-    icon: '⚖️',
-    category: 'Service',
-    status: 'Active',
-    href: null,
-  },
-  {
-    id: 9,
-    title: 'Sri Vidyanidhi Scholarships',
-    description: 'Educational financial assistance — ₹1,97,000 disbursed to 4 B.Tech final year students in 2026.',
-    icon: '🎓',
-    category: 'Education',
-    status: 'Active',
-    href: '/programs/sri-vidyanidhi',
-  },
-  {
-    id: 10,
-    title: 'Life Membership',
-    description: 'Life Membership Enrollment Scheme — donors contributing ₹10,000 and above receive permanent membership.',
-    icon: '👤',
-    category: 'Membership',
-    status: 'Active',
-    href: '/members#enrollment',
-  },
-  {
-    id: 11,
-    title: 'Arama Kshetram',
-    description: 'Comprehensive infrastructure for final rites management — First floor inaugurated in Dec 2023. New site purchased in 2025-2026 for expansion.',
-    icon: '🏗️',
-    category: 'Infrastructure',
-    status: 'Active',
-    href: '/programs/arama-kshetramu',
-  },
-  {
-    id: 12,
-    title: 'Ugadi Celebrations',
-    description: 'Panchanga Sravanam, Visista Vyakthi honors, clothes to Vedic students, sarees to poor ladies.',
-    icon: '🎉',
-    category: 'Cultural',
-    status: 'Active',
-    href: '/programs/ugadi',
-  },
-  {
-    id: 13,
-    title: 'Bala Goseva',
-    description: 'Children\'s cow service initiative — Cow Kiddy Banks distributed to children. ₹27,428 contributed by 41 children in 2025.',
-    icon: '🐄',
-    category: 'Service',
-    status: 'Active',
-    href: '/community#bala-goseva',
-  },
-  {
-    id: 14,
-    title: 'Mahalaya Pitrupakshalu',
-    description: 'First time free Mahalaya Pitrupakshalu conducted at Arama Kshetram. 12+ people offered Tila Tarpanams in 2025.',
-    icon: '🕉️',
-    category: 'Religious',
-    status: 'Active',
-    href: '/programs/mahalaya-pakshalu',
-  },
-];
-
-const categories = [
-  { name: 'All', icon: '📋' },
-  { name: 'Cultural', icon: '🎭' },
-  { name: 'Religious', icon: '🙏' },
-  { name: 'Education', icon: '📚' },
-  { name: 'Service', icon: '🤝' },
-  { name: 'Distribution', icon: '📦' },
-  { name: 'Infrastructure', icon: '🏗️' },
-  { name: 'Membership', icon: '👤' },
-];
-
-const impactStats = [
-  { value: '14+', label: 'Active Schemes', icon: '🎗️' },
-  { value: '760+', label: 'Beneficiaries', icon: '👥' },
-  { value: '₹30L+', label: 'Distributed', icon: '💰' },
-  { value: '30+', label: 'Years Active', icon: '🏛️' },
-];
-
-export default function Schemes() {
+export default function Schemes({ schemes }) {
   const [activeCategory, setActiveCategory] = useState('All');
 
   const filteredSchemes =
     activeCategory === 'All'
       ? schemes
       : schemes.filter((scheme) => scheme.category === activeCategory);
+
 
   return (
     <>
@@ -324,4 +184,13 @@ export default function Schemes() {
       </section>
     </>
   );
+}
+
+/* ISR: welfare schemes from headless WP, refreshed every 60s. */
+export async function getStaticProps() {
+  const wpSchemes = await getWelfareSchemes();
+  return {
+    props: { schemes: wpSchemes || fallbackSchemes },
+    revalidate: 60,
+  };
 }
