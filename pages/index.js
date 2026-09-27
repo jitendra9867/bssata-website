@@ -33,11 +33,20 @@ function HeroSlider({ slides }) {
   return (
     <section className="relative w-full aspect-[8/3] sm:aspect-[1900/700] bg-white overflow-hidden" onMouseEnter={() => setIsAutoPlaying(false)} onMouseLeave={() => setIsAutoPlaying(true)}>
       {/* Mobile: 8/3 ratio box; sm+: full 1900/700 banner shape (desktop look unchanged). object-contain = full image always visible, no cropping */}
-      {sliderSlides.map((slide, i) => (
-        <div key={i} className={`absolute inset-0 transition-opacity duration-[1200ms] ease-in-out ${i === current ? 'opacity-100' : 'opacity-0'}`}>
-          <Image src={slide.image} alt={slide.title} fill className="object-contain object-center" priority={i === 0} sizes="100vw" />
-        </div>
-      ))}
+      {/* Only mount the visible slide ±1 so the browser never downloads
+          all 8 banners up front; remaining slides load as the carousel
+          approaches them (sequential autoplay → always pre-cached). */}
+      {sliderSlides.map((slide, i) => {
+        const distance = Math.min(Math.abs(i - current), sliderSlides.length - Math.abs(i - current));
+        if (distance > 1) return null;
+        return (
+          <div key={i} className={`absolute inset-0 transition-opacity duration-[1200ms] ease-in-out ${i === current ? 'opacity-100' : 'opacity-0'}`}>
+            <Image src={slide.image} alt={slide.title} fill className="object-contain object-center" priority={i === 0} sizes="100vw" loading={i === 0 ? undefined : 'eager'} />
+          </div>
+        );
+      })}
+      {/* Warm the optimizer cache for the NEXT slide during idle time */}
+      <link rel="prefetch" as="image" href={`/_next/image?url=${encodeURIComponent(sliderSlides[(current + 1) % sliderSlides.length].image)}&w=1920&q=75`} />
 
       {/* Dimmed overlay — softens the banner so the centered content stays readable (banner images themselves are untouched) */}
       <div className="absolute inset-0 bg-black/45 pointer-events-none" />

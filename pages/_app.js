@@ -1,21 +1,31 @@
 import Head from 'next/head';
+import { Raleway, Open_Sans } from 'next/font/google';
 import '../styles/globals.css';
 import Layout from '../components/Layout';
 
+/* Self-hosted Google fonts: no render-blocking third-party CSS request,
+   fonts served from the same domain with long cache + preloaded.
+   Open Sans is the successor of the retired Droid Sans (metrically
+   compatible, same designer) and is visually near-identical. */
+const raleway = Raleway({
+  subsets: ['latin'],
+  weight: ['400', '500', '600', '700', '800', '900'],
+  display: 'swap',
+  variable: '--font-raleway',
+});
+const openSans = Open_Sans({
+  subsets: ['latin'],
+  weight: ['400', '700'],
+  display: 'swap',
+  variable: '--font-droid-sans',
+});
+
 export default function App({ Component, pageProps }) {
   return (
-    <>
-      <Head>
-        <link rel="preconnect" href="https://fonts.googleapis.com" />
-        <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
-        <link
-          href="https://fonts.googleapis.com/css2?family=Droid+Sans:wght@400;700&family=Raleway:wght@400;500;600;700;800;900&display=swap"
-          rel="stylesheet"
-        />
-      </Head>
+    <main className={`${raleway.variable} ${openSans.variable}`}>
       <Layout>
         <Component {...pageProps} />
       </Layout>
-    </>
+    </main>
   );
 }

@@ -61,8 +61,8 @@ module.exports = {
       },
       fontFamily: {
         sans: ['"Droid Sans"', 'Arial', 'system-ui', 'sans-serif'],
-        serif: ['Raleway', '"Droid Sans"', 'Arial', 'sans-serif'],
-        banner: ['Raleway', '"Droid Sans"', 'Arial', 'sans-serif'],
+        serif: ['var(--font-raleway)', '"Droid Sans"', 'Arial', 'sans-serif'],
+        banner: ['var(--font-raleway)', '"Droid Sans"', 'Arial', 'sans-serif'],
       },
       animation: {
         'marquee': 'marquee 25s linear infinite',
