@@ -165,8 +165,8 @@ export default function Header() {
                       alt="Brahmana Seva Samiti Logo"
                       width={100}
                       height={100}
+                      sizes="100px"
                       className="object-contain w-full h-full"
-                      priority
                     />
                   </div>
                 </div>

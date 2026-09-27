@@ -153,6 +153,8 @@ export default function Footer() {
                       alt="Brahmana Seva Samiti Logo"
                       width={100}
                       height={100}
+                      sizes="100px"
+                      loading="lazy"
                       className="object-contain w-full h-full"
                     />
                   </div>
