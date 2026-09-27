@@ -41,7 +41,7 @@ function HeroSlider({ slides }) {
         if (distance > 1) return null;
         return (
           <div key={i} className={`absolute inset-0 transition-opacity duration-[1200ms] ease-in-out ${i === current ? 'opacity-100' : 'opacity-0'}`}>
-            <Image src={slide.image} alt={slide.title} fill className="object-contain object-center" priority={i === 0} sizes="100vw" loading={i === 0 ? undefined : 'eager'} />
+            <Image src={slide.image} alt={slide.title} fill className="object-contain object-center" priority={i === 0} sizes="100vw" loading={i === 0 ? undefined : 'lazy'} />
           </div>
         );
       })}
@@ -228,7 +228,9 @@ export default function Home({ executive, highlights, testimonials, sliderSlides
                     alt="Brahmana Seva Samiti Community Service"
                     width={600}
                     height={430}
+                    sizes="(max-width: 1024px) 100vw, 600px"
                     className="w-full h-[300px] md:h-[390px] object-cover"
+                    priority
                   />
                   <div className="absolute inset-0 bg-gradient-to-t from-black/65 via-transparent to-transparent" />
                   <div className="absolute bottom-0 left-0 right-0 p-6">
@@ -289,7 +291,7 @@ export default function Home({ executive, highlights, testimonials, sliderSlides
 
       {/* ─── Executive Committee ─── */}
       <section className="relative py-[50px] overflow-hidden">
-        <Image src="/images/om-banner.png" alt="" fill className="object-cover object-center" sizes="100vw" priority />
+        <Image src="/images/om-banner.jpg" alt="" fill className="object-cover object-center" sizes="100vw" aria-hidden="true" />
         <div className="absolute inset-0 bg-gradient-to-br from-[#b47a20]/85 via-[#94591a]/80 to-[#5f3a0c]/92" />
         <div className="absolute top-0 right-0 w-96 h-96 bg-gold-300/20 rounded-full blur-3xl" />
         <div className="absolute bottom-0 left-0 w-80 h-80 bg-amber-400/15 rounded-full blur-3xl" />

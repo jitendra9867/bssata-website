@@ -43,7 +43,7 @@ export default function About({ timeline, welfareActivities, visistaVyakthulu, v
 
       {/* Page Hero */}
       <section className="relative text-white py-12 md:py-16 overflow-hidden">
-        <Image src="/images/om-banner.png" alt="" fill className="object-cover object-center" sizes="100vw" priority />
+        <Image src="/images/om-banner.jpg" alt="" fill className="object-cover object-center" sizes="100vw" aria-hidden="true" />
         <div className="absolute inset-0 hero-om-overlay" />
         <div className="relative page-container text-center">
           <h1 className="text-3xl md:text-4xl lg:text-5xl font-banner font-black mb-4 tracking-tight">About Our Organization</h1>
