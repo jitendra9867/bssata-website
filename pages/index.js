@@ -6,6 +6,7 @@ import {
   getCommitteeMembers,
   getSiteHighlights,
   getTestimonials,
+  getSliderSlides,
 } from '../lib/wordpress';
 import {
   SLIDER_SLIDES as sliderSlides,
@@ -15,9 +16,10 @@ import {
 } from '../lib/fallback-content';
 
 /* ─── Hero Slider ─── */
-function HeroSlider() {
+function HeroSlider({ slides }) {
   const [current, setCurrent] = useState(0);
   const [isAutoPlaying, setIsAutoPlaying] = useState(true);
+  const sliderSlides = slides && slides.length ? slides : SLIDER_SLIDES;
 
   const nextSlide = useCallback(() => setCurrent((p) => (p + 1) % sliderSlides.length), []);
   const prevSlide = useCallback(() => setCurrent((p) => (p - 1 + sliderSlides.length) % sliderSlides.length), []);
@@ -155,7 +157,7 @@ const highlightStyles = [
 ];
 
 /* ─── Main Page ─── */
-export default function Home({ executive, highlights, testimonials }) {
+export default function Home({ executive, highlights, testimonials, sliderSlides }) {
   return (
     <>
       <Head>
@@ -165,7 +167,7 @@ export default function Home({ executive, highlights, testimonials }) {
         <link rel="icon" href="/images/newlogo.png" />
       </Head>
 
-      <HeroSlider />
+      <HeroSlider slides={sliderSlides} />
 
       {/* ─── About Us ─── */}
       <section className="relative py-[50px] overflow-hidden bg-gradient-to-b from-white via-cream-50 to-white">
@@ -422,10 +424,11 @@ export default function Home({ executive, highlights, testimonials }) {
 /* ISR: homepage dynamic sections from headless WP, refreshed every
    60s; bundled fallbacks render when the API is unreachable. */
 export async function getStaticProps() {
-  const [wpCommittee, wpHighlights, wpTestimonials] = await Promise.all([
+  const [wpCommittee, wpHighlights, wpTestimonials, wpSlides] = await Promise.all([
     getCommitteeMembers(),
     getSiteHighlights(),
     getTestimonials(),
+    getSliderSlides(),
   ]);
 
   /* Executive strip: 6 designations with avatar styling config */
@@ -465,6 +468,7 @@ export async function getStaticProps() {
       executive,
       highlights: wpHighlights || HIGHLIGHTS_FALLBACK,
       testimonials: wpTestimonials || TESTIMONIALS_FALLBACK,
+      sliderSlides: wpSlides || [], /* [] → component uses bundled SLIDER_SLIDES */
     },
     revalidate: 60,
   };

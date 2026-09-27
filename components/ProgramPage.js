@@ -470,6 +470,7 @@ export async function getStaticData(slug) {
   return {
     program,
     programs: wpPrograms || PROGRAMS,
-    galleryImages: wpProgram ? wpProgram.gallery : undefined, /* undefined → local fallback in component */
+    /* null (NOT undefined — Next cannot serialize undefined) → local fallback in component */
+    galleryImages: wpProgram ? wpProgram.gallery : null,
   };
 }
