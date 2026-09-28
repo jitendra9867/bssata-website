@@ -176,9 +176,18 @@ export default function ProgramGallery({ title, images }) {
     );
   }
 
-  /* Group photos by year (desc), keeping each group in its given order */
-  const years = [...new Set(images.map((img) => img.year || 'Photos'))];
-  const visibleYears = years; // show every year group inline
+  /* Group photos by year, newest year first. Numeric years (2026,
+     2025 …) always sort descending so a newly added year appears on
+     top; non-numeric labels keep their stored order after them.
+     Photo order within each year follows the saved order. */
+  const yearOf = (img) => img.year || 'Photos';
+  const seenYears = [];
+  images.forEach((img) => {
+    if (!seenYears.includes(yearOf(img))) seenYears.push(yearOf(img));
+  });
+  const numericYears = seenYears.filter((y) => /^\d{4}$/.test(y)).sort((a, b) => Number(b) - Number(a));
+  const labelYears = seenYears.filter((y) => !/^\d{4}$/.test(y));
+  const visibleYears = [...numericYears, ...labelYears]; // show every year group inline
 
   return (
     <section className="py-14 md:py-16 section-plain border-t border-cream-200">
@@ -201,7 +210,7 @@ export default function ProgramGallery({ title, images }) {
             const yearImages = images.filter((img) => (img.year || 'Photos') === year);
             return (
               <div key={year} className="mb-10 last:mb-0">
-                {years.length > 1 && (
+                {visibleYears.length > 1 && (
                   <div className="flex items-center gap-3 mb-5">
                     <h3 className="text-lg font-serif font-bold text-saffron-700">{year}</h3>
                     <span className="text-sm font-semibold text-gray-400 bg-cream-100 border border-cream-200 px-2.5 py-0.5 rounded-full">
