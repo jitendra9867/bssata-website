@@ -9,7 +9,7 @@ import {
   getSliderSlides,
 } from '../lib/wordpress';
 import {
-  SLIDER_SLIDES as sliderSlides,
+  SLIDER_SLIDES as SLIDER_FALLBACK,
   HOME_EXECUTIVE_FALLBACK,
   HIGHLIGHTS_FALLBACK,
   TESTIMONIALS_FALLBACK,
@@ -20,7 +20,7 @@ import {
 function HeroSlider({ slides }) {
   const [current, setCurrent] = useState(0);
   const [isAutoPlaying, setIsAutoPlaying] = useState(true);
-  const sliderSlides = slides && slides.length ? slides : SLIDER_SLIDES;
+  const sliderSlides = slides && slides.length ? slides : SLIDER_FALLBACK;
 
   const nextSlide = useCallback(() => setCurrent((p) => (p + 1) % sliderSlides.length), []);
   const prevSlide = useCallback(() => setCurrent((p) => (p - 1 + sliderSlides.length) % sliderSlides.length), []);
@@ -231,7 +231,6 @@ export default function Home({ executive, highlights, testimonials, sliderSlides
                     height={430}
                     sizes="(max-width: 1024px) 100vw, 600px"
                     className="w-full h-[300px] md:h-[390px] object-cover"
-                    priority
                   />
                   <div className="absolute inset-0 bg-gradient-to-t from-black/65 via-transparent to-transparent" />
                   <div className="absolute bottom-0 left-0 right-0 p-6">

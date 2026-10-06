@@ -28,20 +28,22 @@ export default function Members({ initialMembers = [], gotramOptions = [] }) {
   const perPage = 50;
 
   useEffect(() => {
+    /* The directory is already server-rendered into initialMembers by
+       getStaticProps and every filter/search/sort runs client-side, so
+       re-fetching the full list on mount is redundant (it used to fire a
+       slow /api/members round trip on every visit). Only fetch when the
+       page genuinely arrived without data. */
+    if (initialMembers && initialMembers.length > 0) return;
+
+    let cancelled = false;
     async function fetchMembers() {
       setLoading(true);
       try {
-        const params = new URLSearchParams();
-        if (gotramFilter !== 'all') params.set('gotram', gotramFilter);
-        if (searchTerm) params.set('search', searchTerm);
-        params.set('limit', '1000');
-
-        const res = await fetch(`/api/members?${params.toString()}`);
+        const res = await fetch('/api/members');
         if (res.ok) {
           const json = await res.json();
           if (json.success && json.data.length > 0) {
-            setMembers(json.data);
-            setLoading(false);
+            if (!cancelled) setMembers(json.data);
             return;
           }
         }
@@ -53,15 +55,15 @@ export default function Members({ initialMembers = [], gotramOptions = [] }) {
         const res = await fetch('/data/members.json');
         if (res.ok) {
           const data = await res.json();
-          setMembers(data);
+          if (!cancelled) setMembers(data);
         }
       } catch {
         /* keep server-provided data on failure */
       }
-      setLoading(false);
     }
-    fetchMembers();
-  }, []);
+    fetchMembers().finally(() => { if (!cancelled) setLoading(false); });
+    return () => { cancelled = true; };
+  }, [initialMembers]);
 
   const filteredMembers = useMemo(() => {
     let result = [...members];

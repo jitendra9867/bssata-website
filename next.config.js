@@ -1,6 +1,9 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   reactStrictMode: true,
+  /* gzip/br responses are handled by the server; drop the identifying header */
+  poweredByHeader: false,
+  compress: true,
   /* TEMP: isolated distDir so a verification build can run alongside the dev server */
   distDir: process.env.NEXT_DIST_DIR || '.next',
   images: {
