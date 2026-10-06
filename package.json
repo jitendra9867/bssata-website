@@ -1,7 +1,7 @@
 {
   "name": "brahmana-seva-samiti-portal",
   "version": "1.0.0",
-  "description": "Brahmana Seva Samiti (Regd No: 48/97) - Community Organization Web Portal",
+  "description": "Brahmana Seva Sangham (Regd No: 48/97) - Community Organization Web Portal",
   "private": true,
   "scripts": {
     "dev": "next dev",
@@ -17,6 +17,7 @@
   },
   "devDependencies": {
     "autoprefixer": "^10.4.17",
+    "exceljs": "^4.4.0",
     "jimp": "^1.6.1",
     "postcss": "^8.4.35",
     "sharp": "^0.35.4",

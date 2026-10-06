@@ -1,5 +1,5 @@
 -- ============================================================
--- Brahmana Seva Samiti (Regd No: 48/97) - Database Schema
+-- Brahmana Seva Sangham (Regd No: 48/97) - Database Schema
 -- Portal Database: bss_portal
 -- ============================================================
  

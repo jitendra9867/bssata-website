@@ -16,8 +16,8 @@ export default function Contact({ settings, keyPeople }) {
   return (
     <>
       <Head>
-        <title>Contact & Donations — Brahmana Seva Samiti</title>
-        <meta name="description" content="Contact Brahmana Seva Samiti, Guntur. Bank details for donations, address, and get in touch with our team." />
+        <title>Contact & Donations — Brahmana Seva Sangham</title>
+        <meta name="description" content="Contact Brahmana Seva Sangham, Guntur. Bank details for donations, address, and get in touch with our team." />
       </Head>
 
       {/* Hero */}

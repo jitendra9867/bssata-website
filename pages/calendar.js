@@ -21,8 +21,8 @@ export default function Calendar({ calendars }) {
   return (
     <>
       <Head>
-        <title>Sampradaya Calendar — Brahmana Seva Samiti</title>
-        <meta name="description" content="Download traditional Sampradaya Calendars from Brahmana Seva Samiti. Hindu calendar with festivals, muhurtham dates, and auspicious days for 2023-2026." />
+        <title>Sampradaya Calendar — Brahmana Seva Sangham</title>
+        <meta name="description" content="Download traditional Sampradaya Calendars from Brahmana Seva Sangham. Hindu calendar with festivals, muhurtham dates, and auspicious days for 2023-2026." />
       </Head>
 
       {/* Hero */}
@@ -42,7 +42,7 @@ export default function Calendar({ calendars }) {
           </h1>
           <div className="ornament-line mb-6" />
           <p className="text-white/85 max-w-2xl mx-auto text-base md:text-lg leading-relaxed mb-10">
-            Free traditional Hindu calendars published annually by Brahmana Seva Samiti, Guntur.
+            Free traditional Hindu calendars published annually by Brahmana Seva Sangham, Guntur.
             Distributed to 3000+ households across Andhra Pradesh and abroad.
           </p>
 

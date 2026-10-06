@@ -2,7 +2,7 @@ import Head from 'next/head';
 import Link from 'next/link';
 import Image from 'next/image';
 import { getCommitteeMembers } from '../lib/wordpress';
-import { COMMITTEE_FALLBACK } from '../lib/fallback-content';
+import { COMMITTEE_FALLBACK, attachLocalPhotos } from '../lib/fallback-content';
 
 /* UI grouping config — labels/colors per member category */
 const categories = {
@@ -17,8 +17,8 @@ export default function Committee({ members }) {
   return (
     <>
       <Head>
-        <title>Executive Committee — Brahmana Seva Samiti</title>
-        <meta name="description" content="Meet the executive committee and governing body of Brahmana Seva Samiti, Guntur — serving the community since 1994." />
+        <title>Executive Committee — Brahmana Seva Sangham</title>
+        <meta name="description" content="Meet the executive committee and governing body of Brahmana Seva Sangham, Guntur — serving the community since 1994." />
       </Head>
 
       <section className="relative text-white py-12 md:py-16 overflow-hidden">
@@ -71,29 +71,41 @@ export default function Committee({ members }) {
                   <span className="text-sm font-bold text-saffron-700 bg-white border border-cream-200 px-2.5 py-0.5 rounded-full">{groupMembers.length}</span>
                 </div>
 
-                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
                   {groupMembers.map((member) => (
                     <div
                       key={member.name}
-                      className={`group bg-white rounded-2xl p-5 border ${cat.borderColor} shadow-[0_2px_12px_rgba(195,74,44,0.06)] hover:-translate-y-1 hover:shadow-[0_16px_34px_rgba(195,74,44,0.14)] transition-all duration-300`}
+                      className={`group bg-white rounded-[12px] border ${cat.borderColor} shadow-[0_2px_12px_rgba(195,74,44,0.06)] hover:-translate-y-1 hover:shadow-[0_16px_34px_rgba(195,74,44,0.14)] transition-all duration-300 overflow-hidden flex flex-col`}
                     >
-                      <div className="flex items-start gap-4">
-                        <div className={`relative w-12 h-12 rounded-xl bg-gradient-to-br ${cat.bgColor} border ${cat.borderColor} flex items-center justify-center text-lg font-black ${cat.textColor} flex-shrink-0 group-hover:scale-110 group-hover:-rotate-3 transition-transform duration-300`}>
-                          {member.name.split(' ').pop()[0]}
-                        </div>
-                        <div className="flex-1 min-w-0">
-                          <h3 className="font-serif font-bold text-gray-900 text-sm mb-0.5 break-words">{member.name}</h3>
-                          <p className={`text-sm font-semibold ${cat.textColor} mb-2.5`}>{member.designation}</p>
-                          <a
-                            href={`tel:${member.phone}`}
-                            className="inline-flex items-center gap-1.5 text-sm text-gray-600 hover:text-saffron-600 bg-cream-50/80 border border-cream-200/80 px-2.5 py-1 rounded-lg transition-colors"
-                          >
-                            <svg className="w-3 h-3" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z" />
-                            </svg>
-                            {member.phone}
-                          </a>
-                        </div>
+                      {/* Full-width photograph (falls back to the member's initial when none is set) */}
+                      <div className={`relative w-full aspect-square ${cat.bgColor} flex items-center justify-center`}>
+                        {member.photo ? (
+                          <Image
+                            src={member.photo}
+                            alt={member.name}
+                            fill
+                            sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 25vw"
+                            className="object-cover"
+                          />
+                        ) : (
+                          <span className={`text-5xl font-black ${cat.textColor}`}>{member.name.split(' ').pop()[0]}</span>
+                        )}
+                      </div>
+
+                      <div className="flex flex-1 flex-col items-center p-4 text-center">
+                      <h3 className="font-serif font-bold text-gray-900 text-base leading-snug mb-1 break-words">{member.name}</h3>
+                      <p className={`text-sm font-semibold ${cat.textColor} mb-3`}>{member.designation}</p>
+                      {member.phone && (
+                        <a
+                          href={`tel:${member.phone}`}
+                          className="mt-auto inline-flex items-center gap-1.5 text-sm text-gray-600 hover:text-saffron-600 bg-cream-50/80 border border-cream-200/80 px-3 py-1.5 rounded-lg transition-colors"
+                        >
+                          <svg className="w-3 h-3" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z" />
+                          </svg>
+                          {member.phone}
+                        </a>
+                      )}
                       </div>
                     </div>
                   ))}
@@ -127,7 +139,7 @@ export default function Committee({ members }) {
 export async function getStaticProps() {
   const wpMembers = await getCommitteeMembers();
   return {
-    props: { members: wpMembers || COMMITTEE_FALLBACK },
+    props: { members: attachLocalPhotos(wpMembers || COMMITTEE_FALLBACK) },
     revalidate: 60,
   };
 }

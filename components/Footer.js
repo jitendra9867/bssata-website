@@ -150,7 +150,7 @@ export default function Footer() {
                   <div className="w-full h-full rounded-full overflow-hidden bg-white p-[2px]">
                     <Image
                       src="/images/newlogo.png"
-                      alt="Brahmana Seva Samiti Logo"
+                      alt="Brahmana Seva Sangham Logo"
                       width={100}
                       height={100}
                       sizes="100px"
@@ -335,7 +335,7 @@ export default function Footer() {
       <div className="relative border-t border-white/10 bg-black/[0.18]">
         <div className="boxed-footer-container flex flex-col sm:flex-row justify-between items-center gap-3" style={{ paddingTop: '12px', paddingBottom: '12px' }}>
           <p className="text-sm text-cream-100/60 text-center sm:text-left">
-            &copy; {new Date().getFullYear()} Brahmana Seva Samiti · Regd No: 48/97. All rights
+            &copy; {new Date().getFullYear()} Brahmana Seva Sangham · Regd No: 48/97. All rights
             reserved.
           </p>
           <div className="flex items-center gap-4 text-sm text-cream-100/60">

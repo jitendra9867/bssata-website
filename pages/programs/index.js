@@ -94,10 +94,10 @@ export default function Programs({ eventsBySlug }) {
   return (
     <>
       <Head>
-        <title>Annual Programs & Events — Brahmana Seva Samiti</title>
+        <title>Annual Programs & Events — Brahmana Seva Sangham</title>
         <meta
           name="description"
-          content="Annual programs of Brahmana Seva Samiti: Uchita Upanayanamulu, Ugadi, General Body Meeting, Sri Vidyanidhi scholarships, Jandhyala Pournami, Karthika Samaradhana, Arama Kshetramu, Masikamulu/Abdikamulu and Pura Pramukhulu."
+          content="Annual programs of Brahmana Seva Sangham: Uchita Upanayanamulu, Ugadi, General Body Meeting, Sri Vidyanidhi scholarships, Jandhyala Pournami, Karthika Samaradhana, Arama Kshetramu, Masikamulu/Abdikamulu and Pura Pramukhulu."
         />
       </Head>
 

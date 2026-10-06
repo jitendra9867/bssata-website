@@ -132,8 +132,8 @@ export default function Members({ initialMembers = [], gotramOptions = [] }) {
   return (
     <>
       <Head>
-        <title>Life Members Directory — Brahmana Seva Samiti</title>
-        <meta name="description" content={`Browse ${members.length}+ life members of Brahmana Seva Samiti, Guntur. Search by name, registration number, or gotram.`} />
+        <title>Life Members Directory — Brahmana Seva Sangham</title>
+        <meta name="description" content={`Browse ${members.length}+ life members of Brahmana Seva Sangham, Guntur. Search by name, registration number, or gotram.`} />
       </Head>
 
       {/* Hero */}

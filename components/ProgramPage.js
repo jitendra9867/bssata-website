@@ -267,8 +267,8 @@ export default function ProgramPage({ program, programs, galleryImages }) {
   return (
     <>
       <Head>
-        <title>{program.title} — Programs — Brahmana Seva Samiti</title>
-        <meta name="description" content={`${program.title}: ${program.tagline}. A flagship program of Brahmana Seva Samiti, Guntur.`} />
+        <title>{program.title} — Programs — Brahmana Seva Sangham</title>
+        <meta name="description" content={`${program.title}: ${program.tagline}. A flagship program of Brahmana Seva Sangham, Guntur.`} />
       </Head>
 
       {/* Hero */}

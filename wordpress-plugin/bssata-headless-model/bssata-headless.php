@@ -1,8 +1,8 @@
 <?php
 /**
  * Plugin Name: BSSATA Headless Content Model
- * Description: CPTs + ACF admin UI + client-friendly Program Page Builder (repeatable highlight/step/fact editors + media-library gallery uploader — no JSON editing) + direct WPGraphQL field exposure for the headless bssata.org frontend. Requires WPGraphQL; ACF optional (admin UI only).
- * Version:     2.0.0
+ * Description: CPTs + ACF admin UI + client-friendly Program Page Builder (repeatable highlight/step/fact editors + per-year photo-gallery groups with an “Add Gallery Year” button — any year, no JSON editing) + direct WPGraphQL field exposure for the headless bssata.org frontend. Requires WPGraphQL; ACF optional (admin UI only).
+ * Version:     2.3.0
  * Author:      BSSATA Dev
  */
 
@@ -196,7 +196,7 @@ add_action('graphql_register_types', function () {
 			$out = array();
 			foreach ($items as $item) {
 				$id = isset($item['mediaId']) ? (int) $item['mediaId'] : (is_numeric($item) ? (int) $item : 0);
-				if (!$id) continue;
+				if ($id <= 0) continue; /* skips empty-year placeholders and bad rows */
 				$src = wp_get_attachment_url($id);
 				if (!$src) continue;
 				$out[] = array(
@@ -513,7 +513,12 @@ function bssata_program_builder_render($post) {
 		.bss-builder .bss-gcard { border: 1px solid #e2e4e7; border-radius: 6px; background: #fbfbfc; padding: 8px; text-align: center; }
 		.bss-builder .bss-gthumb { width: 100%; height: 90px; object-fit: cover; border-radius: 4px; background: #f0f0f1; display: block; }
 		.bss-builder .bss-gname { font-size: 11px; color: #646970; margin: 6px 0 4px; word-break: break-all; }
-		.bss-builder .bss-gyear { width: 100%; margin-bottom: 6px; }
+		.bss-builder .bss-ygroup { border: 1px solid #dcdcde; border-radius: 6px; margin: 0 0 12px; background: #fff; overflow: hidden; }
+		.bss-builder .bss-yhead { display: flex; align-items: center; gap: 8px; padding: 8px 10px; background: #f6f7f7; border-bottom: 1px solid #f0f0f1; flex-wrap: wrap; }
+		.bss-builder .bss-yname { width: 120px; font-weight: 600; }
+		.bss-builder .bss-ycount { color: #646970; font-size: 12px; }
+		.bss-builder .bss-ybody { padding: 10px; }
+		.bss-builder .bss-yempty { color: #646970; font-style: italic; padding: 4px 0; margin: 0; }
 		.bss-builder .bss-gactions { display: flex; gap: 4px; justify-content: center; }
 		.bss-builder .bss-sub { font-weight: 600; margin: 10px 0 6px; }
 		.bss-builder .bss-toggle-row { display: flex; align-items: center; gap: 8px; }
@@ -589,23 +594,41 @@ function bssata_program_builder_render($post) {
 		<!-- GALLERY -->
 		<div class="bss-section">
 			<h3>🖼️ Photo Gallery
-				<span class="bss-help">Upload or pick photos from the Media Library, set an optional Year per photo (photos are grouped by year on the website), and reorder with ↑ ↓. Alt text comes from the Media Library — set it when uploading.</span>
+				<span class="bss-help">Photos are grouped by year. Click “+ Add Gallery Year” to create a group for any year (2022, 2023, 2024, 2026 … any year, past or future), then use “+ Add Photos” inside it to upload from your computer or pick from the Media Library. Reorder photos (↑ ↓) within a year, reorder whole years, or delete a photo / a whole year with ✕.</span>
 			</h3>
 			<div class="bss-section-body">
-				<button type="button" class="button button-primary" id="bss_gallery_add">+ Add Gallery Images</button>
+				<button type="button" class="button button-primary" id="bss_year_add">+ Add Gallery Year</button>
 				<span id="bss_gallery_count" style="margin-left:10px;color:#646970;"></span>
+				<div id="bss_year_new_row" style="display:none;margin-top:10px;padding:10px;border:1px dashed #c3c4c7;border-radius:6px;background:#fbfbfc;">
+					<strong style="margin-right:6px;">New year:</strong>
+					<input type="text" id="bss_year_new_input" class="bss-input" style="display:inline-block;width:160px;" placeholder="e.g. 2026" aria-label="New gallery year">
+					<button type="button" class="button button-primary" id="bss_year_new_create">Create Year</button>
+					<button type="button" class="button" id="bss_year_new_cancel">Cancel</button>
+				</div>
 				<div style="height:10px;"></div>
-				<div class="bss-ggrid" id="bss_gallery_grid"></div>
-				<p class="bss-empty" id="bss_gallery_empty" style="display:none;">No photos yet — click “Add Gallery Images” to upload from your computer or pick from the Media Library.</p>
+				<div id="bss_year_groups"></div>
+				<p class="bss-empty" id="bss_gallery_empty" style="display:none;">No gallery years yet — click “+ Add Gallery Year” above to create one (e.g. 2025), then add photos to it.</p>
 			</div>
 		</div>
 	</div>
 
 	<script>
-	(function () {
+	/* The block editor (Gutenberg + ACF) re-renders the meta-box region
+	   after every save/autosave, replacing our DOM and orphaning the
+	   builder's listeners. Instead of initializing once, we re-init
+	   whenever a fresh #bss-builder-root appears and keep unsaved editor
+	   state in a window-level cache that survives the re-render. */
+	var CACHE = window.__bssBuilderCache = window.__bssBuilderCache || {};
+
+	function initBuilder() {
 		var root = document.getElementById('bss-builder-root');
-		if (!root || window.__bssBuilderInit) return;
-		window.__bssBuilderInit = true;
+		if (!root || root.dataset.bssInit === '1') return;
+		root.dataset.bssInit = '1';
+
+		/* replay unsaved edits kept across editor re-renders */
+		['bss_highlights_json', 'bss_how_json', 'bss_overview_json', 'bss_gallery_json'].forEach(function (id) {
+			if (CACHE[id] != null && byId(id)) byId(id).value = CACHE[id];
+		});
 
 		function byId(id) { return document.getElementById(id); }
 		function all(sel, el) { return Array.prototype.slice.call((el || root).querySelectorAll(sel)); }
@@ -614,7 +637,11 @@ function bssata_program_builder_render($post) {
 			if (!v) return null;
 			try { return JSON.parse(v); } catch (e) { return null; }
 		}
-		function store(id, obj) { if (byId(id)) byId(id).value = JSON.stringify(obj); }
+		function store(id, obj) {
+			var s = JSON.stringify(obj);
+			if (byId(id)) byId(id).value = s;
+			CACHE[id] = s; /* survives editor re-renders */
+		}
 
 		/* ---------- generic repeater rows ---------- */
 		function makeInput(field, value) {
@@ -753,8 +780,8 @@ function bssata_program_builder_render($post) {
 				store('bss_overview_json', '');
 			}
 
-			/* gallery */
-			store('bss_gallery_json', galleryItems.map(function (g) { return { mediaId: g.mediaId, year: g.year || '' }; }));
+			/* gallery — flatten the per-year groups back to the flat [{mediaId, year}] storage */
+			store('bss_gallery_json', flattenGallery());
 		}
 
 		/* wire "add" buttons */
@@ -797,7 +824,11 @@ function bssata_program_builder_render($post) {
 			byId(id).addEventListener('input', persistAll);
 		});
 
-		/* ---------- gallery ---------- */
+		/* ---------- gallery: per-year groups ----------
+		   Storage contract is UNCHANGED: gallery_json stays a flat
+		   JSON array of { mediaId, year } so the GraphQL resolver and
+		   the Next.js frontend keep working without any change.
+		   The builder simply shows/edit it as year groups. */
 		var galleryItems = [];
 		var gparsed = parse('bss_gallery_json');
 		if (Array.isArray(gparsed)) {
@@ -807,96 +838,269 @@ function bssata_program_builder_render($post) {
 			}).filter(function (g) { return g.mediaId; });
 		}
 
+		/* year order = first appearance in the flat list; UNGROUPED last */
+		function yearOrder() {
+			var seen = [];
+			galleryItems.forEach(function (g) {
+				var y = g.year || '__ungrouped__';
+				if (seen.indexOf(y) === -1) seen.push(y);
+			});
+			return seen;
+		}
+		function photosOfYear(y) {
+			return galleryItems.filter(function (g) {
+				return y === '__ungrouped__' ? !g.year : g.year === y;
+			});
+		}
+		function findIndex(item) { return galleryItems.indexOf(item); }
+		function flattenGallery() {
+			return galleryItems.map(function (g) { return { mediaId: g.mediaId, year: g.year || '' }; });
+		}
+		function moveItem(item, dir) {
+			var same = photosOfYear(item.year || '__ungrouped__');
+			var i = same.indexOf(item);
+			if (i === -1) return;
+			var other = same[i + dir];
+			if (!other) return;
+			var a = findIndex(item), b = findIndex(other);
+			galleryItems[a] = other; galleryItems[b] = item;
+		}
+		function moveYear(y, dir) {
+			var order = yearOrder();
+			var i = order.indexOf(y), j = i + dir;
+			if (j < 0 || j >= order.length) return;
+			var t = order[i]; order[i] = order[j]; order[j] = t;
+			galleryItems.sort(function (a, b) {
+				var ya = a.year || '__ungrouped__', yb = b.year || '__ungrouped__';
+				var d = order.indexOf(ya) - order.indexOf(yb);
+				if (d !== 0) return d;
+				return galleryItems.indexOf(a) - galleryItems.indexOf(b);
+			});
+		}
+		function galleryTotal() { return galleryItems.length; }
+
 		function renderGallery() {
-			var grid = byId('bss_gallery_grid');
-			grid.innerHTML = '';
-			byId('bss_gallery_empty').style.display = galleryItems.length ? 'none' : '';
-			byId('bss_gallery_count').textContent = galleryItems.length ? galleryItems.length + ' photo(s)' : '';
-			galleryItems.forEach(function (item, idx) {
-				var card = document.createElement('div');
-				card.className = 'bss-gcard';
+			var wrap = byId('bss_year_groups');
+			wrap.innerHTML = '';
+			byId('bss_gallery_empty').style.display = galleryTotal() ? 'none' : '';
+			byId('bss_gallery_count').textContent = galleryTotal() ? (galleryTotal() + ' photo(s) in ' + (yearOrder().length) + ' year group(s)') : '';
 
-				var img = document.createElement('img');
-				img.className = 'bss-gthumb';
-				img.alt = '';
-				card.appendChild(img);
+			var order = yearOrder();
+			order.forEach(function (y) {
+				var isUngrouped = y === '__ungrouped__';
+				var label = isUngrouped ? 'No year set' : y;
+				var photos = photosOfYear(y);
+				var yi = order.indexOf(y);
 
-				var name = document.createElement('div');
-				name.className = 'bss-gname';
-				name.textContent = '#' + item.mediaId;
-				card.appendChild(name);
+				var group = document.createElement('div');
+				group.className = 'bss-ygroup';
 
-				var year = document.createElement('input');
-				year.type = 'text';
-				year.className = 'bss-gyear';
-				year.placeholder = 'Year (e.g. 2025)';
-				year.value = item.year || '';
-				year.addEventListener('input', function () { item.year = year.value; persistAll(); });
-				card.appendChild(year);
-
-				var actions = document.createElement('div');
-				actions.className = 'bss-gactions';
-				function gbtn(txt, fn) {
-					var b = document.createElement('button');
-					b.type = 'button'; b.className = 'bss-btn'; b.textContent = txt;
-					b.addEventListener('click', fn); return b;
+				/* --- year header --- */
+				var head = document.createElement('div');
+				head.className = 'bss-yhead';
+				if (isUngrouped) {
+					var note = document.createElement('span');
+					note.style.cssText = 'color:#646970;flex:0 0 auto;';
+					note.textContent = 'Photos without a year — pick a year below to group them (they appear under “Photos” on the website):';
+					head.appendChild(note);
+				} else {
+					var name = document.createElement('input');
+					name.type = 'text';
+					name.className = 'bss-yname';
+					name.placeholder = 'Year (e.g. 2025)';
+					name.setAttribute('aria-label', 'Year label');
+					name.value = y;
+					name.addEventListener('input', function () {
+						var nv = name.value.trim();
+						if (!nv) return;
+						photosOfYear(y).forEach(function (g) { g.year = nv; });
+						persistAll();
+						var caret = name.selectionStart;
+						renderGallery();
+						var again = wrap.querySelectorAll('.bss-yname');
+						for (var k = 0; k < again.length; k++) {
+							if (again[k].value === nv) { again[k].focus(); try { again[k].setSelectionRange(caret, caret); } catch (e2) {} break; }
+						}
+					});
+					head.appendChild(name);
 				}
-				actions.appendChild(gbtn('↑', function () {
-					if (idx === 0) return;
-					var t = galleryItems[idx - 1]; galleryItems[idx - 1] = galleryItems[idx]; galleryItems[idx] = t;
+				var count = document.createElement('span');
+				count.className = 'bss-ycount';
+				count.textContent = photos.length + ' photo(s)';
+				head.appendChild(count);
+				var hbtn = function (txt, title, fn, danger) {
+					var b = document.createElement('button');
+					b.type = 'button'; b.className = 'bss-btn' + (danger ? ' bss-btn-danger' : '');
+					b.textContent = txt; b.title = title;
+					b.addEventListener('click', fn); return b;
+				};
+				head.appendChild(hbtn('↑', 'Move this year up', function () { moveYear(y, -1); persistAll(); renderGallery(); }));
+				head.appendChild(hbtn('↓', 'Move this year down', function () { moveYear(y, 1); persistAll(); renderGallery(); }));
+				head.appendChild(hbtn('✕', 'Delete this year and its ' + photos.length + ' photo(s)', function () {
+					if (!window.confirm('Delete the year “' + label + '” and its ' + photos.length + ' photo(s) from this gallery? (Photos stay in the Media Library.)')) return;
+					galleryItems = galleryItems.filter(function (g) { return photos.indexOf(g) === -1; });
 					persistAll(); renderGallery();
-				}));
-				actions.appendChild(gbtn('↓', function () {
-					if (idx >= galleryItems.length - 1) return;
-					var t = galleryItems[idx + 1]; galleryItems[idx + 1] = galleryItems[idx]; galleryItems[idx] = t;
-					persistAll(); renderGallery();
-				}));
-				actions.appendChild(gbtn('✕', function () {
-					galleryItems.splice(idx, 1); persistAll(); renderGallery();
-				}));
-				card.appendChild(actions);
+				}, true));
+				group.appendChild(head);
 
-				grid.appendChild(card);
+				/* --- year body: photo grid + add button --- */
+				var body = document.createElement('div');
+				body.className = 'bss-ybody';
+				if (!photos.length) {
+					var pe = document.createElement('p');
+					pe.className = 'bss-yempty';
+					pe.textContent = 'No photos in this year yet — click “+ Add Photos” below.';
+					body.appendChild(pe);
+				}
+				var grid = document.createElement('div');
+				grid.className = 'bss-ggrid';
+				body.appendChild(grid);
 
-				fetch('<?php echo esc_url_raw(rest_url('wp/v2/media/')); ?>' + item.mediaId)
-					.then(function (r) { return r.json(); })
-					.then(function (a) {
-						var s = a.media_details && a.media_details.sizes || {};
-						var url = (s.thumbnail && s.thumbnail.source_url) || (s.medium && s.medium.source_url) || a.source_url;
-						img.src = url || '';
-						name.textContent = (a.title && a.title.rendered) || ('#' + item.mediaId);
-					})
-					.catch(function () { name.textContent = '#' + item.mediaId + ' (preview unavailable)'; });
+				photos.forEach(function (item) {
+					if (item.mediaId === -1) return; /* empty-year placeholder */
+					var card = document.createElement('div');
+					card.className = 'bss-gcard';
+
+					var img = document.createElement('img');
+					img.className = 'bss-gthumb'; img.alt = '';
+					card.appendChild(img);
+
+					var name = document.createElement('div');
+					name.className = 'bss-gname';
+					name.textContent = '#' + item.mediaId;
+					card.appendChild(name);
+
+					/* thumbnail + title from cache — avoids refetching after
+					   editor re-renders (cache survives them) */
+					var th = (CACHE.__thumbs = CACHE.__thumbs || {})[item.mediaId];
+					if (th) { img.src = th.u; name.textContent = th.t; }
+
+					if (isUngrouped) {
+						var yr = document.createElement('input');
+						yr.type = 'text'; yr.className = 'bss-gyear';
+						yr.placeholder = 'Year (e.g. 2025)';
+						yr.value = item.year || '';
+						yr.addEventListener('input', function () {
+							item.year = yr.value.trim(); persistAll();
+						});
+						yr.addEventListener('change', function () { renderGallery(); });
+						card.appendChild(yr);
+					}
+
+					var actions = document.createElement('div');
+					actions.className = 'bss-gactions';
+					function gbtn(txt, title, fn, danger) {
+						var b = document.createElement('button');
+						b.type = 'button'; b.className = 'bss-btn' + (danger ? ' bss-btn-danger' : '');
+						b.textContent = txt; b.title = title;
+						b.addEventListener('click', fn); return b;
+					}
+					actions.appendChild(gbtn('↑', 'Move photo up (within this year)', function () { moveItem(item, -1); persistAll(); renderGallery(); }));
+					actions.appendChild(gbtn('↓', 'Move photo down (within this year)', function () { moveItem(item, 1); persistAll(); renderGallery(); }));
+					actions.appendChild(gbtn('✕', 'Remove this photo from the gallery', function () {
+						galleryItems.splice(findIndex(item), 1); persistAll(); renderGallery();
+					}, true));
+					card.appendChild(actions);
+					grid.appendChild(card);
+
+					if (!th) fetch('<?php echo esc_url_raw(rest_url('wp/v2/media/')); ?>' + item.mediaId)
+						.then(function (r) { return r.json(); })
+						.then(function (a) {
+							var s = a.media_details && a.media_details.sizes || {};
+							var url = (s.thumbnail && s.thumbnail.source_url) || (s.medium && s.medium.source_url) || a.source_url;
+							img.src = url || '';
+							name.textContent = (a.title && a.title.rendered) || ('#' + item.mediaId);
+							CACHE.__thumbs[item.mediaId] = { u: url || '', t: name.textContent };
+						})
+						.catch(function () { name.textContent = '#' + item.mediaId + ' (preview unavailable)'; });
+				});
+
+				var addBtn = document.createElement('button');
+				addBtn.type = 'button'; addBtn.className = 'button';
+				addBtn.textContent = '+ Add Photos to ' + label;
+				addBtn.addEventListener('click', function (e) {
+					e.preventDefault();
+					openMediaPicker(function (ids) {
+						ids.forEach(function (id) {
+							galleryItems.push({ mediaId: id, year: isUngrouped ? '' : y });
+						});
+						persistAll(); renderGallery();
+					});
+				});
+				body.appendChild(addBtn);
+				group.appendChild(body);
+				wrap.appendChild(group);
 			});
 		}
 
-		var frame;
-		byId('bss_gallery_add').addEventListener('click', function (e) {
-			e.preventDefault();
-			if (!window.wp || !wp.media) { alert('Media library not loaded — reload the page.'); return; }
-			if (!frame) {
-				frame = wp.media({ title: 'Add Gallery Images', multiple: 'add', library: { type: 'image' } });
-				frame.on('select', function () {
-					var sel = frame.state().get('selection');
-					sel.each(function (a) {
-						var id = a.get('id');
-						if (galleryItems.some(function (g) { return g.mediaId === id; })) return;
-						galleryItems.push({ mediaId: id, year: '' });
-					});
-					persistAll(); renderGallery();
-				});
-			}
-			frame.open();
-		});
+		/* media-library picker — a fresh frame per open (a cached frame
+		   would keep stale select-handlers across editor re-renders) */
+		function openMediaPicker(cb) {
+			if (!window.wp || !wp.media) { window.alert('Media library not loaded — reload the page.'); return; }
+			var f = wp.media({ title: 'Add Gallery Images', multiple: 'add', library: { type: 'image' } });
+			f.on('select', function () {
+				var ids = [];
+				f.state().get('selection').each(function (a) { ids.push(a.get('id')); });
+				cb(ids);
+			});
+			f.open();
+		}
 
-		/* initial render */
-		renderList(all('.bss-rows[data-kind="highlights"]')[0]);
-		renderList(all('.bss-rows[data-kind="steps"]')[0]);
-		renderList(all('.bss-rows[data-kind="paragraphs"]')[0]);
-		renderList(all('.bss-rows[data-kind="rituals"]')[0]);
-		renderList(all('.bss-rows[data-kind="facts"]')[0]);
-		renderGallery();
-	})();
+		/* “+ Add Gallery Year” — creates a new empty year group.
+		   The year is fully free-form: any 4-digit year (2022, 2023,
+		   2026 …) or any label, past or future — nothing is hard-coded. */
+		function createYear() {
+			var y = byId('bss_year_new_input').value.trim();
+			if (!y) { byId('bss_year_new_input').focus(); return; }
+			if (yearOrder().indexOf(y) !== -1) {
+				window.alert('A group named “' + y + '” already exists — its photos are below. You can add more photos to it.');
+				return;
+			}
+			/* an empty group is stored as one placeholder item so it
+			   survives save/reload; it disappears as soon as a photo is
+			   added and can be deleted with the ✕ next to it */
+			galleryItems.push({ mediaId: -1, year: y });
+			byId('bss_year_new_input').value = '';
+			byId('bss_year_new_row').style.display = 'none';
+			persistAll(); renderGallery();
+			var groups = byId('bss_year_groups').querySelectorAll('.bss-ygroup');
+			if (groups.length) groups[groups.length - 1].scrollIntoView({ behavior: 'smooth', block: 'start' });
+		}
+		byId('bss_year_add').addEventListener('click', function (e) {
+			e.preventDefault();
+			var row = byId('bss_year_new_row');
+			row.style.display = row.style.display === 'none' ? '' : 'none';
+			if (row.style.display !== 'none') byId('bss_year_new_input').focus();
+		});
+		byId('bss_year_new_create').addEventListener('click', function (e) { e.preventDefault(); createYear(); });
+		byId('bss_year_new_cancel').addEventListener('click', function (e) { e.preventDefault(); byId('bss_year_new_input').value = ''; byId('bss_year_new_row').style.display = 'none'; });
+		byId('bss_year_new_input').addEventListener('keydown', function (e) { if (e.key === 'Enter') { e.preventDefault(); createYear(); } });
+
+		/* initial render — guarded so one bad render can never take
+		   down the whole builder silently */
+		try {
+			renderList(all('.bss-rows[data-kind="highlights"]')[0]);
+			renderList(all('.bss-rows[data-kind="steps"]')[0]);
+			renderList(all('.bss-rows[data-kind="paragraphs"]')[0]);
+			renderList(all('.bss-rows[data-kind="rituals"]')[0]);
+			renderList(all('.bss-rows[data-kind="facts"]')[0]);
+			renderGallery();
+		} catch (e) {
+			if (window.console && console.error) console.error('BSS builder render error:', e);
+		}
+	}
+
+	/* watch the whole admin page — when Gutenberg re-renders the meta
+	   box, initBuilder() runs again on the fresh DOM (guarded, cheap) */
+	if (!window.__bssBuilderObserver) {
+		var debounceT = null;
+		window.__bssBuilderObserver = new MutationObserver(function () {
+			if (debounceT) return;
+			debounceT = setTimeout(function () { debounceT = null; initBuilder(); }, 50);
+		});
+		window.__bssBuilderObserver.observe(document.body, { childList: true, subtree: true });
+	}
+	initBuilder();
 	</script>
 	<?php
 }
@@ -923,6 +1127,85 @@ add_action('save_post_program', function ($post_id) {
 		update_post_meta($post_id, $meta_key, wp_json_encode($decoded, JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES));
 	}
 }, 10, 1);
+
+/* ═══════════════════════════════════════════════════════════════
+   5b. COMMITTEE MEMBER PHOTO
+   A friendly "Member Photo" box on the Committee Member edit
+   screen. It sets the post's Featured Image, which WPGraphQL
+   exposes as featuredImage and the website renders as the
+   member's portrait (Committee page + homepage).
+   ═══════════════════════════════════════════════════════════════ */
+
+add_action('add_meta_boxes', function () {
+	add_meta_box('bssata_member_photo', '📷 Member Photo', function ($post) {
+		$id  = (int) get_post_thumbnail_id($post->ID);
+		$src = $id ? wp_get_attachment_image_url($id, 'medium') : '';
+		wp_nonce_field('bssata_member_photo_save', 'bssata_member_photo_nonce');
+		echo '<div id="bssata-photo-box">';
+		echo '<p style="margin-top:0">Shown on the <strong>Committee page</strong> and the <strong>homepage Executive Committee</strong> section. A square head-and-shoulders portrait looks best.</p>';
+		echo '<div id="bssata-photo-preview" style="margin:8px 0;text-align:center;">';
+		echo $src
+			? '<img src="' . esc_url($src) . '" alt="" style="max-width:100%;height:auto;border-radius:8px;" />'
+			: '<em style="color:#777">No photo set.</em>';
+		echo '</div>';
+		echo '<input type="hidden" id="bssata-photo-id" name="bssata_photo_id" value="' . esc_attr($id) . '" />';
+		echo '<button type="button" class="button button-primary" id="bssata-photo-set">' . ($src ? 'Change Photo' : 'Upload / Choose Photo') . '</button> ';
+		echo '<button type="button" class="button" id="bssata-photo-remove"' . ($src ? '' : ' style="display:none"') . '>Remove</button>';
+		echo '</div>';
+	}, 'committee_member', 'side', 'high');
+});
+
+add_action('admin_enqueue_scripts', function ($hook) {
+	if ($hook !== 'post.php' && $hook !== 'post-new.php') return;
+	$screen = function_exists('get_current_screen') ? get_current_screen() : null;
+	if (!$screen || $screen->post_type !== 'committee_member') return;
+	wp_enqueue_media();
+	$js = <<<'JS'
+(function () {
+  function init() {
+    var box = document.getElementById('bssata-photo-box');
+    if (!box || typeof wp === 'undefined' || !wp.media) return;
+    var hidden = document.getElementById('bssata-photo-id');
+    var preview = document.getElementById('bssata-photo-preview');
+    var setBtn = document.getElementById('bssata-photo-set');
+    var rmBtn = document.getElementById('bssata-photo-remove');
+    var frame;
+    setBtn && setBtn.addEventListener('click', function () {
+      if (!frame) {
+        frame = wp.media({ title: 'Member Photo', button: { text: 'Use this photo' }, library: { type: 'image' }, multiple: false });
+        frame.on('select', function () {
+          var a = frame.state().get('selection').first().toJSON();
+          hidden.value = a.id;
+          var url = (a.sizes && a.sizes.medium && a.sizes.medium.url) || a.url;
+          preview.innerHTML = '<img src="' + url + '" alt="" style="max-width:100%;height:auto;border-radius:8px;" />';
+          setBtn.textContent = 'Change Photo';
+          rmBtn.style.display = '';
+        });
+      }
+      frame.open();
+    });
+    rmBtn && rmBtn.addEventListener('click', function () {
+      hidden.value = '0';
+      preview.innerHTML = '<em style="color:#777">No photo set.</em>';
+      setBtn.textContent = 'Upload / Choose Photo';
+      rmBtn.style.display = 'none';
+    });
+  }
+  if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', init);
+  else init();
+})();
+JS;
+	wp_add_inline_script('jquery', $js);
+});
+
+add_action('save_post_committee_member', function ($post_id) {
+	if (!isset($_POST['bssata_member_photo_nonce']) || !wp_verify_nonce($_POST['bssata_member_photo_nonce'], 'bssata_member_photo_save')) return;
+	if (defined('DOING_AUTOSAVE') && DOING_AUTOSAVE) return;
+	if (!current_user_can('edit_post', $post_id)) return;
+	$id = isset($_POST['bssata_photo_id']) ? (int) $_POST['bssata_photo_id'] : 0;
+	if ($id > 0) set_post_thumbnail($post_id, $id);
+	else delete_post_thumbnail($post_id);
+});
 
 /* ═══════════════════════════════════════════════════════════════
    6. REST — settings route (seed path)

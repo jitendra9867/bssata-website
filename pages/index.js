@@ -13,6 +13,7 @@ import {
   HOME_EXECUTIVE_FALLBACK,
   HIGHLIGHTS_FALLBACK,
   TESTIMONIALS_FALLBACK,
+  attachLocalPhotos,
 } from '../lib/fallback-content';
 
 /* ─── Hero Slider ─── */
@@ -170,8 +171,8 @@ export default function Home({ executive, highlights, testimonials, sliderSlides
   return (
     <>
       <Head>
-        <title>Brahmana Seva Samiti (Regd No: 48/97) — Guntur</title>
-        <meta name="description" content="Brahmana Seva Samiti — Serving the Brahmin community with cultural preservation, welfare schemes, and community service since 1994. Guntur, Andhra Pradesh." />
+        <title>Brahmana Seva Sangham (Regd No: 48/97) — Guntur</title>
+        <meta name="description" content="Brahmana Seva Sangham — Serving the Brahmin community with cultural preservation, welfare schemes, and community service since 1994. Guntur, Andhra Pradesh." />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <link rel="icon" href="/images/newlogo.png" />
       </Head>
@@ -187,7 +188,7 @@ export default function Home({ executive, highlights, testimonials, sliderSlides
           {/* Header */}
           <div className="text-center mb-12 md:mb-14">
             <h2 className="text-3xl md:text-4xl lg:text-[42px] font-serif font-black text-gray-800 mb-4 leading-tight">
-              About <span className="bg-gradient-to-r from-gold-500 via-[#cd8901] to-gold-500 bg-clip-text text-transparent">Brahmana Seva Samiti</span>
+              About <span className="bg-gradient-to-r from-gold-500 via-[#cd8901] to-gold-500 bg-clip-text text-transparent">Brahmana Seva Sangham</span>
             </h2>
             <p className="text-gray-500 text-sm max-w-xl mx-auto leading-relaxed">
               A legacy of service, devotion, and community upliftment — spanning over three decades.
@@ -200,7 +201,7 @@ export default function Home({ executive, highlights, testimonials, sliderSlides
             {/* Story */}
             <div>
               <p className="text-gray-700 text-base md:text-lg leading-relaxed mb-5">
-                <strong className="text-gray-900">Brahmana Seva Samiti</strong> was founded on the Telugu New Year of 1994 at A.T. Agraharam, Guntur, and registered as <strong className="text-gray-900">Society No. 48/1997</strong>.
+                <strong className="text-gray-900">Brahmana Seva Sangham</strong> was founded on the Telugu New Year of 1994 at A.T. Agraharam, Guntur, and registered as <strong className="text-gray-900">Society No. 48/1997</strong>.
               </p>
               <p className="text-gray-500 text-sm md:text-base leading-relaxed mb-5">
                 What began as a small gathering of families has grown into one of the most active Sanghams in Andhra Pradesh — serving through free mass Upanayanams, Yagnopaveetham distribution, scholarships, legal aid, and the Arama Kshetram, with families connected as far as London.
@@ -225,7 +226,7 @@ export default function Home({ executive, highlights, testimonials, sliderSlides
                 <div className="relative rounded-[25px] overflow-hidden">
                   <Image
                     src="/images/slider/ugadi-2026-2.jpg"
-                    alt="Brahmana Seva Samiti Community Service"
+                    alt="Brahmana Seva Sangham Community Service"
                     width={600}
                     height={430}
                     sizes="(max-width: 1024px) 100vw, 600px"
@@ -306,33 +307,33 @@ export default function Home({ executive, highlights, testimonials, sliderSlides
             {executive.map((m) => (
               <div key={m.designation} className="group relative bg-[#241300]/80 backdrop-blur-md rounded-2xl border border-gold-400/30 overflow-hidden transition-all duration-400 hover:-translate-y-1.5 hover:bg-[#1a0d00]/90 hover:border-gold-400/60 hover:shadow-[0_20px_50px_rgba(0,0,0,0.45)]">
                 {/* Left gold edge */}
-                <div className="absolute left-0 top-0 bottom-0 w-1 bg-gradient-to-b from-gold-400 via-amber-500 to-gold-400 opacity-70 group-hover:opacity-100 transition-opacity duration-300" />
+                <div className="absolute left-0 top-0 bottom-0 z-10 w-1 bg-gradient-to-b from-gold-400 via-amber-500 to-gold-400 opacity-70 group-hover:opacity-100 transition-opacity duration-300" />
 
-                <div className="flex items-center gap-4 p-5 pl-6">
-                  {/* Compact avatar with golden ring */}
-                  <div className="relative w-14 h-14 flex-shrink-0">
-                    <div className="absolute inset-0 rounded-full bg-gradient-to-br from-yellow-300 via-gold-400 to-amber-600 p-[2.5px] shadow-[0_6px_20px_rgba(218,165,32,0.35)] group-hover:scale-105 transition-transform duration-300">
-                      <div className={`w-full h-full rounded-full bg-gradient-to-br ${m.gradient} flex items-center justify-center`}>
-                        <span className="text-base font-serif font-black text-white drop-shadow">{m.initials}</span>
-                      </div>
-                    </div>
+                <div className="flex items-stretch">
+                  {/* Portrait — left side, fills the card height */}
+                  <div className={`relative w-24 sm:w-28 flex-shrink-0 self-stretch overflow-hidden ${m.photo ? '' : `bg-gradient-to-br ${m.gradient} flex items-center justify-center`}`}>
+                    {m.photo ? (
+                      <Image src={m.photo} alt={m.name} fill sizes="112px" className="object-cover object-top" />
+                    ) : (
+                      <span className="text-2xl font-serif font-black text-white">{m.initials}</span>
+                    )}
+                    {/* soft blend into the content panel */}
+                    <div className="pointer-events-none absolute inset-y-0 right-0 w-8 bg-gradient-to-l from-[#241300] to-transparent" />
                   </div>
 
-                  <div className="min-w-0 flex-1">
-                    {/* Designation */}
-                    <p className="text-sm font-extrabold uppercase tracking-[0.16em] text-gold-300 mb-1">
-                      {m.designation}
-                    </p>
-                    {/* Name */}
-                    <h3 className="text-sm md:text-base font-serif font-bold text-white leading-snug mb-2.5">{m.name}</h3>
-                    {/* Phone pill */}
-                    <a
-                      href={`tel:${m.phone}`}
-                      className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-white/15 text-sm font-semibold text-white hover:bg-gold-400 hover:text-[#3a0f04] transition-all duration-300"
-                    >
-                      <svg className="w-3 h-3" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z" /></svg>
-                      {m.phone}
-                    </a>
+                  {/* Content — right side */}
+                  <div className="flex min-w-0 flex-1 flex-col justify-center gap-2 p-4">
+                    <p className="text-xs font-extrabold uppercase tracking-[0.16em] text-gold-300">{m.designation}</p>
+                    <h3 className="text-sm md:text-base font-serif font-bold text-white leading-snug">{m.name}</h3>
+                    {m.phone && (
+                      <a
+                        href={`tel:${m.phone}`}
+                        className="inline-flex w-fit items-center gap-1.5 px-3 py-1 rounded-full bg-white/15 text-sm font-semibold text-white hover:bg-gold-400 hover:text-[#3a0f04] transition-all duration-300"
+                      >
+                        <svg className="w-3 h-3" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z" /></svg>
+                        {m.phone}
+                      </a>
+                    )}
                   </div>
                 </div>
               </div>
@@ -457,9 +458,10 @@ export async function getStaticProps() {
 
   let executive;
   if (wpCommittee) {
+    const committeeWithPhotos = attachLocalPhotos(wpCommittee);
     executive = desiredOrder
       .map((designation) => {
-        const m = wpCommittee.find((c) => c.designation === designation);
+        const m = committeeWithPhotos.find((c) => c.designation === designation);
         if (!m) return null;
         return {
           designation,
@@ -467,6 +469,7 @@ export async function getStaticProps() {
           phone: m.phone,
           initials: initialsOf(m.name),
           gradient: GRADIENT_BY_DESIGNATION[designation],
+          photo: m.photo || null,
         };
       })
       .filter(Boolean);

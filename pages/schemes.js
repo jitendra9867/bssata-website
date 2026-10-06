@@ -21,8 +21,8 @@ export default function Schemes({ schemes }) {
   return (
     <>
       <Head>
-        <title>Welfare Schemes — Brahmana Seva Samiti</title>
-        <meta name="description" content="Explore the 14+ welfare schemes and activities by Brahmana Seva Samiti serving the Brahmin community since 1994." />
+        <title>Welfare Schemes — Brahmana Seva Sangham</title>
+        <meta name="description" content="Explore the 14+ welfare schemes and activities by Brahmana Seva Sangham serving the Brahmin community since 1994." />
       </Head>
 
       {/* Page Hero */}

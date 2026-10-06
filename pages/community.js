@@ -8,7 +8,7 @@ export default function Community({ jandhyalaCenters, balaGosevaDonors }) {
   return (
     <>
       <Head>
-        <title>Community — Bala Goseva &amp; Jandhyala Centers | Brahmana Seva Samiti</title>
+        <title>Community — Bala Goseva &amp; Jandhyala Centers | Brahmana Seva Sangham</title>
         <meta
           name="description"
           content="Bala Goseva young contributors and the 46 Jandhyala Pournami Yagnopaveetham distribution centers across Guntur, Hyderabad and London."

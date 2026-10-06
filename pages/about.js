@@ -34,10 +34,10 @@ export default function About({ timeline, welfareActivities, visistaVyakthulu, v
   return (
     <>
       <Head>
-        <title>About Us — Brahmana Seva Samiti</title>
+        <title>About Us — Brahmana Seva Sangham</title>
         <meta
           name="description"
-          content="Learn about Brahmana Seva Samiti's history from 1994, governance, and 12 welfare activities serving the Brahmin community in Guntur."
+          content="Learn about Brahmana Seva Sangham's history from 1994, governance, and 12 welfare activities serving the Brahmin community in Guntur."
         />
       </Head>
 
@@ -49,7 +49,7 @@ export default function About({ timeline, welfareActivities, visistaVyakthulu, v
           <h1 className="text-3xl md:text-4xl lg:text-5xl font-banner font-black mb-4 tracking-tight">About Our Organization</h1>
           <div className="ornament-line mb-5" />
           <p className="text-white/85 max-w-2xl mx-auto text-base md:text-lg leading-relaxed">
-            Since 1994, Brahmana Seva Samiti has been a beacon of community service, cultural preservation,
+            Since 1994, Brahmana Seva Sangham has been a beacon of community service, cultural preservation,
             and welfare for the Brahmin community in Guntur and beyond.
           </p>
         </div>
@@ -86,7 +86,7 @@ export default function About({ timeline, welfareActivities, visistaVyakthulu, v
               <div className="relative rounded-3xl overflow-hidden border-4 border-white shadow-[0_20px_50px_rgba(195,74,44,0.18)]">
                 <Image
                   src="/images/slider/banner-1.png"
-                  alt="Brahmana Seva Samiti community gathering"
+                  alt="Brahmana Seva Sangham community gathering"
                   width={800}
                   height={600}
                   className="object-cover w-full h-auto"

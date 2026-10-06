@@ -162,7 +162,7 @@ export default function Header() {
                   <div className="w-full h-full rounded-full overflow-hidden bg-white p-[2px]">
                     <Image
                       src="/images/newlogo.png"
-                      alt="Brahmana Seva Samiti Logo"
+                      alt="Brahmana Seva Sangham Logo"
                       width={100}
                       height={100}
                       sizes="100px"
