@@ -77,15 +77,15 @@ export default function Committee({ members }) {
                       key={member.name}
                       className={`group bg-white rounded-[12px] border ${cat.borderColor} shadow-[0_2px_12px_rgba(195,74,44,0.06)] hover:-translate-y-1 hover:shadow-[0_16px_34px_rgba(195,74,44,0.14)] transition-all duration-300 overflow-hidden flex flex-col`}
                     >
-                      {/* Full-width photograph (falls back to the member's initial when none is set) */}
-                      <div className={`relative w-full aspect-square ${cat.bgColor} flex items-center justify-center`}>
+                      {/* Circular photograph — top center aligned, 150px */}
+                      <div className="relative mx-auto w-36 h-36 sm:w-40 sm:h-40 mb-3 overflow-hidden rounded-full border-4 border-white shadow-lg">
                         {member.photo ? (
                           <Image
                             src={member.photo}
                             alt={member.name}
                             fill
-                            sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 25vw"
-                            className="object-cover"
+                            sizes="150px"
+                            className="object-cover object-center"
                           />
                         ) : (
                           <span className={`text-5xl font-black ${cat.textColor}`}>{member.name.split(' ').pop()[0]}</span>

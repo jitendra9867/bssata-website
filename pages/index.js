@@ -308,26 +308,30 @@ export default function Home({ executive, highlights, testimonials, sliderSlides
                 {/* Left gold edge */}
                 <div className="absolute left-0 top-0 bottom-0 z-10 w-1 bg-gradient-to-b from-gold-400 via-amber-500 to-gold-400 opacity-70 group-hover:opacity-100 transition-opacity duration-300" />
 
-                <div className="flex items-stretch">
-                  {/* Portrait — left side, fills the card height */}
-                  <div className={`relative w-24 sm:w-28 flex-shrink-0 self-stretch overflow-hidden ${m.photo ? '' : `bg-gradient-to-br ${m.gradient} flex items-center justify-center`}`}>
+                <div className="flex flex-col p-4">
+                  {/* Circular avatar image — top center aligned */}
+                  <div className="relative mx-auto w-36 h-36 sm:w-40 sm:h-40 mb-3 overflow-hidden rounded-full shadow-lg border-4 border-[#241300]">
                     {m.photo ? (
-                      <Image src={m.photo} alt={m.name} fill sizes="112px" className="object-cover object-top" />
+                      <Image
+                        src={m.photo}
+                        alt={m.name}
+                        fill
+                        sizes="150px"
+                        className="object-cover object-center"
+                      />
                     ) : (
-                      <span className="text-2xl font-serif font-black text-white">{m.initials}</span>
+                      <span className="text-5xl font-serif font-black text-white">{m.initials}</span>
                     )}
-                    {/* soft blend into the content panel */}
-                    <div className="pointer-events-none absolute inset-y-0 right-0 w-8 bg-gradient-to-l from-[#241300] to-transparent" />
                   </div>
 
-                  {/* Content — right side */}
-                  <div className="flex min-w-0 flex-1 flex-col justify-center gap-2 p-4">
+                  {/* Content — below the circular image */}
+                  <div className="flex flex-col gap-1.5 text-center">
                     <p className="text-xs font-extrabold uppercase tracking-[0.16em] text-gold-300">{m.designation}</p>
                     <h3 className="text-sm md:text-base font-serif font-bold text-white leading-snug">{m.name}</h3>
                     {m.phone && (
                       <a
                         href={`tel:${m.phone}`}
-                        className="inline-flex w-fit items-center gap-1.5 px-3 py-1 rounded-full bg-white/15 text-sm font-semibold text-white hover:bg-gold-400 hover:text-[#3a0f04] transition-all duration-300"
+                        className="inline-flex w-full items-center justify-center gap-1.5 px-3 py-1 rounded-full bg-white/15 text-sm font-semibold text-white hover:bg-gold-400 hover:text-[#3a0f04] transition-all duration-300"
                       >
                         <svg className="w-3 h-3" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z" /></svg>
                         {m.phone}
