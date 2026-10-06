@@ -225,7 +225,7 @@ export default function Members({ initialMembers = [], gotramOptions = [] }) {
                   <span className="px-2.5 py-1 text-sm font-bold rounded-full bg-saffron-50 text-saffron-600 border border-saffron-200/80 uppercase tracking-wide">
                     {member.gotram}
                   </span>
-                  <span className="font-mono font-bold text-saffron-600 text-sm">#{member.r_no}</span>
+                  <span className="font-mono font-bold text-saffron-600 text-sm">#{(page - 1) * perPage + idx + 1}</span>
                 </div>
                 <p className="font-medium text-gray-800 mb-2 break-words">
                   {isInvalidName(member.fullname) ? (
@@ -260,11 +260,7 @@ export default function Members({ initialMembers = [], gotramOptions = [] }) {
               <table className="w-full text-sm">
                 <thead>
                   <tr className="bg-gradient-to-r from-saffron-600 via-saffron-500 to-maroon-500 text-white">
-                    <th className="px-5 py-4 text-left font-semibold text-sm uppercase tracking-wider">
-                      <button onClick={() => handleSort('r_no')} className="flex items-center gap-0.5 hover:text-gold-200 transition-colors">
-                        R. No <SortIcon field="r_no" />
-                      </button>
-                    </th>
+                    <th className="px-5 py-4 text-left font-semibold text-sm uppercase tracking-wider">R. No</th>
                     <th className="px-5 py-4 text-left font-semibold text-sm uppercase tracking-wider">
                       <button onClick={() => handleSort('fullname')} className="flex items-center gap-0.5 hover:text-gold-200 transition-colors">
                         Full Name <SortIcon field="fullname" />
@@ -299,7 +295,7 @@ export default function Members({ initialMembers = [], gotramOptions = [] }) {
                           } hover:bg-saffron-50/50`}
                         >
                           <td className="px-5 py-3.5 font-mono font-bold text-saffron-600 text-sm">
-                            {member.r_no}
+                            {(page - 1) * perPage + idx + 1}
                           </td>
                           <td className="px-5 py-3.5">
                             {hasInvalidName ? (
