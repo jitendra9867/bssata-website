@@ -236,6 +236,65 @@ export const PROGRAMS = [
       'The compiled list will be published on this page shortly.',
     ],
   },
+  {
+    slug: 'balagoseva',
+    title: 'Bala Goseva',
+    icon: '🐄',
+    tagline: "Children's cow service initiative — a cow kiddy bank for every child",
+    description:
+      'Bala Goseva is the Sangham\'s initiative to kindle love, respect and service towards Gomata in children. Every participating child is encouraged to keep a “Cow Kiddy Bank” at home and save a little pocket money through the year. The savings are collected at Karthika Samaradhana (or another Sangham event) and donated to a good goshala in the children\'s name, earning them the blessing of Gomata. The scheme was conceived by Executive President Sri Vankamamidi Venkataramayya and Smt. C. Pamidighantam Urmila, who continue to guide it.',
+    overview: {
+      eyebrow: 'Inspired by Gomata',
+      title: 'Teaching Children the Joy of Giving',
+      paragraphs: [
+        'The Sangham started Bala Goseva so that children grow up with an affection for the cow and an understanding of service. Parents and grandparents are encouraged to help the child save a little money regularly in a “Cow Kiddy Bank” — a bank named after a cow.',
+        'The collected savings are handed over to a goshala at Karthika Samaradhana, and the children who saved receive the blessings of Gomata. The first collection was held on Sunday, 10 November 2024 at the Sangham office.',
+      ],
+      rituals: [],
+      facts: [
+        { icon: '🐄', title: 'A Cow Kiddy Bank', text: 'Every child gets a bank in the name of a cow and saves pocket money in it through the year.' },
+        { icon: '👨‍👩‍👧', title: 'For Sangham Children', text: 'Open to children of Sangham members. Others are welcome to enrol as members first.' },
+        { icon: '🤲', title: 'Handled With Care', text: 'The pooled amount is given to a deserving goshala for its maintenance.' },
+      ],
+      venue: {
+        label: 'Collection & distribution',
+        name: 'Brahmana Seva Sangham Office',
+        address: 'Door No. 26-32-35, 6th Line, A.T. Agraharam, Guntur — 522 004.',
+      },
+    },
+    highlights: [
+      { icon: '🐄', title: 'Cow Kiddy Bank', text: 'A named cow bank for every child — a simple, joyful way to learn saving and giving.' },
+      { icon: '🪙', title: 'Pocket-Money Savings', text: 'Children save whatever little they can through the year; every rupee counts.' },
+      { icon: '📅', title: 'Yearly Collection', text: 'Savings are collected at Karthika Samaradhana or another Sangham event.' },
+      { icon: '🎁', title: 'Blessings of Gomata', text: 'The pooled amount is donated to a good goshala in the children\'s name.' },
+    ],
+    how: [
+      'Open a Cow Kiddy Bank for your child at the Sangham office (6th Line, A.T. Agraharam, Guntur).',
+      'Encourage your child to save a little pocket money in it regularly through the year.',
+      'Bring the child — with parents or grandparents — to the collection at Karthika Samaradhana.',
+      'The pooled savings are donated to a deserving goshala in the children\'s name.',
+    ],
+  },
+  {
+    slug: 'brahmana-bandhu',
+    title: 'Brahmana Bandhu',
+    icon: '🤝',
+    tagline: 'Celebrate your marriage day, birthday or father / mother’s thidhi by feeding a family',
+    description:
+      'Brahmana Bandhu began in April 2020 during Covid-19. Seeing the difficulties faced by the Brahmin community — especially Archakas, Purohits, Japa Daana Purohits and other private employees — the Sangham started providing provisions worth ₹1,000 to identified deserving families. Donations are received from community members celebrating their marriage day, birthday or father / mother’s thidhi in multiples of ₹1,000 — as many thousands as are donated, that many families are benefited. The programme was formally named “Brahmana Bandhu” as a monthly programme from August 2020. So far 623 families have benefited.',
+    highlights: [
+      { icon: '💰', title: '₹1,000 of Provisions', text: 'Every identified family receives provisions worth ₹1,000 — a full month of essentials.' },
+      { icon: '🎂', title: 'Celebrate & Give', text: 'Donate in multiples of ₹1,000 on your marriage day, birthday, or a parent’s thidhi.' },
+      { icon: '📅', title: 'Monthly Since 2020', text: 'A monthly programme from August 2020, born during the Covid-19 lockdowns.' },
+      { icon: '🤝', title: '623 Families', text: 'Families helped so far — every ₹1,000 donated reaches one more family.' },
+    ],
+    how: [
+      'Choose the occasion — your marriage day, birthday, or father / mother’s thidhi.',
+      'Decide how many families you wish to support (each family = ₹1,000 of provisions).',
+      'Contact the Secretary on 78939 61234 to make the donation and share the occasion details.',
+      'The Sangham identifies deserving families and delivers the provisions in your name.',
+    ],
+  },
 ];
 
 /* Map legacy anchor ids → slugs so old /programs#xyz links keep working */
@@ -282,9 +341,11 @@ export default function ProgramPage({ program, programs, galleryImages }) {
             {program.title}
           </h1>
           <div className="ornament-line mb-5" />
-          <p className="text-white/85 max-w-2xl mx-auto text-base md:text-lg leading-relaxed">
-            {program.tagline}
-          </p>
+          {program.tagline && (
+            <p className="text-white/85 max-w-2xl mx-auto text-base md:text-lg leading-relaxed">
+              {program.tagline}
+            </p>
+          )}
         </div>
       </section>
 
@@ -304,12 +365,13 @@ export default function ProgramPage({ program, programs, galleryImages }) {
               <div className="grid lg:grid-cols-5 gap-8 items-start">
                 {/* Narrative */}
                 <div className="lg:col-span-3 space-y-4">
-                  {program.overview.paragraphs.map((para, i) => (
+                  {(program.overview.paragraphs || []).map((para, i) => (
                     <p key={i} className="text-base text-gray-700 leading-relaxed">
                       {para}
                     </p>
                   ))}
 
+                  {(program.overview.rituals || []).length > 0 && (
                   <div className="pt-2">
                     <h3 className="text-lg font-serif font-bold text-gray-900 mb-3">
                       Programme Includes
@@ -326,11 +388,12 @@ export default function ProgramPage({ program, programs, galleryImages }) {
                       ))}
                     </div>
                   </div>
+                  )}
                 </div>
 
                 {/* Facts + venue */}
                 <div className="lg:col-span-2 space-y-4">
-                  {program.overview.facts.map((f) => (
+                  {(program.overview.facts || []).map((f) => (
                     <div
                       key={f.title}
                       className="p-5 rounded-xl bg-white border border-cream-200 shadow-[0_2px_12px_rgba(195,74,44,0.06)]"
@@ -372,6 +435,21 @@ export default function ProgramPage({ program, programs, galleryImages }) {
                 </h2>
                 <div className="ornament-line mb-4 !mx-0" />
                 <p className="text-base text-gray-700 leading-relaxed mb-5">{program.description}</p>
+
+                {/* Admin-set call-to-action button — only renders when both text + URL are set */}
+                {program.buttonText && program.buttonUrl && (
+                  <div className="mt-6">
+                    <a
+                      href={program.buttonUrl}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="inline-flex items-center gap-2 px-6 py-3 rounded-xl text-sm font-semibold text-white bg-gradient-to-r from-saffron-500 to-saffron-600 border border-saffron-500 hover:from-saffron-600 hover:to-saffron-700 hover:shadow-[0_10px_24px_rgba(195,74,44,0.3)] transition-all duration-300"
+                    >
+                      {program.buttonText}
+                    </a>
+                  </div>
+                )}
+
                 <div className="callout border-saffron-200/80 bg-white">
                   <p className="text-sm text-saffron-800 leading-relaxed">
                     <strong>How to participate:</strong> Contact the Secretary at{' '}
@@ -384,6 +462,7 @@ export default function ProgramPage({ program, programs, galleryImages }) {
                   </p>
                 </div>
               </div>
+              {(program.highlights || []).length > 0 && (
               <div className="lg:col-span-3">
                 <h3 className="text-lg font-serif font-bold text-gray-900 mb-4">Program Highlights</h3>
                 <div className="grid sm:grid-cols-2 gap-4">
@@ -396,9 +475,11 @@ export default function ProgramPage({ program, programs, galleryImages }) {
                   ))}
                 </div>
               </div>
+              )}
             </div>
 
             {/* How it works */}
+            {(program.how || []).length > 0 && (
             <div className="p-6 md:p-8 rounded-2xl bg-white border border-cream-200 shadow-[0_2px_12px_rgba(195,74,44,0.06)]">
               <h3 className="text-lg font-serif font-bold text-gray-900 mb-5">How It Works</h3>
               <ol className="space-y-4">
@@ -412,6 +493,7 @@ export default function ProgramPage({ program, programs, galleryImages }) {
                 ))}
               </ol>
             </div>
+            )}
           </div>
         </div>
       </section>
@@ -466,11 +548,31 @@ export async function getStaticData(slug) {
     getProgramBySlug(slug),
     getAllPrograms(),
   ]);
-  const program = wpProgram || getProgram(slug);
+  const fallback = getProgram(slug);
+
+  /* WordPress is the source of truth, but a field left blank in the admin
+     must not wipe out the page: merge field-by-field over the bundled copy.
+     (Newly created programs may only have a title + description.) */
+  const program = wpProgram
+    ? {
+        ...fallback,
+        ...wpProgram,
+        title: wpProgram.title || fallback?.title || '',
+        icon: wpProgram.icon || fallback?.icon || '🙏',
+        tagline: wpProgram.tagline || fallback?.tagline || '',
+        description: wpProgram.description || fallback?.description || '',
+        highlights: wpProgram.highlights?.length ? wpProgram.highlights : (fallback?.highlights || []),
+        how: wpProgram.how?.length ? wpProgram.how : (fallback?.how || []),
+        overview: wpProgram.overview || fallback?.overview || null,
+        buttons: wpProgram.buttons || [],
+        gallery: wpProgram.gallery || [],
+      }
+    : fallback;
+
   return {
-    program,
+    program: program || null,
     programs: wpPrograms || PROGRAMS,
     /* null (NOT undefined — Next cannot serialize undefined) → local fallback in component */
-    galleryImages: wpProgram ? wpProgram.gallery : null,
+    galleryImages: wpProgram && wpProgram.gallery?.length ? wpProgram.gallery : null,
   };
 }

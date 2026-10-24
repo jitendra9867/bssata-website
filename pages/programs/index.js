@@ -1,7 +1,8 @@
 import Head from 'next/head';
 import Link from 'next/link';
 import Image from 'next/image';
-import { getProgramEvents } from '../../lib/wordpress';
+import { getProgramEvents, getAllPrograms } from '../../lib/wordpress';
+import { PROGRAMS } from '../../components/ProgramPage';
 import { PROGRAM_EVENTS_FALLBACK } from '../../lib/fallback-community';
 
 /* ═══════════════════════════════════════════════════════════════
@@ -80,7 +81,11 @@ function EventList({ events }) {
   );
 }
 
-export default function Programs({ eventsBySlug }) {
+/* Programs curated as their own sections above. Any OTHER program added
+   in the WordPress admin is listed in the “More Programs” section below. */
+const CURATED_SLUGS = new Set(programNav.map((p) => p.slug));
+
+export default function Programs({ eventsBySlug, extraPrograms = [] }) {
   /* Per-slug event lists resolved from WP (or bundled fallback) */
   const mahalayaEvents2 = eventsBySlug['mahalaya-pakshalu'] || [];
   const upanayanamEvents = eventsBySlug['uchita-upanayanamulu'] || [];
@@ -91,6 +96,10 @@ export default function Programs({ eventsBySlug }) {
   const karthikaEvents = eventsBySlug['karthika-samaradhana'] || [];
   const masikamEvents = eventsBySlug['masikamulu-abdikamulu'] || [];
   const aramaEvents = eventsBySlug['arama-kshetramu'] || [];
+  const allNav = [
+    ...programNav,
+    ...extraPrograms.map((p) => ({ slug: p.slug, label: p.title, icon: p.icon || '🙏' })),
+  ];
   return (
     <>
       <Head>
@@ -119,7 +128,7 @@ export default function Programs({ eventsBySlug }) {
       <section className="py-8 section-warm border-b border-cream-200">
         <div className="page-container">
           <div className="flex flex-wrap justify-center gap-2.5">
-            {programNav.map((item) => (
+            {allNav.map((item) => (
               <a
                 key={item.slug}
                 href={`#${item.slug}`}
@@ -438,14 +447,88 @@ export default function Programs({ eventsBySlug }) {
         </div>
       </section>
 
+      {/* Any program added in the WordPress admin (not one of the ten
+          curated sections above) is listed here automatically. */}
+      {extraPrograms.length > 0 && (
+        <section className="py-14 md:py-16 section-plain">
+          <div className="page-container">
+            <div className="max-w-6xl mx-auto">
+              <div className="text-center mb-10">
+                <span className="title-badge mb-4">✨</span>
+                <h2 className="text-2xl md:text-3xl font-serif font-bold text-gray-900 mb-3">More Programs</h2>
+                <div className="ornament-line mb-4" />
+                <p className="text-sm text-gray-600 max-w-2xl mx-auto leading-relaxed">
+                  Further seva programmes of the Sangham.
+                </p>
+              </div>
+              <div className="grid md:grid-cols-2 gap-5">
+                {extraPrograms.map((p) => (
+                  <div
+                    key={p.slug}
+                    id={p.slug}
+                    className="p-6 rounded-2xl bg-white border border-cream-200 shadow-[0_2px_12px_rgba(195,74,44,0.06)] hover:border-saffron-200 hover:shadow-[0_10px_28px_rgba(195,74,44,0.10)] transition-all duration-300 scroll-mt-28"
+                  >
+                    <span className="text-4xl mb-3 block">{p.icon || '🙏'}</span>
+                    <h3 className="text-xl font-serif font-bold text-gray-900 mb-2">{p.title}</h3>
+                    {p.tagline && (
+                      <p className="text-sm font-semibold text-saffron-700 mb-2">{p.tagline}</p>
+                    )}
+                    {p.description && (
+                      <p className="text-sm text-gray-700 leading-relaxed mb-4 line-clamp-4">{p.description}</p>
+                    )}
+                    <Link
+                      href={`/programs/${p.slug}`}
+                      className="inline-flex items-center gap-1.5 px-4 py-2 rounded-lg text-sm font-semibold text-white bg-gradient-to-r from-saffron-500 to-saffron-600 hover:from-saffron-600 hover:to-saffron-700 shadow-[0_6px_16px_rgba(195,74,44,0.25)] transition-all duration-300"
+                    >
+                      View full details <span aria-hidden>→</span>
+                    </Link>
+                  </div>
+                ))}
+              </div>
+            </div>
+          </div>
+        </section>
+      )}
+
     </>
   );
 }
 
 export async function getStaticProps() {
-  const eventsBySlug = (await getProgramEvents()) || PROGRAM_EVENTS_FALLBACK;
+  const [eventsBySlug, wpPrograms] = await Promise.all([
+    getProgramEvents(),
+    getAllPrograms(),
+  ]);
+  /* Union of programs added in WordPress and programs bundled in the
+     codebase that don't have a curated section above — so the two new
+     programs still appear if WordPress is briefly unreachable. */
+  const extraPrograms = [];
+  const seen = new Set(CURATED_SLUGS);
+  for (const p of wpPrograms || []) {
+    if (seen.has(p.slug)) continue;
+    seen.add(p.slug);
+    const bundled = PROGRAMS.find((b) => b.slug === p.slug);
+    extraPrograms.push({
+      slug: p.slug,
+      title: p.title,
+      icon: p.icon || bundled?.icon || '🙏',
+      tagline: p.tagline || bundled?.tagline || '',
+      description: p.description || bundled?.description || '',
+    });
+  }
+  for (const b of PROGRAMS) {
+    if (seen.has(b.slug)) continue;
+    seen.add(b.slug);
+    extraPrograms.push({
+      slug: b.slug,
+      title: b.title,
+      icon: b.icon,
+      tagline: b.tagline,
+      description: b.description,
+    });
+  }
   return {
-    props: { eventsBySlug },
+    props: { eventsBySlug: eventsBySlug || PROGRAM_EVENTS_FALLBACK, extraPrograms },
     revalidate: 60,
   };
 }
