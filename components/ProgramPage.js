@@ -322,6 +322,8 @@ export default function ProgramPage({ program, programs, galleryImages }) {
   if (!program) return null;
 
   const others = programList.filter((p) => p.slug !== program.slug);
+  /* Admin-uploaded file buttons (PDF/DOC/PNG) from the Program Page Builder */
+  const downloadButtons = (program.buttons || []).filter((b) => b && (b.url || '').trim());
 
   return (
     <>
@@ -436,36 +438,72 @@ export default function ProgramPage({ program, programs, galleryImages }) {
                 <div className="ornament-line mb-4 !mx-0" />
                 <p className="text-base text-gray-700 leading-relaxed mb-5">{program.description}</p>
 
-                {/* Admin-set: up to 3 About-section buttons (text + URL), shown only when both are set */}
-                {(program.aboutButtons || []).length > 0 && (
-                  <div className="mt-6 flex flex-wrap gap-3">
-                    {program.aboutButtons.map((b) => (
-                      <a
-                        key={b.label + b.url}
-                        href={b.url}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl text-sm font-semibold text-white bg-gradient-to-r from-saffron-500 to-saffron-600 border border-saffron-500 hover:from-saffron-600 hover:to-saffron-700 hover:shadow-[0_10px_24px_rgba(195,74,44,0.3)] transition-all duration-300"
-                      >
-                        {b.label}
-                      </a>
-                    ))}
-                  </div>
-                )}
+                {/* Admin-set About-section buttons (up to 3, label + URL).
+                    Two backends now coexist while the old BSSATA plugin is being replaced:
 
-                {/* Single CTA button kept for backward compatibility: only renders when both text + URL are set AND no multiple About buttons are present */}
-                {program.buttonText && program.buttonUrl && (program.aboutButtons || []).length === 0 && (
-                  <div className="mt-6">
-                    <a
-                      href={program.buttonUrl}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="inline-flex items-center gap-2 px-6 py-3 rounded-xl text-sm font-semibold text-white bg-gradient-to-r from-saffron-500 to-saffron-600 border border-saffron-500 hover:from-saffron-600 hover:to-saffron-700 hover:shadow-[0_10px_24px_rgba(195,74,44,0.3)] transition-all duration-300"
-                    >
-                      {program.buttonText}
-                    </a>
-                  </div>
-                )}
+                    • New BSSATA plugin            → program.aboutButtons  (list of {label, url})
+                    • Old plugin still on server   → program.buttons        (list of {label, url, ...})
+                    • Bundled/legacy fallback      → program.buttonText + program.buttonUrl
+
+                    The new API already filters to buttons that have BOTH a label and a URL,
+                    so the local filter here is a safety net for backward compatibility.
+
+                    Buttons are shown ONLY when at least one has both text + URL filled in.
+                  */}
+                {(function () {
+                  /* Program.buttons holds the download (file) buttons in the current
+                     plugin; only fall back to it for About links when no file is
+                     attached — that is the old plugin variant's link-button shape. */
+                  const legacyLinkButtons = (program.buttons || [])
+                    .filter((b) => b && !b.mimeType && !b.filename)
+                    .filter((b) => (b.label || '').trim() && (b.url || '').trim())
+                    .map((b) => ({ label: b.label || '', url: b.url || '' }));
+                  const aboutButtons =
+                    (program.aboutButtons || []).length > 0 ? program.aboutButtons : legacyLinkButtons;
+                  if (aboutButtons.length === 0) {
+                    // Fallback: legacy single About-section CTA button (needs both text + url)
+                    if (program.buttonText && program.buttonUrl) {
+                      return (
+                        <div className="mt-6">
+                          <a
+                            href={program.buttonUrl}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="inline-flex items-center gap-2 px-6 py-3 rounded-xl text-sm font-semibold text-white bg-gradient-to-r from-saffron-500 to-saffron-600 border border-saffron-500 hover:from-saffron-600 hover:to-saffron-700 hover:shadow-[0_10px_24px_rgba(195,74,44,0.3)] transition-all duration-300"
+                          >
+                            {program.buttonText}
+                          </a>
+                        </div>
+                      );
+                    }
+                    return null;
+                  }
+                  return (
+                    <div className="mt-5">
+                      <p className="text-sm text-gray-500 font-medium mb-3">Quick Links</p>
+                      <div className="mt-1 flex flex-wrap gap-2.5">
+                        {                        aboutButtons.map((b, i) => {
+                          // Defensive: skip any button that somehow lost both fields.
+                          if (!b || !(b.label || '').trim() || !(b.url || '').trim()) {
+                            console.warn('[ProgramPage] About button #' + (i + 1) + ' skipped — missing label and/or URL.', b);
+                            return null;
+                          }
+                          return (
+                            <a
+                              key={`${i}-${b.label}-${b.url}`}
+                              href={b.url}
+                              target="_blank"
+                              rel="noopener noreferrer"
+                              className="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl text-sm font-semibold text-white bg-gradient-to-r from-saffron-500 to-saffron-600 border border-saffron-500 hover:from-saffron-600 hover:to-saffron-700 hover:shadow-[0_10px_24px_rgba(195,74,44,0.3)] transition-all duration-300"
+                            >
+                              {b.label}
+                            </a>
+                          );
+                        })}
+                      </div>
+                    </div>
+                  );
+                })()}
 
                 <div className="callout border-saffron-200/80 bg-white">
                   <p className="text-sm text-saffron-800 leading-relaxed">
@@ -509,6 +547,27 @@ export default function ProgramPage({ program, programs, galleryImages }) {
                   </li>
                 ))}
               </ol>
+            </div>
+            )}
+
+            {/* Downloads & Links — admin-uploaded file buttons (up to 3) */}
+            {downloadButtons.length > 0 && (
+            <div className="p-6 md:p-8 mt-6 rounded-2xl bg-white border border-cream-200 shadow-[0_2px_12px_rgba(195,74,44,0.06)]">
+              <h3 className="text-lg font-serif font-bold text-gray-900 mb-5">Downloads &amp; Links</h3>
+              <div className="flex flex-wrap gap-3">
+                {downloadButtons.map((b, i) => (
+                  <a
+                    key={`${i}-${b.url}`}
+                    href={b.url}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl text-sm font-semibold text-saffron-700 bg-white border border-saffron-200 hover:border-saffron-300 hover:shadow-[0_10px_24px_rgba(195,74,44,0.12)] transition-all duration-300"
+                  >
+                    <span aria-hidden="true">📄</span>
+                    {b.label || b.filename || 'Download'}
+                  </a>
+                ))}
+              </div>
             </div>
             )}
           </div>
@@ -583,7 +642,8 @@ export async function getStaticData(slug) {
         overview: wpProgram.overview || fallback?.overview || null,
         buttonText: wpProgram.buttonText || '',
         buttonUrl: wpProgram.buttonUrl || '',
-        aboutButtons: wpProgram.aboutButtons?.length ? wpProgram.aboutButtons : [],
+        aboutButtons: wpProgram.aboutButtons?.length ? wpProgram.aboutButtons.filter((b) => b && (b.label || '').trim() && (b.url || '').trim()).map((b) => ({ label: b.label || '', url: b.url || '' })) : (wpProgram.buttons?.length ? wpProgram.buttons.filter((b) => b && !b.mimeType && !b.filename).filter((b) => (b.label || '').trim() && (b.url || '').trim()).map((b) => ({ label: b.label || '', url: b.url || '' })) : []),
+        buttons: wpProgram.buttons || [],
         gallery: wpProgram.gallery || [],
       }
     : fallback;

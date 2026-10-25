@@ -2,7 +2,7 @@
 /**
  * Plugin Name: BSSATA Headless Content Model
  * Description: CPTs + ACF admin UI + client-friendly Program Page Builder (repeatable highlight/step/fact editors + per-year photo-gallery groups with an “Add Gallery Year” button — any year, no JSON editing) + direct WPGraphQL field exposure for the headless bssata.org frontend. Requires WPGraphQL; ACF optional (admin UI only).
- * Version:     2.4.1
+ * Version:     2.6.0
  * Author:      BSSATA Dev
  */
 
@@ -279,17 +279,15 @@ add_action('graphql_register_types', function () {
 			if (!is_array($items)) return array();
 			$out = array();
 			foreach (array_slice($items, 0, 3) as $item) {
-				$label = isset($item['label']) ? (string) $item['label'] : '';
-				$url   = isset($item['url'])   ? (string) $item['url']   : '';
+				$label = isset($item['label']) ? trim((string) $item['label']) : '';
+				$url   = isset($item['url'])   ? trim((string) $item['url'])   : '';
 				if ($label === '' || $url === '') continue;
-				$out[] = array(
-					'label' => $label,
-					'url'   => $url,
-				);
+				$out[] = array('label' => $label, 'url' => $url);
 			}
 			return $out;
 		},
 	));
+
 	/* program.buttonText / program.buttonUrl — single admin-set CTA button.
 	   Shown on the frontend only when BOTH are non-empty. */
 	register_graphql_field('Program', 'buttonText', array(
@@ -715,13 +713,16 @@ function bssata_program_builder_render($post) {
 					<span class="bss-help">Up to 3 call-to-action buttons on the program page’s "About this Program" section (not in the Downloads section). Each button needs both button text and a button URL; any button missing either is hidden on the website.</span>
 				</h3>
 				<div class="bss-section-body">
-					<div id="bss_about_buttons_rows"></div>
-					<p class="bss-empty" id="bss_about_buttons_empty" style="display:none;">No About-section buttons yet — click “+ Add Button” below.</p>
+					<div id="bss_about_buttons_rows"></div>						<p class="bss-empty" id="bss_about_buttons_empty" style="display:none;">No About-section buttons yet — click “+ Add Button” below.</p>
 					<button type="button" class="button bss-add" id="bss_about_button_add">+ Add Button</button>
 				</div>
 			</div>
 
-			<!-- SINGLE CTA BUTTON (deprecated quick-set field — kept for compatibility) -->
+			<!-- SINGLE CTA BUTTON (legacy) ──────────────────────────────
+				   Kept for compatibility with the old BSSATA plugin variant that stores a
+				   single About-section CTA in button_text / button_url. The new "About-section
+				   buttons" block above is the preferred UI when an admin wants up to 3 buttons.
+				   Button is shown on the frontend only when BOTH fields are filled in. -->
 			<div class="bss-section">
 				<h3>🔗 Single About-section CTA button (legacy)
 					<span class="bss-help">If you only need one button, you can still set button text + button URL here. These map to the Program.buttonText / Program.buttonUrl fields. The newer “About-section buttons” block above is preferred when you want up to 3 buttons.</span>
@@ -782,7 +783,7 @@ function bssata_program_builder_render($post) {
 		root.dataset.bssInit = '1';
 
 		/* replay unsaved edits kept across editor re-renders */
-		['bss_highlights_json', 'bss_how_json', 'bss_overview_json', 'bss_gallery_json', 'bss_buttons_json'].forEach(function (id) {
+		['bss_highlights_json', 'bss_how_json', 'bss_overview_json', 'bss_gallery_json', 'bss_buttons_json', 'bss_about_buttons_json'].forEach(function (id) {
 			if (CACHE[id] != null && byId(id)) byId(id).value = CACHE[id];
 		});
 
@@ -908,8 +909,10 @@ function bssata_program_builder_render($post) {
 			/* CTA button text + URL — only the About-section CTA, separate from
 			   the file-download buttons. Keep as plain strings so the GraphQL
 			   fields (buttonText / buttonUrl) resolve cleanly. */
-			store('bss_button_text', byId('bss_cta_text') ? byId('bss_cta_text').value : '');
-			store('bss_button_url', byId('bss_cta_url') ? byId('bss_cta_url').value : '');
+			/* These two are plain strings, not JSON — writing them through store()
+			   would wrap the value in quotes and the site would show them literally. */
+			if (byId('bss_button_text')) byId('bss_button_text').value = byId('bss_cta_text') ? byId('bss_cta_text').value : '';
+			if (byId('bss_button_url')) byId('bss_button_url').value = byId('bss_cta_url') ? byId('bss_cta_url').value : '';
 
 			/* update the little helper hint */
 			var ct = byId('bss_cta_text') ? byId('bss_cta_text').value.trim() : '';
@@ -963,6 +966,13 @@ function bssata_program_builder_render($post) {
 			store('bss_gallery_json', flattenGallery());
 
 			/* buttons — keep at most 3, drop rows with no file */
+			/* About-section buttons — keep at most 3, drop rows with no URL (label-only rows
+			   are kept because the About button still needs a URL, but we only hide empty-label
+			   rows in the UI via the render; the resolver already filters label+url combos) */
+			store('bss_about_buttons_json', aboutButtonItems.slice(0, 3).map(function (b) {
+				return { label: b.label || '', url: b.url || '' };
+			}));
+
 			store('bss_buttons_json', buttonItems
 				.filter(function (b) { return b.mediaId; })
 				.slice(0, 3)
@@ -987,9 +997,15 @@ function bssata_program_builder_render($post) {
 			});
 		});
 
-		/* CTA button prefill from saved meta */
-		if (byId('bss_cta_text')) byId('bss_cta_text').value = (parse('bss_button_text') || '');
-		if (byId('bss_cta_url')) byId('bss_cta_url').value = (parse('bss_button_url') || '');
+		/* CTA button prefill from saved meta. Values written by older plugin
+		   versions were JSON-quoted, so accept both forms. */
+		function rawText(id) {
+			var v = byId(id) ? byId(id).value : '';
+			try { var d = JSON.parse(v); if (typeof d === 'string') return d; } catch (e) {}
+			return v;
+		}
+		if (byId('bss_cta_text')) byId('bss_cta_text').value = rawText('bss_button_text');
+		if (byId('bss_cta_url')) byId('bss_cta_url').value = rawText('bss_button_url');
 		['bss_cta_text', 'bss_cta_url'].forEach(function (id) {
 			if (!byId(id)) return;
 			byId(id).addEventListener('input', persistAll);
@@ -1018,6 +1034,21 @@ function bssata_program_builder_render($post) {
 		});
 
 		/* ---------- buttons: up to 3 label + file pairs ---------- */
+		/* About-section buttons: up to 3 label + URL pairs, stored in about_buttons_json */				/* About-section buttons: up to 3 label + URL pairs, stored in about_buttons_json.
+				   A button is only shown on the frontend when BOTH label and url are filled in.
+				   hidden buttons (label-only or url-only) are stored as-is so the admin can
+				   pick up where they left off, but the resolver filters them out. */
+				var aboutButtonItems = [];
+				var abparsed = parse('bss_about_buttons_json');
+				if (Array.isArray(abparsed)) {
+					aboutButtonItems = abparsed.slice(0, 3).map(function (b) {
+						return {
+							label: b.label || '',
+							url: b.url || ''
+						};
+					});
+				}
+
 		var buttonItems = [];
 		var bparsed = parse('bss_buttons_json');
 		if (Array.isArray(bparsed)) {
@@ -1052,11 +1083,73 @@ function bssata_program_builder_render($post) {
 				cb({ id: a.id, filename: url.split('/').pop().split('?')[0], title: a.title });
 			});
 			f.open();
-		}
+		}			function renderAboutButtons() {
+				var wrap = byId('bss_about_buttons_rows');
+				if (!wrap) return;
+				var items = aboutButtonItems;
+				wrap.innerHTML = '';
+				byId('bss_about_buttons_empty').style.display = items.length ? 'none' : '';
+				byId('bss_about_button_add').disabled = items.length >= 3;
 
-		function renderButtons() {
-			var wrap = byId('bss_buttons_rows');
-			if (!wrap) return;
+				items.forEach(function (item, i) {
+					var row = document.createElement('div');
+					row.className = 'bss-row';
+
+					var labelWrap = document.createElement('div');
+					labelWrap.className = 'bss-field';
+					var l = document.createElement('label');
+					l.textContent = 'Button text';
+					labelWrap.appendChild(l);
+					var inp = document.createElement('input');
+					inp.type = 'text';
+					inp.className = 'bss-input';
+					inp.placeholder = 'e.g. Download Pamphlet';
+					inp.value = item.label || '';
+					inp.addEventListener('input', function () { item.label = inp.value; persistAll(); });
+					labelWrap.appendChild(inp);
+					row.appendChild(labelWrap);
+
+					var urlWrap = document.createElement('div');
+					urlWrap.className = 'bss-field';
+					var ul = document.createElement('label');
+					ul.textContent = 'Button URL';
+					urlWrap.appendChild(ul);
+					var uinp = document.createElement('input');
+					uinp.type = 'text';
+					uinp.className = 'bss-input';
+					uinp.placeholder = 'e.g. /programs/ugadi or https://…';
+					uinp.value = item.url || '';
+					uinp.addEventListener('input', function () { item.url = uinp.value; persistAll(); });
+					urlWrap.appendChild(uinp);
+					row.appendChild(urlWrap);
+
+					var ctrl = document.createElement('div');
+					ctrl.className = 'bss-controls';
+					var rm = document.createElement('button');
+					rm.type = 'button';
+					rm.className = 'bss-btn bss-btn-danger';
+					rm.textContent = '✕';
+					rm.title = 'Remove this button';
+					rm.addEventListener('click', function () {
+						aboutButtonItems.splice(i, 1);
+						persistAll(); renderAboutButtons();
+					});
+					ctrl.appendChild(rm);					row.appendChild(ctrl);
+					wrap.appendChild(row);
+				});
+			}
+
+			byId('bss_about_button_add').addEventListener('click', function (e) {
+				e.preventDefault();
+				if (aboutButtonItems.length >= 3) return;
+				aboutButtonItems.push({ label: '', url: '' });
+				persistAll(); renderAboutButtons();
+			});
+
+			/* file-download buttons: up to 3 label + file pairs */
+			function renderButtons() {
+				var wrap = byId('bss_buttons_rows');
+				if (!wrap) return;
 			wrap.innerHTML = '';
 			byId('bss_buttons_empty').style.display = buttonItems.length ? 'none' : '';
 			byId('bss_button_add').disabled = buttonItems.length >= 3;
@@ -1393,19 +1486,18 @@ function bssata_program_builder_render($post) {
 		});
 		byId('bss_year_new_create').addEventListener('click', function (e) { e.preventDefault(); createYear(); });
 		byId('bss_year_new_cancel').addEventListener('click', function (e) { e.preventDefault(); byId('bss_year_new_input').value = ''; byId('bss_year_new_row').style.display = 'none'; });
-		byId('bss_year_new_input').addEventListener('keydown', function (e) { if (e.key === 'Enter') { e.preventDefault(); createYear(); } });
-
-		/* initial render — guarded so one bad render can never take
-		   down the whole builder silently */
-		try {
-			renderList(all('.bss-rows[data-kind="highlights"]')[0]);
-			renderList(all('.bss-rows[data-kind="steps"]')[0]);
-			renderList(all('.bss-rows[data-kind="paragraphs"]')[0]);
-			renderList(all('.bss-rows[data-kind="rituals"]')[0]);
-			renderList(all('.bss-rows[data-kind="facts"]')[0]);
-			renderButtons();
-			renderGallery();
-		} catch (e) {
+		byId('bss_year_new_input').addEventListener('keydown', function (e) { if (e.key === 'Enter') { e.preventDefault(); createYear(); } });			/* initial render — guarded so one bad render can never take
+			   down the whole builder silently */
+			try {
+				renderList(all('.bss-rows[data-kind="highlights"]')[0]);
+				renderList(all('.bss-rows[data-kind="steps"]')[0]);
+				renderList(all('.bss-rows[data-kind="paragraphs"]')[0]);
+				renderList(all('.bss-rows[data-kind="rituals"]')[0]);
+				renderList(all('.bss-rows[data-kind="facts"]')[0]);
+				renderAboutButtons();
+				renderButtons();
+				renderGallery();
+			} catch (e) {
 			if (window.console && console.error) console.error('BSS builder render error:', e);
 		}
 	}
@@ -1435,6 +1527,7 @@ add_action('save_post_program', function ($post_id) {
 			'bss_overview_json'   => 'overview_json',
 			'bss_gallery_json'    => 'gallery_json',
 			'bss_buttons_json'    => 'buttons_json',
+			'bss_about_buttons_json' => 'about_buttons_json',
 			'bss_button_text'     => 'button_text',
 			'bss_button_url'      => 'button_url',
 		);	foreach ($fields as $post_field => $meta_key) {

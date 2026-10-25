@@ -1,76 +1,187 @@
-import { readFileSync, writeFileSync, existsSync, mkdirSync, rmSync } from 'fs';
-import { join, resolve } from 'path';
+import { readdirSync, statSync, mkdirSync, writeFileSync, existsSync, copyFileSync, rmSync } from 'fs';
+import { join, dirname, relative, resolve, sep } from 'path';
 import { execSync } from 'child_process';
 
-const SRC = resolve('.', 'wordpress-plugin', 'bssata-headless-model', 'bssata-headless.php');
-const ZIP = resolve('.', 'wordpress-plugin', 'bssata-headless-v2.5.0-about-buttons.zip');
+// --- config ---
+const SRC_DIR = 'wordpress-plugin/bssata-headless-model';
+const ZIP_OUT = 'wordpress-plugin/bssata-headless-v2.6.0.zip';
 
-console.log('*** ZIP BUILD START ***');
-console.log('SRC=' + SRC);
-console.log('SRC exists=' + existsSync(SRC));
-console.log('ZIP target=' + ZIP);
+const isWin = typeof process !== 'undefined' && process.platform === 'win32';
+const tmpBase = isWin
+  ? 'C:\\Users\\JITEND~1.KUM\\AppData\\Local\\Temp'
+  : '/tmp';
+const rnd = Math.random().toString(36).slice(2, 10);
+const tmpDir = join(tmpBase, 'wp_zip_src_' + rnd);
+const tmpZip = join(tmpBase, 'wp_zip_' + rnd + '.zip');
+const tmpChk = join(tmpBase, 'wp_zip_chk_' + rnd);
 
-if (!existsSync(SRC)) throw new Error('SRC missing');
+// --- decide what to zip ---
+// Either SRC_DIR is a folder containing bssata-headless-model/bssata-headless.php
+// or SRC_DIR itself is the single .php file. In both cases we want the zip to
+// contain bssata-headless-model/bssata-headless.php so WP sees the plugin folder.
+const isSingleFile = statSync(SRC_DIR).isFile();
+const PLUGIN_SLUG = 'bssata-headless-model';
+const pluginTop = join(tmpDir, PLUGIN_SLUG);
+let sourceFiles = [];
+if (isSingleFile) {
+  sourceFiles = [{ src: SRC_DIR, rel: 'bssata-headless.php' }];
+} else {
+  (function walk(dir) {
+    for (const e of readdirSync(dir, { withFileTypes: true })) {
+      const p = join(dir, e.name);
+      if (e.isDirectory()) walk(p);
+      else sourceFiles.push({ src: p, rel: relative(SRC_DIR, p) });
+    }
+  })(SRC_DIR);
+}
+console.log('srcDir=' + SRC_DIR);
+console.log('isSingleFile=' + isSingleFile);
+console.log('filesToZip=' + sourceFiles.length);
 
-let tmpBase = process.env.TEMP || process.env.TMP || process.env.TMPDIR || '';
-if (!tmpBase) {
-  try { tmpBase = execSync('powershell -NoProfile -Command $env:TEMP', { encoding: 'utf8' }).trim(); } catch {
-    tmpBase = 'C:\\Windows\\Temp';
+// --- copy into clean staging dir, inside the plugin folder WordPress expects ---
+rmSync(tmpDir, { recursive: true, force: true });
+mkdirSync(pluginTop, { recursive: true });
+for (const f of sourceFiles) {
+  if (typeof f.rel !== 'string' || f.rel.startsWith('..')) continue;
+  const dest = join(pluginTop, f.rel);
+  mkdirSync(dirname(dest), { recursive: true });
+  copyFileSync(f.src, dest);
+}
+console.log('staged into ' + pluginTop);
+
+const stagedFiles = [];
+(function walk(dir) {
+  for (const e of readdirSync(dir, { withFileTypes: true })) {
+    const p = join(dir, e.name);
+    if (e.isDirectory()) walk(p);
+    else stagedFiles.push({ abs: resolve(p), entry: relative(tmpDir, p).split(sep).join('/') });
+  }
+})(tmpDir);
+
+let ok = false;
+let lines = [];
+
+if (isWin) {
+  // Write the PS script to a temp .ps1 file so the command line is short and
+  // newlines survive execSync.
+  const psScript = [
+    '$src = ' + JSON.stringify(tmpDir),
+    '$zip = ' + JSON.stringify(tmpZip),
+    'if (-not (Get-ChildItem -Path $src -Recurse -File)) { Write-Host "ZIP_OK=False"; exit 1 }',
+    'Add-Type -AssemblyName System.IO.Compression',
+    'Add-Type -AssemblyName System.IO.Compression.FileSystem',
+    'if (Test-Path $zip) { Remove-Item -Force $zip }',
+    /* ZipArchive lets us force forward-slash entry names; Compress-Archive and
+       ZipFile::CreateFromDirectory write backslashes on Windows, which
+       WordPress cannot unpack into a plugin folder. */
+    '$archive = [System.IO.Compression.ZipFile]::Open($zip, [System.IO.Compression.ZipArchiveMode]::Create)',
+    ...stagedFiles.map(function (f) {
+      return '[void][System.IO.Compression.ZipFileExtensions]::CreateEntryFromFile($archive, ' +
+        JSON.stringify(f.abs) + ', ' + JSON.stringify(f.entry) + ')';
+    }),
+    '$archive.Dispose()',
+    'if (-not (Test-Path $zip)) { Write-Host "ZIP_OK=False"; exit 1 }',
+    '$chk = ' + JSON.stringify(tmpChk),
+    'if (Test-Path $chk) { Remove-Item -Recurse -Force $chk }',
+    'Expand-Archive -Path $zip -DestinationPath $chk -Force',
+    'Get-ChildItem $chk -Recurse | Select-Object -ExpandProperty FullName',
+    'Remove-Item -Recurse -Force $chk',
+    '$bytes = (Get-Item $zip).Length',
+    'Write-Host "ZIP_OK=True"',
+    'Write-Host "ZIP_BYTES=$bytes"',
+  ].join('\n');
+  const psFile = join(tmpBase, 'wp_zip_ps_' + rnd + '.ps1');
+  writeFileSync(psFile, psScript, 'utf8');
+  try {
+    const raw = execSync('powershell -NoProfile -ExecutionPolicy Bypass -File ' + JSON.stringify(psFile), {
+      encoding: 'utf8',
+      windowsHide: true,
+      timeout: 90000,
+    });
+    lines = raw.split(/\r?\n/);
+  } catch (e) {
+    console.error('powershell zip failed:', e.stdout || e.message);
+  } finally {
+    try { rmSync(psFile, { force: true }); } catch {}
+  }
+} else {
+  // Linux: use python's zipfile (no external binaries needed).
+  const py = [
+    'import zipfile, os, sys, shutil',
+    'src = ' + JSON.stringify(tmpDir),
+    'out = ' + JSON.stringify(tmpZip),
+    'with zipfile.ZipFile(out, "w", zipfile.ZIP_DEFLATED) as z:',
+    '    for root, dirs, fs in os.walk(src):',
+    '        for f in fs:',
+    '            full = os.path.join(root, f)',
+    '            arc = os.path.relpath(full, src)',
+    '            z.write(full, arc)',
+    'print("ZIP_OK=True")',
+    'print("ZIP_BYTES=" + str(os.path.getsize(out)))',
+    'chk = ' + JSON.stringify(tmpChk),
+    'if os.path.exists(chk): shutil.rmtree(chk, ignore_errors=True)',
+    'os.makedirs(chk, exist_ok=True)',
+    'with zipfile.ZipFile(out) as z: z.extractall(chk)',
+    'for root, dirs, fs in os.walk(chk):',
+    '    for f in fs: print("ENTRY=" + os.path.relpath(os.path.join(root, f), chk))',
+    'shutil.rmtree(chk, ignore_errors=True)',
+  ].join('\n');
+  try {
+    const raw = execSync('python -c ' + JSON.stringify(py), { encoding: 'utf8', timeout: 90000 });
+    lines = raw.split(/\r?\n/);
+  } catch (e) {
+    console.error('python zip failed:', e.stdout || e.message);
   }
 }
-tmpBase = tmpBase.replace(/"/g, '');
-const psScript = join(tmpBase, 'wp_zip_' + Math.random().toString(36).slice(2,10) + '.ps1');
-const tmpDir = join(tmpBase, 'wp_patch_' + Math.random().toString(36).slice(2,10));
-mkdirSync(tmpDir, { recursive: true });
-const pluginDir = join(tmpDir, 'bssata-headless-model');
-mkdirSync(pluginDir, { recursive: true });
-writeFileSync(join(pluginDir, 'bssata-headless.php'), readFileSync(SRC));
-console.log('pluginDir=' + pluginDir);
-console.log('plugin file size=' + readFileSync(join(pluginDir, 'bssata-headless.php')).length);
 
-function esc(p){
-  return "'" + p.replace(/\\/g,'\\\\').replace(/'/g,"''") + "'";
+for (const line of lines) {
+  if (line.startsWith('ZIP_OK=')) { ok = line.includes('True'); }
+  if (line.startsWith('ZIP_BYTES=')) { console.log(line); }
+  if (line.startsWith('ENTRY=')) { console.log(line); }
 }
-const chkDir = join(tmpBase, 'wp_patch_chk_' + Math.random().toString(36).slice(2,10));
-const psContent =
-  '$ErrorActionPreference = "Stop"\n' +
-  '$src = ' + esc(pluginDir) + '\n' +
-  '$zip = ' + esc(ZIP) + '\n' +
-  'Write-Output ("PS_SRC=" + $src)\n' +
-  'Write-Output ("PS_ZIP=" + $zip)\n' +
-  'if (-Not (Test-Path $src)) { throw "SRC_DIR_MISSING" }\n' +
-  'Remove-Item -Path $zip -ErrorAction SilentlyContinue -Force\n' +
-  'Add-Type -AssemblyName System.IO.Compression.FileSystem\n' +
-  '[System.IO.Compression.ZipFile]::CreateFromDirectory($src, $zip, [System.IO.Compression.CompressionLevel]::Optimal, $false)\n' +
-  'Write-Output ("ZIP_OK=" + (Test-Path $zip))\n' +
-  'if (Test-Path $zip) { Write-Output ("ZIP_BYTES=" + (Get-Item $zip).Length) }\n' +
-  '$chk = ' + esc(chkDir) + '\n' +
-  'Write-Output ("PS_CHK=" + $chk)\n' +
-  'mkdir $chk -Force | Out-Null\n' +
-  'Expand-Archive -Path $zip -DestinationPath $chk -Force\n' +
-  'Get-ChildItem $chk -Recurse -File | Select-Object -ExpandProperty FullName | ForEach-Object { Write-Output ("ENTRY=" + ($_ -replace ".*\\\\","")) }\n' +
-  'Remove-Item -Recurse -Force $chk -Force\n' +
-  'Remove-Item -Path $zip -ErrorAction SilentlyContinue -Force\n';
-writeFileSync(psScript, psContent + '\n');
-console.log('psScript=' + psScript);
-console.log('psScript size=' + readFileSync(psScript).length);
-console.log('psScript head=' + readFileSync(psScript, 'utf8').slice(0, 500));
 
-const psCmd = 'powershell -NoProfile -ExecutionPolicy Bypass -File "' + psScript.replace(/\\/g, '\\\\') + '"';
-console.log('PS_CMD=' + psCmd.slice(0, 400));
-let psOut = '';
+if (!ok) {
+  console.error('ZIP BUILD FAILED');
+  process.exit(1);
+}
+
+// verify the zip contains the expected php
+rmSync(tmpChk, { recursive: true, force: true });
+mkdirSync(tmpChk, { recursive: true });
 try {
-  psOut = execSync(psCmd, { windowsHide: true, encoding: 'utf8', stdio: ['pipe','pipe','pipe'] });
-} catch (err) {
-  psOut = (err.stdout || '') + '\n' + (err.stderr || '');
-  console.log('PS_EXIT=' + (err.status || '?'));
+  if (isWin) {
+    execSync('powershell -NoProfile -ExecutionPolicy Bypass -Command ' + JSON.stringify(
+      '$zip=' + JSON.stringify(tmpZip) + '; $chk=' + JSON.stringify(tmpChk) +
+      '; if (Test-Path $chk) { Remove-Item -Recurse -Force $chk }' +
+      '; Expand-Archive -Path $zip -DestinationPath $chk -Force' +
+      '; Get-ChildItem $chk -Recurse | Select-Object -ExpandProperty FullName' +
+      '; Remove-Item -Recurse -Force $chk'
+    ), { encoding: 'utf8', windowsHide: true, timeout: 60000 });
+  } else {
+    execSync('python -c ' + JSON.stringify(
+      'import zipfile, os, shutil' +
+      '; z=zipfile.ZipFile(' + JSON.stringify(tmpZip) + ')' +
+      '; os.makedirs(' + JSON.stringify(tmpChk) + ', exist_ok=True)' +
+      '; z.extractall(' + JSON.stringify(tmpChk) + ')' +
+      '; [print(os.path.relpath(os.path.join(r,f), ' + JSON.stringify(tmpChk) + ')) for r,ds,fs in os.walk(' + JSON.stringify(tmpChk) + ') for f in fs]' +
+      '; shutil.rmtree(' + JSON.stringify(tmpChk) + ', ignore_errors=True)'
+    ), { encoding: 'utf8', timeout: 60000 });
+  }
+} catch (e) {
+  console.error('zip verify failed:', e.stdout || e.message);
 }
-console.log('PS_OUTPUT:');
-console.log(psOut.trim());
+rmSync(tmpChk, { recursive: true, force: true });
 
-try { rmSync(tmpDir, { recursive: true, force: true }); } catch {}
-try { rmSync(psScript, { force: true }); } catch {}
+// replace the staging dir with the final zip
+rmSync(tmpDir, { recursive: true, force: true });
+if (existsSync(ZIP_OUT)) rmSync(ZIP_OUT);
+copyFileSync(tmpZip, ZIP_OUT);
+rmSync(tmpZip, { force: true });
 
-console.log('existsSync(ZIP after)=' + existsSync(ZIP));
-if (existsSync(ZIP)) console.log('ZIP final bytes=' + readFileSync(ZIP).length);
+const finalBytes = existsSync(ZIP_OUT) ? statSync(ZIP_OUT).size : -1;
+console.log('ZIP final bytes=' + finalBytes);
 console.log('*** ZIP BUILD END ***');
+if (!existsSync(ZIP_OUT) || finalBytes < 1000) {
+  console.error('zip missing or too small');
+  process.exit(1);
+}
