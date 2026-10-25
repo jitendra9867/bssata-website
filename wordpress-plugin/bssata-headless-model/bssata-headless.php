@@ -77,6 +77,7 @@ function bssata_meta_map() {
 			'overview_json'   => array('overviewJson', 'String'),
 			'gallery_json'    => array('galleryJson', 'String'),
 			'buttons_json'    => array('buttonsJson', 'String'),
+			'about_buttons_json' => array('aboutButtonsJson', 'String'),
 			'button_text'     => array('buttonText', 'String'),
 			'button_url'      => array('buttonUrl', 'String'),
 		),
@@ -254,6 +255,36 @@ add_action('graphql_register_types', function () {
 					'url'      => $url,
 					'filename' => $path ? basename($path) : basename(parse_url($url, PHP_URL_PATH)),
 					'mimeType' => (string) get_post_mime_type($id),
+				);
+			}
+			return $out;
+		},
+	));
+	/* program.aboutButtons — up to 3 About-section buttons (label + URL)
+	   stored in about_buttons_json as [{ label, url }].
+	   Shown on the frontend only when at least one button has both label + url. */
+	register_graphql_object_type('ProgramAboutButton', array(
+		'fields' => array(
+			'label' => array('type' => 'String'),
+			'url'   => array('type' => 'String'),
+		),
+	));
+	register_graphql_field('Program', 'aboutButtons', array(
+		'type' => array('list_of' => 'ProgramAboutButton'),
+		'description' => 'Up to 3 About-section buttons (label + URL) from about_buttons_json',
+		'resolve' => function (\WPGraphQL\Model\Post $post) {
+			$raw = (string) get_post_meta($post->databaseId, 'about_buttons_json', true);
+			if ($raw === '') return array();
+			$items = json_decode($raw, true);
+			if (!is_array($items)) return array();
+			$out = array();
+			foreach (array_slice($items, 0, 3) as $item) {
+				$label = isset($item['label']) ? (string) $item['label'] : '';
+				$url   = isset($item['url'])   ? (string) $item['url']   : '';
+				if ($label === '' || $url === '') continue;
+				$out[] = array(
+					'label' => $label,
+					'url'   => $url,
 				);
 			}
 			return $out;
@@ -616,6 +647,7 @@ function bssata_program_builder_render($post) {
 		<input type="hidden" name="bss_overview_json" id="bss_overview_json" value="<?php echo esc_attr($overview); ?>">
 		<input type="hidden" name="bss_gallery_json" id="bss_gallery_json" value="<?php echo esc_attr($gallery); ?>">
 		<input type="hidden" name="bss_buttons_json" id="bss_buttons_json" value="<?php echo esc_attr($buttons); ?>">
+		<input type="hidden" name="bss_about_buttons_json" id="bss_about_buttons_json" value="<?php echo esc_attr(get_post_meta($post->ID, 'about_buttons_json', true)); ?>">
 		<input type="hidden" name="bss_button_text" id="bss_button_text" value="<?php echo esc_attr(get_post_meta($post->ID, 'button_text', true)); ?>">
 		<input type="hidden" name="bss_button_url" id="bss_button_url" value="<?php echo esc_attr(get_post_meta($post->ID, 'button_url', true)); ?>">
 
@@ -677,21 +709,31 @@ function bssata_program_builder_render($post) {
 					</div>
 				</div>
 			</div>
-		</div>
-
-		<!-- ABOUT-SECTION CTA BUTTON (text + URL, shown only when both are set) -->
-		<div class="bss-section">
-			<h3>🔗 About-section button
-				<span class="bss-help">A single call-to-action button shown on the program page’s "About this Program" section (not in the Downloads section). The button only appears on the website when both the button text and the button URL are filled in below.</span>
-			</h3>
-			<div class="bss-section-body">
-				<div style="display:flex; gap:10px; margin-bottom:8px;">
-					<div class="bss-field"><label>Button text</label><input type="text" id="bss_cta_text" class="bss-input" placeholder="e.g. View Program Details"></div>
-					<div class="bss-field" style="flex:2;"><label>Button URL</label><input type="text" id="bss_cta_url" class="bss-input" placeholder="e.g. /programs/ugadi or https://..."></div>
+		</div>			<!-- ABOUT-SECTION BUTTONS (up to 3, text + URL, shown only when both are set) -->
+			<div class="bss-section">
+				<h3>🔗 About-section buttons
+					<span class="bss-help">Up to 3 call-to-action buttons on the program page’s "About this Program" section (not in the Downloads section). Each button needs both button text and a button URL; any button missing either is hidden on the website.</span>
+				</h3>
+				<div class="bss-section-body">
+					<div id="bss_about_buttons_rows"></div>
+					<p class="bss-empty" id="bss_about_buttons_empty" style="display:none;">No About-section buttons yet — click “+ Add Button” below.</p>
+					<button type="button" class="button bss-add" id="bss_about_button_add">+ Add Button</button>
 				</div>
-				<p id="bss_cta_preview" style="color:#646970;font-size:12px;margin:0;"></p>
 			</div>
-		</div>
+
+			<!-- SINGLE CTA BUTTON (deprecated quick-set field — kept for compatibility) -->
+			<div class="bss-section">
+				<h3>🔗 Single About-section CTA button (legacy)
+					<span class="bss-help">If you only need one button, you can still set button text + button URL here. These map to the Program.buttonText / Program.buttonUrl fields. The newer “About-section buttons” block above is preferred when you want up to 3 buttons.</span>
+				</h3>
+				<div class="bss-section-body">
+					<div style="display:flex; gap:10px; margin-bottom:8px;">
+						<div class="bss-field"><label>Button text</label><input type="text" id="bss_cta_text" class="bss-input" placeholder="e.g. View Program Details"></div>
+						<div class="bss-field" style="flex:2;"><label>Button URL</label><input type="text" id="bss_cta_url" class="bss-input" placeholder="e.g. /programs/ugadi or https://..."></div>
+					</div>
+					<p id="bss_cta_preview" style="color:#646970;font-size:12px;margin:0;"></p>
+				</div>
+			</div>
 
 		<!-- BUTTONS -->
 		<div class="bss-section">

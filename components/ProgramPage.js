@@ -436,8 +436,25 @@ export default function ProgramPage({ program, programs, galleryImages }) {
                 <div className="ornament-line mb-4 !mx-0" />
                 <p className="text-base text-gray-700 leading-relaxed mb-5">{program.description}</p>
 
-                {/* Admin-set call-to-action button — only renders when both text + URL are set */}
-                {program.buttonText && program.buttonUrl && (
+                {/* Admin-set: up to 3 About-section buttons (text + URL), shown only when both are set */}
+                {(program.aboutButtons || []).length > 0 && (
+                  <div className="mt-6 flex flex-wrap gap-3">
+                    {program.aboutButtons.map((b) => (
+                      <a
+                        key={b.label + b.url}
+                        href={b.url}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl text-sm font-semibold text-white bg-gradient-to-r from-saffron-500 to-saffron-600 border border-saffron-500 hover:from-saffron-600 hover:to-saffron-700 hover:shadow-[0_10px_24px_rgba(195,74,44,0.3)] transition-all duration-300"
+                      >
+                        {b.label}
+                      </a>
+                    ))}
+                  </div>
+                )}
+
+                {/* Single CTA button kept for backward compatibility: only renders when both text + URL are set AND no multiple About buttons are present */}
+                {program.buttonText && program.buttonUrl && (program.aboutButtons || []).length === 0 && (
                   <div className="mt-6">
                     <a
                       href={program.buttonUrl}
@@ -564,7 +581,9 @@ export async function getStaticData(slug) {
         highlights: wpProgram.highlights?.length ? wpProgram.highlights : (fallback?.highlights || []),
         how: wpProgram.how?.length ? wpProgram.how : (fallback?.how || []),
         overview: wpProgram.overview || fallback?.overview || null,
-        buttons: wpProgram.buttons || [],
+        buttonText: wpProgram.buttonText || '',
+        buttonUrl: wpProgram.buttonUrl || '',
+        aboutButtons: wpProgram.aboutButtons?.length ? wpProgram.aboutButtons : [],
         gallery: wpProgram.gallery || [],
       }
     : fallback;
