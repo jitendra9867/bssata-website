@@ -302,23 +302,23 @@ export default function Home({ executive, highlights, testimonials, sliderSlides
             <div className="ornament-line" />
           </div>
 
-          {/* Flex (not grid) so an odd member count — 7 today — centres the
-              last row instead of leaving a hole on the right. */}
-          <div className="flex flex-wrap justify-center gap-5 lg:gap-6 max-w-5xl mx-auto">
+          {/* Grid (not centred flex) so four members sit per row and a short
+              last row — 7 today — lines up from the left edge. */}
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3 max-w-6xl mx-auto">
             {executive.map((m) => (
-              <div key={`${m.designation}-${m.name}`} className="group relative w-full sm:w-[calc(50%-0.625rem)] lg:w-[calc(33.333%-1rem)] bg-[#241300]/80 backdrop-blur-md rounded-2xl border border-gold-400/30 overflow-hidden transition-all duration-400 hover:-translate-y-1.5 hover:bg-[#1a0d00]/90 hover:border-gold-400/60 hover:shadow-[0_20px_50px_rgba(0,0,0,0.45)]">
+              <div key={`${m.designation}-${m.name}`} className="group relative w-full bg-[#241300]/80 backdrop-blur-md rounded-2xl border border-gold-400/30 overflow-hidden transition-all duration-400 hover:-translate-y-1.5 hover:bg-[#1a0d00]/90 hover:border-gold-400/60 hover:shadow-[0_20px_50px_rgba(0,0,0,0.45)]">
                 {/* Left gold edge */}
                 <div className="absolute left-0 top-0 bottom-0 z-10 w-1 bg-gradient-to-b from-gold-400 via-amber-500 to-gold-400 opacity-70 group-hover:opacity-100 transition-opacity duration-300" />
 
-                <div className="flex flex-col p-4">
+                <div className="flex flex-col p-3">
                   {/* Circular avatar image — top center aligned */}
-                  <div className="relative mx-auto w-36 h-36 sm:w-40 sm:h-40 mb-3 overflow-hidden rounded-full shadow-lg border-4 border-[#241300]">
+                  <div className="relative mx-auto w-28 h-28 sm:w-32 sm:h-32 mb-3 overflow-hidden rounded-full shadow-lg border-4 border-[#241300]">
                     {m.photo ? (
                       <Image
                         src={m.photo}
                         alt={m.name}
                         fill
-                        sizes="150px"
+                        sizes="128px"
                         className="object-cover object-center"
                       />
                     ) : (

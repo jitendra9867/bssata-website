@@ -334,10 +334,23 @@ export default function Footer() {
       {/* Bottom bar */}
       <div className="relative border-t border-white/10 bg-black/[0.18]">
         <div className="boxed-footer-container flex flex-col sm:flex-row justify-between items-center gap-3" style={{ paddingTop: '12px', paddingBottom: '12px' }}>
-          <p className="text-sm text-cream-100/60 text-center sm:text-left">
-            &copy; {new Date().getFullYear()} Brahmana Seva Sangham · Regd No: 48/97. All rights
-            reserved.
-          </p>
+          <div className="text-center sm:text-left">
+            <p className="text-sm text-cream-100/60">
+              &copy; {new Date().getFullYear()} Brahmana Seva Sangham · Regd No: 48/97. All rights
+              reserved.
+            </p>
+            <p className="text-[13px] text-cream-100/50 mt-1">
+              Web Designing By{' '}
+              <a
+                href="https://www.vision-studio.com"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="font-semibold text-gold-300 hover:text-white transition-colors duration-200"
+              >
+                Vision Studio
+              </a>
+            </p>
+          </div>
           <div className="flex items-center gap-4 text-sm text-cream-100/60">
             <span>Est. 1994</span>
             <span className="w-1 h-1 rounded-full bg-gold-400/50" />
