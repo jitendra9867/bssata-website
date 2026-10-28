@@ -4,7 +4,7 @@ import { execSync } from 'child_process';
 
 // --- config ---
 const SRC_DIR = 'wordpress-plugin/bssata-headless-model';
-const ZIP_OUT = 'wordpress-plugin/bssata-headless-v2.6.0.zip';
+const ZIP_OUT = 'wordpress-plugin/bssata-headless-v2.7.0.zip';
 
 const isWin = typeof process !== 'undefined' && process.platform === 'win32';
 const tmpBase = isWin

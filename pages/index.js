@@ -302,9 +302,11 @@ export default function Home({ executive, highlights, testimonials, sliderSlides
             <div className="ornament-line" />
           </div>
 
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5 lg:gap-6 max-w-5xl mx-auto">
+          {/* Flex (not grid) so an odd member count — 7 today — centres the
+              last row instead of leaving a hole on the right. */}
+          <div className="flex flex-wrap justify-center gap-5 lg:gap-6 max-w-5xl mx-auto">
             {executive.map((m) => (
-              <div key={m.designation} className="group relative bg-[#241300]/80 backdrop-blur-md rounded-2xl border border-gold-400/30 overflow-hidden transition-all duration-400 hover:-translate-y-1.5 hover:bg-[#1a0d00]/90 hover:border-gold-400/60 hover:shadow-[0_20px_50px_rgba(0,0,0,0.45)]">
+              <div key={`${m.designation}-${m.name}`} className="group relative w-full sm:w-[calc(50%-0.625rem)] lg:w-[calc(33.333%-1rem)] bg-[#241300]/80 backdrop-blur-md rounded-2xl border border-gold-400/30 overflow-hidden transition-all duration-400 hover:-translate-y-1.5 hover:bg-[#1a0d00]/90 hover:border-gold-400/60 hover:shadow-[0_20px_50px_rgba(0,0,0,0.45)]">
                 {/* Left gold edge */}
                 <div className="absolute left-0 top-0 bottom-0 z-10 w-1 bg-gradient-to-b from-gold-400 via-amber-500 to-gold-400 opacity-70 group-hover:opacity-100 transition-opacity duration-300" />
 
@@ -446,7 +448,12 @@ export async function getStaticProps() {
     getSliderSlides(),
   ]);
 
-  /* Executive strip: 6 designations with avatar styling config */
+  /* Executive strip: avatar colour per designation (purely cosmetic).
+     Which members appear is NOT hard-coded — every Committee member the
+     admin files under "Core Leadership" (Committee → Category) shows up
+     here, in the order set by its menu order (Order field in the editor).
+     That is where a new office bearer is added, an old one removed, or the
+     order changed — no code change needed. */
   const GRADIENT_BY_DESIGNATION = {
     'President': 'from-amber-400 to-orange-600',
     'Honorable President': 'from-amber-500 to-orange-700',
@@ -455,27 +462,24 @@ export async function getStaticProps() {
     'Treasurer': 'from-yellow-500 to-orange-600',
     'Vice President': 'from-yellow-400 to-amber-600',
   };
-  const desiredOrder = ['President', 'Honorable President', 'Executive President', 'Secretary', 'Treasurer', 'Vice President'];
   const initialsOf = (name) =>
     name.replace(/^(Sri|Smt|Dr)\s+/, '').split(/\s+/).map((w) => w[0]).slice(0, 2).join('').toUpperCase();
 
   let executive;
   if (wpCommittee) {
     const committeeWithPhotos = attachLocalPhotos(wpCommittee);
-    executive = desiredOrder
-      .map((designation) => {
-        const m = committeeWithPhotos.find((c) => c.designation === designation);
-        if (!m) return null;
-        return {
-          designation,
-          name: m.name,
-          phone: m.phone,
-          initials: initialsOf(m.name),
-          gradient: GRADIENT_BY_DESIGNATION[designation],
-          photo: m.photo || null,
-        };
-      })
-      .filter(Boolean);
+    const leadership = committeeWithPhotos.filter((m) => m.category === 'leadership');
+    /* Nothing tagged Core Leadership yet → show the whole committee rather
+       than an empty strip. */
+    const strip = leadership.length ? leadership : committeeWithPhotos;
+    executive = strip.map((m) => ({
+      designation: m.designation || 'Member',
+      name: m.name,
+      phone: m.phone,
+      initials: initialsOf(m.name),
+      gradient: GRADIENT_BY_DESIGNATION[m.designation] || 'from-amber-400 to-orange-600',
+      photo: m.photo || null,
+    }));
   } else {
     executive = HOME_EXECUTIVE_FALLBACK;
   }

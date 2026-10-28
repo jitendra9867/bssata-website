@@ -2,7 +2,7 @@
 /**
  * Plugin Name: BSSATA Headless Content Model
  * Description: CPTs + ACF admin UI + client-friendly Program Page Builder (repeatable highlight/step/fact editors + per-year photo-gallery groups with an “Add Gallery Year” button — any year, no JSON editing) + direct WPGraphQL field exposure for the headless bssata.org frontend. Requires WPGraphQL; ACF optional (admin UI only).
- * Version:     2.6.0
+ * Version:     2.7.0
  * Author:      BSSATA Dev
  */
 
@@ -327,6 +327,7 @@ add_action('graphql_register_types', function () {
 			'website'                => array('type' => 'String'),
 			'twelveACertificateText' => array('type' => 'String'),
 			'bankAccounts'           => array('type' => array('list_of' => 'BankAccount')),
+			'donationQr'             => array('type' => 'String'),
 			'gotrams'                => array('type' => array('list_of' => 'String')),
 		),
 	));
@@ -352,6 +353,17 @@ add_action('graphql_register_types', function () {
 
 			$gotrams = array_values(array_filter(array_map('trim', preg_split('/\r\n|\r|\n|,/', $opt('gotrams')))));
 
+			/* Donation QR image: the ACF field stores a URL, but tolerate an
+			   attachment ID or array (older/other return formats). */
+			$qr = get_option('options_donation_qr', '');
+			if (is_array($qr)) {
+				$qr = isset($qr['url']) ? $qr['url'] : (isset($qr['ID']) ? $qr['ID'] : '');
+			}
+			if (is_numeric($qr)) {
+				$qr = (string) wp_get_attachment_image_url((int) $qr, 'full');
+			}
+			$qr = is_string($qr) ? $qr : '';
+
 			return array(
 				'organizationName'       => $opt('organization_name'),
 				'regNo'                  => $opt('reg_no'),
@@ -363,6 +375,7 @@ add_action('graphql_register_types', function () {
 				'website'                => $opt('website'),
 				'twelveACertificateText' => $opt('twelve_a_certificate_text'),
 				'bankAccounts'           => $banks,
+				'donationQr'             => $qr,
 				'gotrams'                => $gotrams,
 			);
 		},
@@ -578,10 +591,166 @@ add_action('acf/init', function () {
 			$f('f_ss_12a', '12A Certificate Text', 'twelve_a_certificate_text', 'textarea'),
 			$f('f_ss_bank', 'Bank Accounts', 'bank_accounts', 'textarea',
 				array('instructions' => 'One account per line: Bank Name | Account Number | IFSC Code | Branch')),
+			$f('f_ss_qr', 'Donation QR Code', 'donation_qr', 'image',
+				array('return_format' => 'url', 'preview_size' => 'medium',
+					'instructions' => 'UPI QR code shown next to the donation bank details. Upload a new image here any time to replace it — no code change needed.')),
 			$f('f_ss_got', 'Gotrams', 'gotrams', 'textarea',
 				array('instructions' => 'One gotram per line (or comma separated) for the members directory filter')),
 		),
 	));
+});
+
+/* ═══════════════════════════════════════════════════════════════
+   4b. SITE SETTINGS — native admin page
+
+   The public site (bank details, contact block, donation QR) reads the
+   `options_*` values below. They were ONLY editable through an ACF
+   options page, which is an ACF Pro feature — on this site ACF free is
+   installed, so there was no screen to change them at all. This page
+   edits the same values without needing ACF Pro.
+
+   If ACF Pro is ever installed, its options page takes over and this
+   one steps aside.
+   ═══════════════════════════════════════════════════════════════ */
+
+add_action('admin_menu', function () {
+	if (function_exists('acf_add_options_page')) return;
+	add_menu_page('Site Settings', 'Site Settings', 'manage_options', 'bssata-settings', 'bssata_render_settings_page', 'dashicons-bank', 58);
+});
+
+add_action('admin_enqueue_scripts', function ($hook) {
+	if ($hook !== 'toplevel_page_bssata-settings') return;
+	wp_enqueue_media();
+});
+
+function bssata_render_settings_page() {
+	if (!current_user_can('manage_options')) return;
+
+	$get = function ($k) { return (string) get_option('options_' . $k, ''); };
+	$qr  = $get('donation_qr');
+
+	$fields = array(
+		array('organization_name', 'Organization Name', 'text'),
+		array('reg_no', 'Registration No', 'text'),
+		array('tagline', 'Tagline', 'text'),
+		array('address', 'Address (main office)', 'textarea'),
+		array('office_address', 'Office Address (secondary)', 'textarea'),
+		array('email', 'Email', 'email'),
+		array('phone', 'Phone', 'text'),
+		array('website', 'Website', 'text'),
+		array('bank_accounts', 'Bank Accounts', 'textarea', 'One account per line: Bank Name | Account Number | IFSC Code | Branch'),
+		array('twelve_a_certificate_text', '12A Certificate Text', 'textarea'),
+		array('gotrams', 'Gotrams', 'textarea', 'One gotram per line (or comma separated) — used by the members directory filter'),
+	);
+	?>
+	<div class="wrap">
+		<h1>Site Settings</h1>
+		<?php if (isset($_GET['bssata-saved'])) : ?>
+			<div class="notice notice-success is-dismissible"><p>Settings saved. The website updates within a minute.</p></div>
+		<?php endif; ?>
+		<p>These values are used across the public website — bank details, contact information, and the donation QR code.</p>
+
+		<form method="post" action="<?php echo esc_url(admin_url('admin-post.php')); ?>">
+			<input type="hidden" name="action" value="bssata_save_settings" />
+			<?php wp_nonce_field('bssata_save_settings', 'bssata_settings_nonce'); ?>
+
+			<table class="form-table" role="presentation">
+
+				<tr>
+					<th scope="row"><label for="bssata-donation-qr">Donation QR Code</label></th>
+					<td>
+						<input type="text" id="bssata-donation-qr" name="donation_qr" class="regular-text code" value="<?php echo esc_attr($qr); ?>" />
+						<button type="button" class="button" id="bssata-qr-pick">Choose image</button>
+						<button type="button" class="button-link" id="bssata-qr-clear" style="margin-left:8px;color:#b32d2e;">Remove</button>
+						<p class="description">UPI QR code shown beside the donation bank details on the Contact page. Upload a new image any time — no code change needed.</p>
+						<img id="bssata-qr-preview" src="<?php echo esc_attr($qr); ?>" alt="" style="margin-top:10px;max-width:180px;border:1px solid #dcdcde;border-radius:6px;padding:4px;background:#fff;<?php echo $qr === '' ? 'display:none;' : ''; ?>" />
+					</td>
+				</tr>
+
+				<?php foreach ($fields as $f) :
+					list($name, $label, $type) = $f;
+					$help = isset($f[3]) ? $f[3] : '';
+					$id = 'bssata-' . str_replace('_', '-', $name);
+					$val = $get($name);
+					?>
+				<tr>
+					<th scope="row"><label for="<?php echo esc_attr($id); ?>"><?php echo esc_html($label); ?></label></th>
+					<td>
+						<?php if ($type === 'textarea') : ?>
+							<textarea id="<?php echo esc_attr($id); ?>" name="<?php echo esc_attr($name); ?>" rows="4" class="large-text code"><?php echo esc_textarea($val); ?></textarea>
+						<?php else : ?>
+							<input type="<?php echo esc_attr($type); ?>" id="<?php echo esc_attr($id); ?>" name="<?php echo esc_attr($name); ?>" class="regular-text" value="<?php echo esc_attr($val); ?>" />
+						<?php endif; ?>
+						<?php if ($help !== '') : ?><p class="description"><?php echo esc_html($help); ?></p><?php endif; ?>
+					</td>
+				</tr>
+				<?php endforeach; ?>
+			</table>
+
+			<?php submit_button('Save Settings'); ?>
+		</form>
+	</div>
+
+	<script>
+	(function () {
+		var input = document.getElementById('bssata-donation-qr');
+		var preview = document.getElementById('bssata-qr-preview');
+		var pick = document.getElementById('bssata-qr-pick');
+		var clear = document.getElementById('bssata-qr-clear');
+		var frame;
+
+		if (pick) {
+			pick.addEventListener('click', function (e) {
+				e.preventDefault();
+				if (!window.wp || !wp.media) { return; }
+				if (!frame) {
+					frame = wp.media({ title: 'Donation QR code', button: { text: 'Use this image' }, multiple: false, library: { type: 'image' } });
+					frame.on('select', function () {
+						var a = frame.state().get('selection').first().toJSON();
+						input.value = a.url;
+						preview.src = a.url;
+						preview.style.display = 'block';
+					});
+				}
+				frame.open();
+			});
+		}
+
+		if (clear) {
+			clear.addEventListener('click', function (e) {
+				e.preventDefault();
+				input.value = '';
+				preview.removeAttribute('src');
+				preview.style.display = 'none';
+			});
+		}
+	})();
+	</script>
+	<?php
+}
+
+add_action('admin_post_bssata_save_settings', function () {
+	if (!current_user_can('manage_options')) wp_die('Sorry, you are not allowed to do that.');
+	check_admin_referer('bssata_save_settings', 'bssata_settings_nonce');
+
+	$keys = array('organization_name', 'reg_no', 'tagline', 'address', 'office_address',
+		'email', 'phone', 'website', 'twelve_a_certificate_text', 'bank_accounts', 'gotrams', 'donation_qr');
+
+	foreach ($keys as $k) {
+		if (!isset($_POST[$k])) continue;
+		$v = wp_unslash($_POST[$k]);
+		if ($k === 'email') {
+			$v = sanitize_email($v);
+		} elseif ($k === 'donation_qr') {
+			$v = esc_url_raw(trim($v));
+		} else {
+			$v = sanitize_textarea_field($v);
+		}
+		update_option('options_' . $k, $v);
+	}
+
+	wp_safe_redirect(add_query_arg('bssata-saved', '1', admin_url('admin.php?page=bssata-settings')));
+	exit;
 });
 
 /* ═══════════════════════════════════════════════════════════════
@@ -1631,7 +1800,7 @@ add_action('save_post_committee_member', function ($post_id) {
 
 add_action('rest_api_init', function () {
 	$keys = array('organization_name', 'reg_no', 'tagline', 'address', 'office_address',
-		'email', 'phone', 'website', 'twelve_a_certificate_text', 'bank_accounts', 'gotrams');
+		'email', 'phone', 'website', 'twelve_a_certificate_text', 'bank_accounts', 'donation_qr', 'gotrams');
 
 	register_rest_route('bssata/v1', '/settings', array(
 		array(

@@ -222,7 +222,10 @@ export default function Members({ initialMembers = [], gotramOptions = [] }) {
               </div>
             )}
             {paginatedMembers.map((member, idx) => (
-              <div key={member.r_no || idx} className="card p-4">
+              /* Some imported rows share a registration number, so r_no alone
+                 is not a unique React key — it made rows duplicate/stick
+                 together when searching. Pair it with the row position. */
+              <div key={`${member.r_no}-${idx}`} className="card p-4">
                 <div className="flex items-start justify-between gap-3 mb-2">
                   <span className="px-2.5 py-1 text-sm font-bold rounded-full bg-saffron-50 text-saffron-600 border border-saffron-200/80 uppercase tracking-wide">
                     {member.gotram}
@@ -291,7 +294,7 @@ export default function Members({ initialMembers = [], gotramOptions = [] }) {
                       const hasInvalidName = isInvalidName(member.fullname);
                       return (
                         <tr
-                          key={member.r_no || idx}
+                          key={`${member.r_no}-${idx}`}
                           className={`transition-colors ${
                             idx % 2 === 0 ? 'bg-white' : 'bg-cream-50/60'
                           } hover:bg-saffron-50/50`}

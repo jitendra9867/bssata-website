@@ -464,7 +464,7 @@ export default function ProgramPage({ program, programs, galleryImages }) {
                     // Fallback: legacy single About-section CTA button (needs both text + url)
                     if (program.buttonText && program.buttonUrl) {
                       return (
-                        <div className="mt-6">
+                        <div className="mt-6 mb-8">
                           <a
                             href={program.buttonUrl}
                             target="_blank"
@@ -479,7 +479,7 @@ export default function ProgramPage({ program, programs, galleryImages }) {
                     return null;
                   }
                   return (
-                    <div className="mt-5">
+                    <div className="mt-5 mb-8">
                       <p className="text-sm text-gray-500 font-medium mb-3">Quick Links</p>
                       <div className="mt-1 flex flex-wrap gap-2.5">
                         {                        aboutButtons.map((b, i) => {

@@ -1,6 +1,6 @@
 import Head from 'next/head';
 import Image from 'next/image';
-import { getSiteSettings } from '../lib/wordpress';
+import { getSiteSettings, getDonationQr } from '../lib/wordpress';
 import { SITE_SETTINGS_FALLBACK, KEY_PEOPLE_FALLBACK } from '../lib/fallback-content';
 
 /* UI copy for fixed contact channels (icons/labels) — address, email
@@ -12,7 +12,7 @@ const CONTACT_CHANNEL_UI = [
   { icon: '🌐', label: 'Website', field: 'website', type: 'url' },
 ];
 
-export default function Contact({ settings, keyPeople }) {
+export default function Contact({ settings, keyPeople, donationQr }) {
   return (
     <>
       <Head>
@@ -164,6 +164,29 @@ export default function Contact({ settings, keyPeople }) {
             ))}
           </div>
 
+          {/* Scan-to-pay QR — replaced any time from WordPress → Site Settings
+              → Donation QR Code; falls back to the bundled image. */}
+          {donationQr && (
+            <div className="max-w-2xl mx-auto mt-6 flex flex-col sm:flex-row items-center gap-6 bg-white rounded-2xl border border-cream-200 shadow-[0_2px_14px_rgba(195,74,44,0.08)] p-6">
+              <img
+                src={donationQr}
+                alt="UPI QR code to donate to Brahmana Seva Sangham"
+                width="180"
+                height="180"
+                loading="lazy"
+                className="w-[180px] h-[180px] rounded-xl border border-cream-200 bg-white p-2 flex-shrink-0"
+              />
+              <div className="text-center sm:text-left">
+                <h3 className="text-lg font-serif font-bold text-gray-900 mb-2">Scan &amp; Pay</h3>
+                <p className="text-sm text-gray-700 leading-relaxed">
+                  Open any UPI app — PhonePe, Google Pay, Paytm — and scan this QR to donate
+                  directly to the Sangham. Please add your name in the payment note so we can
+                  thank you properly.
+                </p>
+              </div>
+            </div>
+          )}
+
           {/* Account name note */}
           <div className="max-w-xl mx-auto mt-6 text-center">
             <p className="inline-block px-5 py-2.5 rounded-2xl bg-white border border-saffron-200 shadow-[0_2px_10px_rgba(195,74,44,0.06)] text-sm font-semibold text-gray-800">
@@ -195,11 +218,14 @@ export default function Contact({ settings, keyPeople }) {
 /* ISR: site settings (bank details, address, contacts, 12A text) from
    headless WP, refreshed every 60s. */
 export async function getStaticProps() {
-  const wpSettings = await getSiteSettings();
+  const [wpSettings, wpQr] = await Promise.all([getSiteSettings(), getDonationQr()]);
   return {
     props: {
       settings: wpSettings || SITE_SETTINGS_FALLBACK,
       keyPeople: KEY_PEOPLE_FALLBACK,
+      /* Admin-uploaded QR wins; the bundled one keeps the page complete
+         until the new plugin is installed on WordPress. */
+      donationQr: wpQr || '/images/donation-qr.png',
     },
     revalidate: 60,
   };
